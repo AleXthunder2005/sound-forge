@@ -23,6 +23,14 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(SoundForge
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        audiofilelist.h audiofilelist.cpp
+        audiotrackframe.h audiotrackframe.cpp
+        controlpanel.h controlpanel.cpp
+
+
+
+        projectconfiguration.h projectconfiguration.cpp
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET SoundForge APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
