@@ -45,6 +45,7 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtCore/qglobalstatic.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qhash.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qhashfunctions.h \
+  F:/QT/6.8.0/mingw_64/include/QtCore/qiodevice.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qiodevicebase.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qiterable.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qiterator.h \
@@ -114,6 +115,7 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtCore/qtversionchecks.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qtypeinfo.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qtypes.h \
+  F:/QT/6.8.0/mingw_64/include/QtCore/qurl.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qutf8stringview.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qvariant.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qvarlengtharray.h \
@@ -133,12 +135,14 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtGui/qkeysequence.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qpaintdevice.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qpalette.h \
+  F:/QT/6.8.0/mingw_64/include/QtGui/qpicture.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qpixelformat.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qpixmap.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qpolygon.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qregion.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qrgb.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qrgba64.h \
+  F:/QT/6.8.0/mingw_64/include/QtGui/qtextdocument.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qtgui-config.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qtguiexports.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qtguiglobal.h \
@@ -146,11 +150,14 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtGui/qwindowdefs.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qwindowdefs_win.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/QHBoxLayout \
+  F:/QT/6.8.0/mingw_64/include/QtWidgets/QLabel \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/QMainWindow \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/QMenu \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/QMenuBar \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qboxlayout.h \
+  F:/QT/6.8.0/mingw_64/include/QtWidgets/qframe.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qgridlayout.h \
+  F:/QT/6.8.0/mingw_64/include/QtWidgets/qlabel.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qlayout.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qlayoutitem.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qmainwindow.h \

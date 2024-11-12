@@ -1,5 +1,7 @@
 F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_autogen/EWIEGA46WW/moc_audiofilelist.cpp: F:/Projects/SoundForge/audiofilelist.h \
   F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_autogen/moc_predefs.h \
+  F:/Projects/SoundForge/audiofilelinker.h \
+  F:/Projects/SoundForge/audiofileobject.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/QDir \
   F:/QT/6.8.0/mingw_64/include/QtCore/QList \
   F:/QT/6.8.0/mingw_64/include/QtCore/QMimeData \
@@ -7,6 +9,7 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtCore/QRect \
   F:/QT/6.8.0/mingw_64/include/QtCore/QSize \
   F:/QT/6.8.0/mingw_64/include/QtCore/QSizeF \
+  F:/QT/6.8.0/mingw_64/include/QtCore/QString \
   F:/QT/6.8.0/mingw_64/include/QtCore/q20functional.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/q20iterator.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/q20memory.h \

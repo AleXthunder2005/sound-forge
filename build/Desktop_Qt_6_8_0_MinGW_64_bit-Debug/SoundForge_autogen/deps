@@ -1,7 +1,11 @@
 SoundForge_autogen/timestamp: \
 	F:/Projects/SoundForge/CMakeLists.txt \
+	F:/Projects/SoundForge/audiofilelinker.cpp \
+	F:/Projects/SoundForge/audiofilelinker.h \
 	F:/Projects/SoundForge/audiofilelist.cpp \
 	F:/Projects/SoundForge/audiofilelist.h \
+	F:/Projects/SoundForge/audiofileobject.cpp \
+	F:/Projects/SoundForge/audiofileobject.h \
 	F:/Projects/SoundForge/audiotrackframe.cpp \
 	F:/Projects/SoundForge/audiotrackframe.h \
 	F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/.qtc/package-manager/auto-setup.cmake \
@@ -16,6 +20,13 @@ SoundForge_autogen/timestamp: \
 	F:/Projects/SoundForge/mainwindow.h \
 	F:/Projects/SoundForge/projectconfiguration.cpp \
 	F:/Projects/SoundForge/projectconfiguration.h \
+	F:/Projects/SoundForge/workspace-implementation/audiotoken.cpp \
+	F:/Projects/SoundForge/workspace-implementation/audiotoken.h \
+	F:/Projects/SoundForge/workspace-implementation/audiotrack.cpp \
+	F:/Projects/SoundForge/workspace-implementation/audiotrack.h \
+	F:/Projects/SoundForge/workspace-implementation/workspacemodel.cpp \
+	F:/Projects/SoundForge/workspace-implementation/workspacemodel.h \
+	F:/QT/6.8.0/mingw_64/include/QtCore/QAbstractListModel \
 	F:/QT/6.8.0/mingw_64/include/QtCore/QDir \
 	F:/QT/6.8.0/mingw_64/include/QtCore/QList \
 	F:/QT/6.8.0/mingw_64/include/QtCore/QMimeData \
@@ -23,6 +34,8 @@ SoundForge_autogen/timestamp: \
 	F:/QT/6.8.0/mingw_64/include/QtCore/QRect \
 	F:/QT/6.8.0/mingw_64/include/QtCore/QSize \
 	F:/QT/6.8.0/mingw_64/include/QtCore/QSizeF \
+	F:/QT/6.8.0/mingw_64/include/QtCore/QString \
+	F:/QT/6.8.0/mingw_64/include/QtCore/QVariant \
 	F:/QT/6.8.0/mingw_64/include/QtCore/q20functional.h \
 	F:/QT/6.8.0/mingw_64/include/QtCore/q20iterator.h \
 	F:/QT/6.8.0/mingw_64/include/QtCore/q20memory.h \
@@ -167,6 +180,7 @@ SoundForge_autogen/timestamp: \
 	F:/QT/6.8.0/mingw_64/include/QtCore/qyieldcpu.h \
 	F:/QT/6.8.0/mingw_64/include/QtGui/QDragEnterEvent \
 	F:/QT/6.8.0/mingw_64/include/QtGui/QDropEvent \
+	F:/QT/6.8.0/mingw_64/include/QtGui/QPainter \
 	F:/QT/6.8.0/mingw_64/include/QtGui/QStandardItemModel \
 	F:/QT/6.8.0/mingw_64/include/QtGui/QTransform \
 	F:/QT/6.8.0/mingw_64/include/QtGui/qaction.h \
@@ -187,7 +201,10 @@ SoundForge_autogen/timestamp: \
 	F:/QT/6.8.0/mingw_64/include/QtGui/qinputmethod.h \
 	F:/QT/6.8.0/mingw_64/include/QtGui/qkeysequence.h \
 	F:/QT/6.8.0/mingw_64/include/QtGui/qpaintdevice.h \
+	F:/QT/6.8.0/mingw_64/include/QtGui/qpainter.h \
 	F:/QT/6.8.0/mingw_64/include/QtGui/qpalette.h \
+	F:/QT/6.8.0/mingw_64/include/QtGui/qpen.h \
+	F:/QT/6.8.0/mingw_64/include/QtGui/qpicture.h \
 	F:/QT/6.8.0/mingw_64/include/QtGui/qpixelformat.h \
 	F:/QT/6.8.0/mingw_64/include/QtGui/qpixmap.h \
 	F:/QT/6.8.0/mingw_64/include/QtGui/qpointingdevice.h \
@@ -198,6 +215,8 @@ SoundForge_autogen/timestamp: \
 	F:/QT/6.8.0/mingw_64/include/QtGui/qscreen.h \
 	F:/QT/6.8.0/mingw_64/include/QtGui/qscreen_platform.h \
 	F:/QT/6.8.0/mingw_64/include/QtGui/qstandarditemmodel.h \
+	F:/QT/6.8.0/mingw_64/include/QtGui/qtextdocument.h \
+	F:/QT/6.8.0/mingw_64/include/QtGui/qtextoption.h \
 	F:/QT/6.8.0/mingw_64/include/QtGui/qtgui-config.h \
 	F:/QT/6.8.0/mingw_64/include/QtGui/qtguiexports.h \
 	F:/QT/6.8.0/mingw_64/include/QtGui/qtguiglobal.h \
@@ -209,6 +228,7 @@ SoundForge_autogen/timestamp: \
 	F:/QT/6.8.0/mingw_64/include/QtGui/qwindowdefs_win.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QFrame \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QHBoxLayout \
+	F:/QT/6.8.0/mingw_64/include/QtWidgets/QLabel \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QListView \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QMainWindow \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QMenu \
@@ -223,6 +243,7 @@ SoundForge_autogen/timestamp: \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qboxlayout.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qframe.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qgridlayout.h \
+	F:/QT/6.8.0/mingw_64/include/QtWidgets/qlabel.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qlayout.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qlayoutitem.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qlistview.h \

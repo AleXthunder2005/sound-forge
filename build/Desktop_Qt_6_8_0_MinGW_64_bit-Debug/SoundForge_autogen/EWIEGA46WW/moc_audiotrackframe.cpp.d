@@ -1,10 +1,17 @@
 F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_autogen/EWIEGA46WW/moc_audiotrackframe.cpp: F:/Projects/SoundForge/audiotrackframe.h \
   F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_autogen/moc_predefs.h \
+  F:/Projects/SoundForge/workspace-implementation/audiotoken.h \
+  F:/Projects/SoundForge/workspace-implementation/audiotrack.h \
+  F:/Projects/SoundForge/workspace-implementation/workspacemodel.h \
+  F:/QT/6.8.0/mingw_64/include/QtCore/QAbstractListModel \
+  F:/QT/6.8.0/mingw_64/include/QtCore/QList \
+  F:/QT/6.8.0/mingw_64/include/QtCore/QVariant \
   F:/QT/6.8.0/mingw_64/include/QtCore/q20functional.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/q20iterator.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/q20memory.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/q20type_traits.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/q23utility.h \
+  F:/QT/6.8.0/mingw_64/include/QtCore/qabstractitemmodel.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qalgorithms.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qanystringview.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qarraydata.h \
@@ -120,6 +127,7 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtCore/qversiontagging.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qxptype_traits.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qyieldcpu.h \
+  F:/QT/6.8.0/mingw_64/include/QtGui/QPainter \
   F:/QT/6.8.0/mingw_64/include/QtGui/qaction.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qbitmap.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qbrush.h \
@@ -132,13 +140,16 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtGui/qimage.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qkeysequence.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qpaintdevice.h \
+  F:/QT/6.8.0/mingw_64/include/QtGui/qpainter.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qpalette.h \
+  F:/QT/6.8.0/mingw_64/include/QtGui/qpen.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qpixelformat.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qpixmap.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qpolygon.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qregion.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qrgb.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qrgba64.h \
+  F:/QT/6.8.0/mingw_64/include/QtGui/qtextoption.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qtgui-config.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qtguiexports.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qtguiglobal.h \

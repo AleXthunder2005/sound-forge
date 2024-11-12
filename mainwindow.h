@@ -5,6 +5,7 @@
 #include <QHBoxLayout>
 #include <QMenuBar>
 #include <QMenu>
+#include <QLabel>
 
 class MainWindow : public QMainWindow {
     Q_OBJECT

@@ -11,8 +11,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
 MainWindow::~MainWindow() {}
 
 void MainWindow::setupUI() {
-    //ProjectConfiguration *configuration;
-
     QWidget *centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
     setStyleSheet("background-color: " + ProjectConfiguration::clBackground.name() + ";");
@@ -34,6 +32,25 @@ void MainWindow::setupUI() {
     // Фрейм для отображения аудиодорожек
     AudioTrackFrame *trackFrame = new AudioTrackFrame(this);
     workspaceLayout->addWidget(trackFrame);
+
+    WorkspaceModel *model = new WorkspaceModel();
+
+    // Создаем аудиодорожку и добавляем токены
+    AudioTrack *track1 = new AudioTrack();
+    track1->addToken(AudioToken(1, 0.0, 50.0, 0));
+    track1->addToken(AudioToken(2, 60.0, 40.0, 0));
+
+    AudioTrack *track2 = new AudioTrack();;
+
+
+    model->addTrack(*track1);
+    model->addTrack(*track2);
+
+    trackFrame->setModel(model);
+
+    trackFrame->show();
+
+
 
     // Панель управления внизу
     ControlPanel *controlPanel = new ControlPanel(this);

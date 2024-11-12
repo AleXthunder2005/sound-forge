@@ -30,6 +30,11 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
 
         projectconfiguration.h projectconfiguration.cpp
+        audiofilelinker.h audiofilelinker.cpp
+        audiofileobject.h audiofileobject.cpp
+        workspace-implementation/audiotoken.h workspace-implementation/audiotoken.cpp
+        workspace-implementation/audiotrack.h workspace-implementation/audiotrack.cpp
+        workspace-implementation/workspacemodel.h workspace-implementation/workspacemodel.cpp
 
     )
 # Define target properties for Android with Qt 6 as:
