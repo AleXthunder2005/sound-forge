@@ -2,6 +2,7 @@
 #define AUDIOTRACKFRAME_H
 
 #include <QFrame>
+#include "workspace-implementation/audiotoken.h"
 #include "workspace-implementation/audiotrack.h"
 #include "workspace-implementation/workspacemodel.h"
 
@@ -9,12 +10,15 @@ class AudioTrackFrame : public QFrame {
     Q_OBJECT
 
 public:
-    bool draggingToken;
+    AudioToken draggedToken;
+    bool isTokenDragging;
+    int draggedTokenMouseX;
+    int draggedTokenMouseY;
     int draggedTokenIndex;
-    int draggedTrackIndex;
-    double draggedTokenDuration;
-    int mouseX;
-    int mouseY;
+
+    AudioToken resizedToken;
+    bool isTokenResizingOnLeft;
+    bool isTokenResizingOnRight;
 
     explicit AudioTrackFrame(QWidget *parent = nullptr);
     void setModel(WorkspaceModel *model);

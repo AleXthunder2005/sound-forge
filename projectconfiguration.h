@@ -17,7 +17,7 @@ const QString AUDIO_RESOURCES_PATH = "F:/Projects/SoundForge/AudioFiles";
 
 //AudioTrackFrame
 const int TRACK_HEIGHT = 50;
-const int DELTA = 5;
+const int DELTA = 2;
 
 //ControlPanel
 const float DEFAULT_CONTROL_PANEL_RELATIVE_HEIGHT = 0.1;

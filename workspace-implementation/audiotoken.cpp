@@ -11,8 +11,8 @@ AudioToken::AudioToken(int id, double startPosition, double duration, int audioT
 void AudioToken::drawToken(QPainter *painter) {
     painter->setBrush(Qt::blue);  // Цвет для токена
 
-    int x = this->startPosition;  // Здесь нужно учитывать масштабирование
-    int w = this->duration;       // Здесь нужно учитывать масштабирование
+    int x = this->startPosition + relativeStartTime;  // Здесь нужно учитывать масштабирование
+    int w = this->relativeDuration;       // Здесь нужно учитывать масштабирование
     int track = this->audioTrack;
 
     painter->drawRect(x, track * TRACK_HEIGHT, w, TRACK_HEIGHT);
