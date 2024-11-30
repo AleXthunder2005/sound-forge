@@ -13,6 +13,7 @@ AudioTrackFrame::AudioTrackFrame(QWidget *parent)
     draggedTokenMouseX(0),
     draggedTokenMouseY(0),
     draggedTokenIndex(-1),
+    currTime(5),  //пока что 5
     trackTactCount(DEFAULT_TACT_COUNT),
     tactDuration(DEFAULT_TACT_DURATION)
 {
@@ -31,16 +32,31 @@ WorkspaceModel* AudioTrackFrame::getModel() {
 }
 
 void AudioTrackFrame::paintEvent(QPaintEvent *event) {
-    QFrame ::paintEvent(event);
+    QFrame::paintEvent(event);
     if (!model) return;
+
     QPainter painter(this);
     int trackWidth = trackTactCount * tactDuration;
 
+    // Рисуем временную шкалу
+    drawTimeBar(painter, trackWidth);
+
+    // Рисуем дорожки
     for (int i = 0; i < model->rowCount(); i++) {
         const AudioTrack &track = model->getTracks().at(i);
-        painter.setBrush(Qt::lightGray);
-        painter.drawRect(0, i * TRACK_HEIGHT, trackWidth, TRACK_HEIGHT);
+        // Фон дорожки
+        painter.setBrush(ProjectConfiguration::clAudioTrack);
+        painter.drawRect(0, TIME_BAR_HEIGHT + i * TRACK_HEIGHT, trackWidth, TRACK_HEIGHT);
+    }
 
+    // Рисуем сетку для дорожек (каждые 1/4 такта)
+    drawTrackGrid(painter, model->rowCount());
+
+    // Рисуем токены на дорожке
+    for (int i = 0; i < model->rowCount(); i++) {
+        const AudioTrack &track = model->getTracks().at(i);
+
+        // Токены на дорожке
         if (isTokenDragging && draggedToken->audioTrack == i) {
             for (int j = 0; j < track.getTokens().size(); j++) {
                 if (draggedTokenIndex != j) {
@@ -48,20 +64,70 @@ void AudioTrackFrame::paintEvent(QPaintEvent *event) {
                     token.drawToken(&painter);
                 }
             }
-        }
-        else {
+        } else {
             for (AudioToken token : track.getTokens()) {
                 token.drawToken(&painter);
             }
         }
 
-        // Draw the token in its new position if dragging
+        // Рисуем перетаскиваемый токен
         if (isTokenDragging) {
             painter.setBrush(Qt::red);
             int x = draggedTokenMouseX - (draggedToken->relativeDuration / 2);
-            int targetTrack = draggedTokenMouseY / TRACK_HEIGHT;
+            int targetTrack = (draggedTokenMouseY - TIME_BAR_HEIGHT) / TRACK_HEIGHT;
             if (targetTrack >= 0 && targetTrack < model->rowCount() && x >= 0) {
-                painter.drawRect(x, targetTrack * TRACK_HEIGHT, draggedToken->relativeDuration, TRACK_HEIGHT);
+                painter.drawRect(x, TIME_BAR_HEIGHT + targetTrack * TRACK_HEIGHT, draggedToken->relativeDuration, TRACK_HEIGHT);
+            }
+        }
+    }
+
+    // Рисуем текущую позицию проигрывания
+    painter.setPen(Qt::red);
+    painter.drawLine(currTime, 0, currTime, height());
+}
+
+void AudioTrackFrame::drawTimeBar(QPainter &painter, int width) {
+    painter.setBrush(ProjectConfiguration::clTimeBar);
+    painter.drawRect(0, 0, width, TIME_BAR_HEIGHT);
+
+    painter.setPen(ProjectConfiguration::clTimeBarMark);
+
+    // Рисуем такты и их номера
+    for (int i = 0; i < trackTactCount; i++) {
+        int x = i * tactDuration;
+
+        // Длинная черта для такта
+        painter.drawLine(x, 0, x, TIME_BAR_HEIGHT);
+
+        // Номер такта
+        painter.drawText(x + 5, TIME_BAR_HEIGHT * 7 / 8, QString::number(i));
+
+        // Короткие черточки для четвертей
+        for (int j = 1; j < 4; j++) {
+            int quarterX = x + j * (tactDuration / 4);
+            painter.drawLine(quarterX, 0, quarterX, GRID_LINE_HEIGHT);
+        }
+    }
+}
+
+void AudioTrackFrame::drawTrackGrid(QPainter &painter, int trackCount) {
+
+
+    for (int i = 0; i < trackCount; i++) {
+        int y = TIME_BAR_HEIGHT + i * TRACK_HEIGHT;
+
+        for (int j = 0; j < trackTactCount; j++) {
+            int x = j * tactDuration;
+
+            //линии такта
+            painter.setPen(ProjectConfiguration::clAudioTrackBoldMark);
+            painter.drawLine(x, y, x, y + TRACK_HEIGHT);
+
+            // Линии четвертей такта
+            for (int k = 1; k < 4; k++) {
+                int quarterX = x + k * (tactDuration / 4);
+                painter.setPen(ProjectConfiguration::clAudioTrackMark);
+                painter.drawLine(quarterX, y, quarterX, y + TRACK_HEIGHT);
             }
         }
     }
@@ -91,14 +157,17 @@ void AudioTrackFrame::mousePressEvent(QMouseEvent *event) {
 
 void AudioTrackFrame::mouseMoveEvent(QMouseEvent *event) {
     QPoint mousePos = event->pos();
-    int trackIndex = mousePos.y() / TRACK_HEIGHT;
-        if (trackIndex < 0 || trackIndex >= model->rowCount() || (draggedToken && mousePos.x() < draggedToken->relativeDuration / 2)) {
-        return;
-    }
 
     if (isTokenDragging) {
         draggedTokenMouseX = mousePos.x();
         draggedTokenMouseY = mousePos.y();
+
+        // Привязка к четвертям такта
+        if (!(event->modifiers() & Qt::ShiftModifier)) {
+            int quarterDuration = tactDuration / 4;
+            draggedTokenMouseX = (draggedTokenMouseX / quarterDuration) * quarterDuration;
+        }
+
         update();
     }
 }
@@ -106,14 +175,19 @@ void AudioTrackFrame::mouseMoveEvent(QMouseEvent *event) {
 void AudioTrackFrame::mouseReleaseEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
         if (isTokenDragging) {
-                        isTokenDragging = false;
+            isTokenDragging = false;
+
             int dropX = draggedTokenMouseX - (draggedToken->relativeDuration / 2);
-            int dropTrack = draggedTokenMouseY / TRACK_HEIGHT;
+            if (!(event->modifiers() & Qt::ShiftModifier)) {
+                int quarterDuration = tactDuration / 4;
+                dropX = (dropX / quarterDuration) * quarterDuration;
+            }
+
+            int dropTrack = (draggedTokenMouseY - TIME_BAR_HEIGHT) / TRACK_HEIGHT;
 
             model->moveToken(draggedToken->audioTrack, dropTrack, draggedTokenIndex, dropX);
-            delete draggedToken; // Clean up
-            draggedToken = nullptr; // Avoid dangling pointer
-
+            delete draggedToken;
+            draggedToken = nullptr;
         }
         update();
     }

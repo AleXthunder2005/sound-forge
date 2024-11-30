@@ -21,6 +21,9 @@ const int DELTA = 2;
 const int DEFAULT_TACT_DURATION = 50;
 const int DEFAULT_TACT_COUNT = 100;
 
+const int TIME_BAR_HEIGHT = 20;
+const int GRID_LINE_HEIGHT = 4; // Высота короткой черты для четвертей такта
+
 
 //ControlPanel
 const float DEFAULT_CONTROL_PANEL_RELATIVE_HEIGHT = 0.1;
@@ -32,8 +35,10 @@ const QColor DARK_GRAY_COLOR = QColor::fromRgb(0x2b, 0x2b, 0x2b);
 const QColor WHITE_COLOR = QColor::fromRgb(0xff, 0xff, 0xff);
 const QColor BLACK_COLOR = QColor::fromRgb(0x0e, 0x19, 0x21);
 const QColor BLUE_COLOR = QColor::fromRgb(0x1a, 0x57, 0x5b);
-//const QColor GRAY_SCROLLBAR_COLOR = QColor::fromRgb(0xf0, 0xf0, 0xf0);
 const QColor SCROLLBAR_BACKGROUND_COLOR = QColor::fromRgb(0xf0, 0xf0, 0xf0);
+const QColor LIGHT_GRAY_COLOR = QColor::fromRgb(0x3c, 0x49, 0x45);
+const QColor LIGHT_BLUE_COLOR = QColor::fromRgb(0xac, 0xcf, 0xc7, 30);
+const QColor LIGHT_BLUE_BOLD_COLOR = QColor::fromRgb(0xac, 0xcf, 0xc7, 120);
 
 class ProjectConfiguration
 {
@@ -51,6 +56,11 @@ public:
     static QColor clMenuBarItemSelected;
     static QColor clScrollbarBackround;
     static QColor clScrollbar;
+    static QColor clTimeBar;
+    static QColor clTimeBarMark;
+    static QColor clAudioTrack;
+    static QColor clAudioTrackMark;
+    static QColor clAudioTrackBoldMark;
 };
 
 #endif // PROJECTCONFIGURATION_H

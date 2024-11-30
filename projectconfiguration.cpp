@@ -11,5 +11,10 @@ QColor ProjectConfiguration::clDarkButtonSelected = BLUE_COLOR;
 QColor ProjectConfiguration::clMenuBarItemSelected = BLUE_COLOR;
 QColor ProjectConfiguration::clScrollbarBackround = SCROLLBAR_BACKGROUND_COLOR;
 QColor ProjectConfiguration::clScrollbar = BLUE_COLOR;
+QColor ProjectConfiguration::clTimeBar = DARK_GRAY_COLOR;
+QColor ProjectConfiguration::clTimeBarMark = WHITE_COLOR;
+QColor ProjectConfiguration::clAudioTrack = LIGHT_GRAY_COLOR;
+QColor ProjectConfiguration::clAudioTrackMark = LIGHT_BLUE_COLOR;
+QColor ProjectConfiguration::clAudioTrackBoldMark = LIGHT_BLUE_BOLD_COLOR;
 
 ProjectConfiguration::ProjectConfiguration() {}

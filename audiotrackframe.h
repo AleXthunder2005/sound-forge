@@ -18,7 +18,8 @@ public:
     int draggedTokenIndex;
 
     int trackTactCount;
-    int tactDuration;
+    double tactDuration;
+    int currTime;
 
     explicit AudioTrackFrame(QWidget *parent = nullptr);
     void setModel(WorkspaceModel *model);
@@ -27,13 +28,19 @@ public:
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
-    static WorkspaceModel *model;
     void resizeToFitContent();
+
+    static WorkspaceModel *model;
+
+
+
+protected:
+    void drawTimeBar(QPainter &painter, int width);
+    void drawTrackGrid(QPainter &painter, int trackCount);
 
 public slots:
     void onTrackAdded(); // Slot to handle track addition
 
 };
-
 
 #endif // AUDIOTRACKFRAME_H

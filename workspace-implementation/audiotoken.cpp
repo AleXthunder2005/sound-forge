@@ -25,7 +25,7 @@ void AudioToken::drawToken (QPainter *painter) const{
     int w = this->relativeDuration;       // Здесь нужно учитывать масштабирование
     int track = this->audioTrack;
 
-    painter->drawRect(x, track * TRACK_HEIGHT, w, TRACK_HEIGHT);
+    painter->drawRect(x, TIME_BAR_HEIGHT + track * TRACK_HEIGHT, w, TRACK_HEIGHT);
 }
 
 
