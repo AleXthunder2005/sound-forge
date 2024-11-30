@@ -27,10 +27,8 @@ public:
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
-    void updateViewportSize();
     static WorkspaceModel *model;
-    int horizontalOffset() const;
-    int verticalOffset() const;
+    void resizeToFitContent();
 
 public slots:
     void onTrackAdded(); // Slot to handle track addition

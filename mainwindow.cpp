@@ -32,7 +32,21 @@ void MainWindow::setupUI() {
     // Фрейм для отображения аудиодорожек
     AudioTrackFrame *trackFrame = new AudioTrackFrame(this);
 
-    workspaceLayout->addWidget(trackFrame);
+    // Устанавливаем размеры trackFrame вручную, чтобы учитывать длину дорожек
+    trackFrame->setMinimumWidth(1000); // Увеличьте, если требуется больше
+    trackFrame->setMinimumHeight(400); // Увеличьте, если требуется больше
+
+    // Оборачиваем trackFrame в QScrollArea
+    QScrollArea *scrollArea = new QScrollArea(this);
+    scrollArea-> setStyleSheet("QFrame { background-color: " + ProjectConfiguration::clSidePanel.name() + "; color:  " + ProjectConfiguration::clSidePanelText.name() + "; }"
+                             + "QScrollBar:vertical { border: none; background:  " + ProjectConfiguration::clScrollbarBackround.name() + "; width: " + QString::number(DEFAULT_SCROLLBAR_SIZE) + "px; }"
+                             + "QScrollBar::handle:vertical { background:  " + ProjectConfiguration::clScrollbar.name() + ";}"
+                             + "QScrollBar:horizontal { border: none; background:  " + ProjectConfiguration::clScrollbarBackround.name() + "; height: " + QString::number(DEFAULT_SCROLLBAR_SIZE) + "px; }"
+                             + "QScrollBar::handle:horizontal { background:  " + ProjectConfiguration::clScrollbar.name() + ";}");
+    scrollArea->setWidget(trackFrame);
+    scrollArea->setWidgetResizable(true); // Позволяет динамически изменять размеры
+
+    workspaceLayout->addWidget(scrollArea);
 
     WorkspaceModel *defaultModel = new WorkspaceModel();
 
@@ -45,7 +59,6 @@ void MainWindow::setupUI() {
     trackFrame->setModel(defaultModel);
 
     trackFrame->show();
-
 
 
     // Панель управления внизу

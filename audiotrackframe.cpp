@@ -22,6 +22,7 @@ AudioTrackFrame::AudioTrackFrame(QWidget *parent)
 
 void AudioTrackFrame::setModel(WorkspaceModel *model) {
     this->model = model;
+    resizeToFitContent();
     update();
 }
 
@@ -118,6 +119,25 @@ void AudioTrackFrame::mouseReleaseEvent(QMouseEvent *event) {
     }
 }
 
-void AudioTrackFrame::onTrackAdded() {
-    update(); // Call update when a track is added
+void AudioTrackFrame::resizeToFitContent() {
+    if (!model) return;
+
+    // Рассчитываем ширину и высоту на основе количества тактов и дорожек
+    int width = trackTactCount * tactDuration;
+    int height = model->rowCount() * TRACK_HEIGHT;
+
+    // Устанавливаем минимальные размеры для trackFrame
+    setMinimumWidth(width);
+    setMinimumHeight(height);
+
+    // Обновляем виджет
+    updateGeometry();
+    update();
 }
+
+void AudioTrackFrame::onTrackAdded() {
+    resizeToFitContent(); // Пересчитать размеры
+    update();             // Перерисовать содержимое
+}
+
+
