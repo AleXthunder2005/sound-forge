@@ -14,6 +14,13 @@ public:
 private:
     QPushButton *playButton;
     QPushButton *pauseButton;
+    QPushButton *addTrackButton;
+
+private slots:
+    void onAddTrackButtonClicked(); // Slot for button click
+
+signals:
+    void trackAdded();
 };
 
 #endif // CONTROLPANEL_H

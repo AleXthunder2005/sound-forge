@@ -18,9 +18,13 @@ const QString AUDIO_RESOURCES_PATH = "F:/Projects/SoundForge/AudioFiles";
 //AudioTrackFrame
 const int TRACK_HEIGHT = 50;
 const int DELTA = 2;
+const int DEFAULT_TACT_DURATION = 50;
+const int DEFAULT_TACT_COUNT = 100;
+
 
 //ControlPanel
 const float DEFAULT_CONTROL_PANEL_RELATIVE_HEIGHT = 0.1;
+const int ADD_TRACK_BUTTON_WIDTH = 100;
 
 //Colors
 const QColor DARK_COLOR = QColor::fromRgb(0x1e, 0x1e, 0x1e);

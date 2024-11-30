@@ -2,47 +2,47 @@
 #include "projectconfiguration.h"
 #include "workspace-implementation/workspacemodel.h"
 #include <QPainter>
-#include <QMimeData>
-#include <QDrag>
-#include <QDropEvent>
 #include <QMouseEvent>
 
-AudioTrackFrame::AudioTrackFrame(QWidget *parent): QFrame(parent), model(nullptr),
-    draggedToken(0, 0.0, 0.0, -1), // Инициализация draggedToken
-    resizedToken(0, 0.0, 0.0, -1), // Инициализация resizedToken
+WorkspaceModel* AudioTrackFrame::model = nullptr;
+
+AudioTrackFrame::AudioTrackFrame(QWidget *parent)
+    : QFrame(parent),
+    draggedToken(nullptr),
     isTokenDragging(false),
     draggedTokenMouseX(0),
     draggedTokenMouseY(0),
-    isTokenResizingOnLeft(false),
-    isTokenResizingOnRight(false)
+    draggedTokenIndex(-1),
+    trackTactCount(DEFAULT_TACT_COUNT),
+    tactDuration(DEFAULT_TACT_DURATION)
 {
     setAcceptDrops(true);
-    setMouseTracking(true); //включить слежение за мышью
+    setMouseTracking(true);
 }
 
 void AudioTrackFrame::setModel(WorkspaceModel *model) {
     this->model = model;
-    update();  // Перерисовываем фрейм при установке модели
+    update();
+}
+
+WorkspaceModel* AudioTrackFrame::getModel() {
+    return model;
 }
 
 void AudioTrackFrame::paintEvent(QPaintEvent *event) {
-    QFrame::paintEvent(event);
-
+    QFrame ::paintEvent(event);
     if (!model) return;
-
     QPainter painter(this);
+    int trackWidth = trackTactCount * tactDuration;
 
     for (int i = 0; i < model->rowCount(); i++) {
         const AudioTrack &track = model->getTracks().at(i);
-
-        // Рисуем прямоугольник для аудиодорожки
         painter.setBrush(Qt::lightGray);
-        painter.drawRect(0, i * TRACK_HEIGHT, width(), TRACK_HEIGHT);
+        painter.drawRect(0, i * TRACK_HEIGHT, trackWidth, TRACK_HEIGHT);
 
-        // Рисуем токены на аудиодорожке
-        if (isTokenDragging && draggedToken.audioTrack == i) {
+        if (isTokenDragging && draggedToken->audioTrack == i) {
             for (int j = 0; j < track.getTokens().size(); j++) {
-                if (draggedToken.audioTrack != j) {
+                if (draggedTokenIndex != j) {
                     AudioToken token = track.getTokens().at(j);
                     token.drawToken(&painter);
                 }
@@ -53,19 +53,16 @@ void AudioTrackFrame::paintEvent(QPaintEvent *event) {
                 token.drawToken(&painter);
             }
         }
-    }
 
-    // Если токен перетаскивается, рисуем его в текущей позиции
-    if (isTokenDragging) {
-        painter.setBrush(Qt::red); // Цвет для перемещаемого токена
-        int x = draggedTokenMouseX - (draggedToken.relativeDuration / 2); // Центруем токен по курсору
-        int newTrack = draggedTokenMouseY / TRACK_HEIGHT;
-
-        if (newTrack < 0 || newTrack >= model->rowCount() || x < 0) {
-            return; // Выход за пределы
+        // Draw the token in its new position if dragging
+        if (isTokenDragging) {
+            painter.setBrush(Qt::red);
+            int x = draggedTokenMouseX - (draggedToken->relativeDuration / 2);
+            int targetTrack = draggedTokenMouseY / TRACK_HEIGHT;
+            if (targetTrack >= 0 && targetTrack < model->rowCount() && x >= 0) {
+                painter.drawRect(x, targetTrack * TRACK_HEIGHT, draggedToken->relativeDuration, TRACK_HEIGHT);
+            }
         }
-
-        painter.drawRect(x, newTrack * TRACK_HEIGHT, draggedToken.relativeDuration, TRACK_HEIGHT);
     }
 }
 
@@ -73,33 +70,19 @@ void AudioTrackFrame::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
         QPoint mousePos = event->pos();
         int trackIndex = mousePos.y() / TRACK_HEIGHT;
-
-        if (trackIndex < 0 || trackIndex >= model->rowCount()) {
-            return; // Выход за пределы
-        }
+        if (trackIndex < 0 || trackIndex >= model->rowCount()) return;
 
         const AudioTrack &track = model->getTracks().at(trackIndex);
-
         for (int tokenIndex = 0; tokenIndex < track.getTokens().size(); ++tokenIndex) {
             const AudioToken &token = track.getTokens().at(tokenIndex);
-            int x = token.startPosition + token.relativeStartTime; // Позиция начала токена
-            int w = token.relativeDuration;       // Длительность токена
+            int x = token.startPosition;
+            int w = token.relativeDuration;
 
-            if (mousePos.x() > x + DELTA && mousePos.x() < (x + w - DELTA)) {
-                // Начинаем перетаскивание
+            if (mousePos.x() > x && mousePos.x() < (x + w)) {
                 isTokenDragging = true;
-                draggedToken = track.getTokens().at(tokenIndex);
+                draggedToken = new AudioToken(token); // Use the copy constructor
                 draggedTokenIndex = tokenIndex;
-                break; // Токен найден, выходим из цикла
-            }
-            else {
-                isTokenResizingOnLeft = (mousePos.x() >= x - DELTA && mousePos.x() <= x + DELTA);
-                if (!isTokenResizingOnLeft)
-                    isTokenResizingOnRight = (mousePos.x() >= x + w - DELTA && mousePos.x() <= x + w + DELTA);
-
-                if (isTokenResizingOnLeft || isTokenResizingOnRight) {
-                    resizedToken = track.getTokens().at(tokenIndex); //Сохраняем токен
-                }
+                break;
             }
         }
     }
@@ -108,62 +91,33 @@ void AudioTrackFrame::mousePressEvent(QMouseEvent *event) {
 void AudioTrackFrame::mouseMoveEvent(QMouseEvent *event) {
     QPoint mousePos = event->pos();
     int trackIndex = mousePos.y() / TRACK_HEIGHT;
-    if (trackIndex < 0 || trackIndex >= model->rowCount() || (mousePos.x() - draggedToken.relativeDuration/2) < 0) {
-        unsetCursor(); // Сбрасываем курсор, если вышли за пределы
-        return; // Выход за пределы
+        if (trackIndex < 0 || trackIndex >= model->rowCount() || (draggedToken && mousePos.x() < draggedToken->relativeDuration / 2)) {
+        return;
     }
 
     if (isTokenDragging) {
-        draggedTokenMouseX = mousePos.x(); // Обновляем позицию курсора
+        draggedTokenMouseX = mousePos.x();
         draggedTokenMouseY = mousePos.y();
-        update(); // Перерисовываем фрейм
-    }
-    else {
-        const AudioTrack &track = model->getTracks().at(trackIndex);
-        const QList<AudioToken> &tokens = track.getTokens();
-
-        // Проверка на нахождение курсора на краях токена
-        bool isTokenEdge;
-        for (const AudioToken &token : tokens) {
-            int tokenX = token.startPosition + token.relativeStartTime;
-            double tokenWidth = token.relativeDuration;
-
-            isTokenEdge = (mousePos.x() >= tokenX - DELTA && mousePos.x() <= tokenX + DELTA) || (mousePos.x() >= tokenX + tokenWidth - DELTA && mousePos.x() <= tokenX + tokenWidth + DELTA);
-            if (isTokenEdge) break;
-        }
-
-        // Изменяем курсор на стрелки
-        if (isTokenEdge) {
-            setCursor(Qt::SizeHorCursor);
-        } else
-            unsetCursor(); // Сбрасываем курсор, если не на краях
-
-        if (isTokenResizingOnLeft) {
-            AudioToken resizingToken = resizedToken;
-            double newStartTime = mousePos.x(); // Новая позиция начала
-            resizingToken.updateTokenStartTime(newStartTime);
-        }
-        else if (isTokenResizingOnRight) {
-            AudioToken resizingToken = resizedToken;
-            double newDuration = mousePos.x() - resizingToken.startPosition; // Новая длительность
-            resizingToken.updateTokenDuration(newDuration);
-        }
+        update();
     }
 }
 
-
 void AudioTrackFrame::mouseReleaseEvent(QMouseEvent *event) {
-    if (event->button() == Qt::LeftButton && isTokenDragging) {
-        isTokenDragging = false; // Завершаем перетаскивание
-        isTokenResizingOnLeft = false;
-        isTokenResizingOnRight = false;
+    if (event->button() == Qt::LeftButton) {
+        if (isTokenDragging) {
+                        isTokenDragging = false;
+            int dropX = draggedTokenMouseX - (draggedToken->relativeDuration / 2);
+            int dropTrack = draggedTokenMouseY / TRACK_HEIGHT;
 
-        int dropX = draggedTokenMouseX - (draggedToken.relativeDuration / 2);
-        int dropTrack = draggedTokenMouseY / TRACK_HEIGHT;
+            model->moveToken(draggedToken->audioTrack, dropTrack, draggedTokenIndex, dropX);
+            delete draggedToken; // Clean up
+            draggedToken = nullptr; // Avoid dangling pointer
 
-        // Обновите модель, перемещая токен
-        model->moveToken(draggedToken.audioTrack, dropTrack, draggedTokenIndex, dropX);
-
+        }
         update();
     }
+}
+
+void AudioTrackFrame::onTrackAdded() {
+    update(); // Call update when a track is added
 }

@@ -4,14 +4,24 @@
 #include <QPainter>
 #include "../projectconfiguration.h"
 
-AudioToken::AudioToken(int id, double startPosition, double duration, int audioTrack)
-    : ID(id), startPosition(startPosition), duration(duration), audioTrack(audioTrack),
-    relativeStartTime(0), relativeDuration(duration) {}
+int AudioToken::idCounter = 0;
 
-void AudioToken::drawToken(QPainter *painter) {
+AudioToken::AudioToken(int audiofileID, double startPosition, double duration, int audioTrack):
+    audiofileID(audiofileID),
+    startPosition(startPosition),
+    duration(duration),
+    audioTrack(audioTrack),
+    relativeStartTime(0),
+    relativeDuration(duration)
+{
+
+    tokenID = idCounter++;
+}
+
+void AudioToken::drawToken (QPainter *painter) const{
     painter->setBrush(Qt::blue);  // Цвет для токена
 
-    int x = this->startPosition + relativeStartTime;  // Здесь нужно учитывать масштабирование
+    int x = this->startPosition;  // Здесь нужно учитывать масштабирование
     int w = this->relativeDuration;       // Здесь нужно учитывать масштабирование
     int track = this->audioTrack;
 
@@ -19,10 +29,10 @@ void AudioToken::drawToken(QPainter *painter) {
 }
 
 
-void AudioToken::updateTokenStartTime(int newStartTime) {
+void AudioToken::updateTokenRelativeStartTime(int newRelativeStartTime) {
     // Убедитесь, что новое значение не превышает границы
-    if (newStartTime >= 0 && newStartTime < (relativeStartTime + relativeDuration)) {
-        relativeStartTime = newStartTime;
+    if (newRelativeStartTime >= 0 && newRelativeStartTime < (relativeStartTime + relativeDuration)) {
+        relativeStartTime = newRelativeStartTime;
     }
 }
 

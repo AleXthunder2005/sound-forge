@@ -31,22 +31,18 @@ void MainWindow::setupUI() {
 
     // Фрейм для отображения аудиодорожек
     AudioTrackFrame *trackFrame = new AudioTrackFrame(this);
+
     workspaceLayout->addWidget(trackFrame);
 
-    WorkspaceModel *model = new WorkspaceModel();
+    WorkspaceModel *defaultModel = new WorkspaceModel();
 
     // Создаем аудиодорожку и добавляем токены
     AudioTrack *track1 = new AudioTrack();
     track1->addToken(AudioToken(1, 0.0, 50.0, 0));
     track1->addToken(AudioToken(2, 60.0, 40.0, 0));
 
-    AudioTrack *track2 = new AudioTrack();;
-
-
-    model->addTrack(*track1);
-    model->addTrack(*track2);
-
-    trackFrame->setModel(model);
+    defaultModel->addTrack(*track1);
+    trackFrame->setModel(defaultModel);
 
     trackFrame->show();
 
@@ -77,4 +73,7 @@ void MainWindow::setupUI() {
     // Установка растягивания для trackFrame и fileListView
     trackFrame->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     audioList->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+
+    //connect(controlPanel, &ControlPanel::trackAdded, trackFrame, &AudioTrackFrame::update);
+    connect(controlPanel, &ControlPanel::trackAdded, trackFrame, &AudioTrackFrame::onTrackAdded);
 }

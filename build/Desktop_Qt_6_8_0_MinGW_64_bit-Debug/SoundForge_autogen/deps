@@ -234,6 +234,7 @@ SoundForge_autogen/timestamp: \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QMenu \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QMenuBar \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QPushButton \
+	F:/QT/6.8.0/mingw_64/include/QtWidgets/QScrollArea \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qabstractbutton.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qabstractitemview.h \
@@ -252,6 +253,7 @@ SoundForge_autogen/timestamp: \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qmenubar.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qpushbutton.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qrubberband.h \
+	F:/QT/6.8.0/mingw_64/include/QtWidgets/qscrollarea.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qsizepolicy.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qslider.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qstyle.h \

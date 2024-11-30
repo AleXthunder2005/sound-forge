@@ -157,7 +157,10 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtGui/qwindowdefs.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qwindowdefs_win.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/QFrame \
+  F:/QT/6.8.0/mingw_64/include/QtWidgets/QScrollArea \
+  F:/QT/6.8.0/mingw_64/include/QtWidgets/qabstractscrollarea.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qframe.h \
+  F:/QT/6.8.0/mingw_64/include/QtWidgets/qscrollarea.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qsizepolicy.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qtwidgets-config.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qtwidgetsexports.h \
