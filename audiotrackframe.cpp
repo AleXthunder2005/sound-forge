@@ -3,22 +3,27 @@
 #include "workspace-implementation/workspacemodel.h"
 #include <QPainter>
 #include <QMouseEvent>
+#include <cmath>
+#include <QScrollBar>
 
 WorkspaceModel* AudioTrackFrame::model = nullptr;
 
-AudioTrackFrame::AudioTrackFrame(QWidget *parent)
+AudioTrackFrame::AudioTrackFrame(QWidget *parent, QScrollArea* scrollArea)
     : QFrame(parent),
     draggedToken(nullptr),
     isTokenDragging(false),
-    draggedTokenMouseX(0),
-    draggedTokenMouseY(0),
+    draggedTokenStartX(0),
+    draggedTokenStartY(0),
     draggedTokenIndex(-1),
     currTime(5),  //пока что 5
     trackTactCount(DEFAULT_TACT_COUNT),
-    tactDuration(DEFAULT_TACT_DURATION)
+    tactDuration(DEFAULT_TACT_DURATION),
+    parentScrollArea(scrollArea)
 {
     setAcceptDrops(true);
     setMouseTracking(true);
+
+    connect(scrollArea->verticalScrollBar(), &QScrollBar::valueChanged, this, &AudioTrackFrame::onVerticalScrollBarChanged);
 }
 
 void AudioTrackFrame::setModel(WorkspaceModel *model) {
@@ -37,10 +42,6 @@ void AudioTrackFrame::paintEvent(QPaintEvent *event) {
 
     QPainter painter(this);
     int trackWidth = trackTactCount * tactDuration;
-
-    // Рисуем временную шкалу
-    drawTimeBar(painter, trackWidth);
-
     // Рисуем дорожки
     for (int i = 0; i < model->rowCount(); i++) {
         const AudioTrack &track = model->getTracks().at(i);
@@ -73,13 +74,26 @@ void AudioTrackFrame::paintEvent(QPaintEvent *event) {
         // Рисуем перетаскиваемый токен
         if (isTokenDragging) {
             painter.setBrush(Qt::red);
-            int x = draggedTokenMouseX - (draggedToken->relativeDuration / 2);
-            int targetTrack = (draggedTokenMouseY - TIME_BAR_HEIGHT) / TRACK_HEIGHT;
+            int x = draggedTokenStartX;
+            int targetTrack = (draggedTokenStartY) / TRACK_HEIGHT;
             if (targetTrack >= 0 && targetTrack < model->rowCount() && x >= 0) {
-                painter.drawRect(x, TIME_BAR_HEIGHT + targetTrack * TRACK_HEIGHT, draggedToken->relativeDuration, TRACK_HEIGHT);
+                int headerHeight = TRACK_HEIGHT * TOKEN_HEADER_RELATIVE_HEIGHT;
+                int mainContentHeight = TRACK_HEIGHT * (1 - TOKEN_HEADER_RELATIVE_HEIGHT);
+
+                // Верхняя часть токена с текстом
+                painter.setPen(ProjectConfiguration::clTokenText);
+                painter.setBrush(DARK_DRAGGED_TOKEN_COLOR);
+                painter.drawRect(x, TIME_BAR_HEIGHT + targetTrack * TRACK_HEIGHT, draggedToken->relativeDuration, headerHeight);
+
+                // Нижняя часть для будущего отображения аудиосигнала
+                painter.setBrush(LIGHT_DRAGGED_TOKEN_COLOR);
+                painter.drawRect(x, TIME_BAR_HEIGHT + targetTrack * TRACK_HEIGHT + headerHeight, draggedToken->relativeDuration, mainContentHeight);
             }
         }
     }
+
+    // Рисуем временную шкалу
+    drawTimeBar(painter, trackWidth);
 
     // Рисуем текущую позицию проигрывания
     painter.setPen(Qt::red);
@@ -88,7 +102,9 @@ void AudioTrackFrame::paintEvent(QPaintEvent *event) {
 
 void AudioTrackFrame::drawTimeBar(QPainter &painter, int width) {
     painter.setBrush(ProjectConfiguration::clTimeBar);
-    painter.drawRect(0, 0, width, TIME_BAR_HEIGHT);
+
+    int scrollOffset = parentScrollArea->verticalScrollBar()->value();
+    painter.drawRect(0, scrollOffset, width, TIME_BAR_HEIGHT);
 
     painter.setPen(ProjectConfiguration::clTimeBarMark);
 
@@ -97,15 +113,15 @@ void AudioTrackFrame::drawTimeBar(QPainter &painter, int width) {
         int x = i * tactDuration;
 
         // Длинная черта для такта
-        painter.drawLine(x, 0, x, TIME_BAR_HEIGHT);
+        painter.drawLine(x, scrollOffset, x, TIME_BAR_HEIGHT+scrollOffset);
 
         // Номер такта
-        painter.drawText(x + 5, TIME_BAR_HEIGHT * 7 / 8, QString::number(i));
+        painter.drawText(x + 5, TIME_BAR_HEIGHT * 7 / 8 + scrollOffset, QString::number(i));
 
         // Короткие черточки для четвертей
         for (int j = 1; j < 4; j++) {
             int quarterX = x + j * (tactDuration / 4);
-            painter.drawLine(quarterX, 0, quarterX, GRID_LINE_HEIGHT);
+            painter.drawLine(quarterX, scrollOffset, quarterX, GRID_LINE_HEIGHT + scrollOffset);
         }
     }
 }
@@ -136,18 +152,26 @@ void AudioTrackFrame::drawTrackGrid(QPainter &painter, int trackCount) {
 void AudioTrackFrame::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
         QPoint mousePos = event->pos();
-        int trackIndex = mousePos.y() / TRACK_HEIGHT;
+        int xClick = mousePos.x();
+        int yClick = mousePos.y() - TIME_BAR_HEIGHT;
+
+        int trackIndex = yClick / TRACK_HEIGHT;
         if (trackIndex < 0 || trackIndex >= model->rowCount()) return;
 
         const AudioTrack &track = model->getTracks().at(trackIndex);
         for (int tokenIndex = 0; tokenIndex < track.getTokens().size(); ++tokenIndex) {
             const AudioToken &token = track.getTokens().at(tokenIndex);
-            int x = token.startPosition;
-            int w = token.relativeDuration;
+            double x = token.startPosition;
+            double w = token.relativeDuration;
 
-            if (mousePos.x() > x && mousePos.x() < (x + w)) {
+            if (xClick > x && xClick < (x + w)) {
                 isTokenDragging = true;
-                draggedToken = new AudioToken(token); // Use the copy constructor
+                draggedToken = new AudioToken(token);
+                draggedTokenDeltaX = xClick - token.startPosition;
+                draggedTokenDeltaY = yClick - token.audioTrack * TRACK_HEIGHT;
+
+                draggedTokenStartX = xClick - draggedTokenDeltaX;
+                draggedTokenStartY = yClick - draggedTokenDeltaY;
                 draggedTokenIndex = tokenIndex;
                 break;
             }
@@ -159,13 +183,25 @@ void AudioTrackFrame::mouseMoveEvent(QMouseEvent *event) {
     QPoint mousePos = event->pos();
 
     if (isTokenDragging) {
-        draggedTokenMouseX = mousePos.x();
-        draggedTokenMouseY = mousePos.y();
+        draggedTokenStartX = mousePos.x() - draggedTokenDeltaX;
+        draggedTokenStartY = mousePos.y()  - TIME_BAR_HEIGHT;
+
+        //проверки и корректировки
+        if (draggedTokenStartX < 0) draggedTokenStartX = 0;
+        if (draggedTokenStartY < 0) draggedTokenStartY = 0;
+
+        int maxStartX = trackTactCount*tactDuration - draggedToken->relativeDuration;
+        if (draggedTokenStartX > maxStartX)
+            draggedTokenStartX = maxStartX;
+
+        int maxStartY = (model->rowCount() - 1) * TRACK_HEIGHT;
+        if (draggedTokenStartY > maxStartY)
+            draggedTokenStartY = maxStartY;
 
         // Привязка к четвертям такта
         if (!(event->modifiers() & Qt::ShiftModifier)) {
-            int quarterDuration = tactDuration / 4;
-            draggedTokenMouseX = (draggedTokenMouseX / quarterDuration) * quarterDuration;
+            double quarterDuration = tactDuration / 4;
+            draggedTokenStartX = trunc(draggedTokenStartX / quarterDuration) * quarterDuration;
         }
 
         update();
@@ -177,13 +213,13 @@ void AudioTrackFrame::mouseReleaseEvent(QMouseEvent *event) {
         if (isTokenDragging) {
             isTokenDragging = false;
 
-            int dropX = draggedTokenMouseX - (draggedToken->relativeDuration / 2);
+            int dropX = draggedTokenStartX;
             if (!(event->modifiers() & Qt::ShiftModifier)) {
-                int quarterDuration = tactDuration / 4;
-                dropX = (dropX / quarterDuration) * quarterDuration;
+                double quarterDuration = tactDuration / 4;
+                dropX = trunc(draggedTokenStartX / quarterDuration) * quarterDuration;
             }
 
-            int dropTrack = (draggedTokenMouseY - TIME_BAR_HEIGHT) / TRACK_HEIGHT;
+            int dropTrack = (draggedTokenStartY) / TRACK_HEIGHT;
 
             model->moveToken(draggedToken->audioTrack, dropTrack, draggedTokenIndex, dropX);
             delete draggedToken;
@@ -214,4 +250,7 @@ void AudioTrackFrame::onTrackAdded() {
     update();             // Перерисовать содержимое
 }
 
+void AudioTrackFrame::onVerticalScrollBarChanged() {
+    update();
+}
 

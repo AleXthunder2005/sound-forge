@@ -25,6 +25,9 @@ const int TIME_BAR_HEIGHT = 20;
 const int GRID_LINE_HEIGHT = 4; // Высота короткой черты для четвертей такта
 
 
+//AudioToken
+const double TOKEN_HEADER_RELATIVE_HEIGHT = 0.35;
+
 //ControlPanel
 const float DEFAULT_CONTROL_PANEL_RELATIVE_HEIGHT = 0.1;
 const int ADD_TRACK_BUTTON_WIDTH = 100;
@@ -39,6 +42,16 @@ const QColor SCROLLBAR_BACKGROUND_COLOR = QColor::fromRgb(0xf0, 0xf0, 0xf0);
 const QColor LIGHT_GRAY_COLOR = QColor::fromRgb(0x3c, 0x49, 0x45);
 const QColor LIGHT_BLUE_COLOR = QColor::fromRgb(0xac, 0xcf, 0xc7, 30);
 const QColor LIGHT_BLUE_BOLD_COLOR = QColor::fromRgb(0xac, 0xcf, 0xc7, 120);
+
+
+const QColor DARK_DRAGGED_TOKEN_COLOR = QColor::fromRgb(0x94, 0x11, 0x12, 200);
+const QColor LIGHT_DRAGGED_TOKEN_COLOR = QColor::fromRgb(0xf3, 0x7e, 0x63, 130);
+
+const QColor DARK_ORANGE_TOKEN_COLOR = QColor::fromRgb(0xd8, 0x9b, 0x2b, 200);
+const QColor LIGHT_ORANGE_TOKEN_COLOR = QColor::fromRgb(0xe8, 0xc2, 0x6f, 130);
+
+//const QColor DARK_TEAL_TOKEN_COLOR = QColor::fromRgb(0x30, 0x6c, 0x6f, 200);
+//const QColor LIGHT_TEAL_TOKEN_COLOR = QColor::fromRgb(0x7b, 0xbb, 0xab, 130);
 
 class ProjectConfiguration
 {
@@ -61,6 +74,9 @@ public:
     static QColor clAudioTrack;
     static QColor clAudioTrackMark;
     static QColor clAudioTrackBoldMark;
+    static QColor clDefaultTokenHeader;
+    static QColor clDefaultTokenMainContent;
+    static QColor clTokenText;
 };
 
 #endif // PROJECTCONFIGURATION_H

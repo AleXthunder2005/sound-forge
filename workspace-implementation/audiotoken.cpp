@@ -6,26 +6,39 @@
 
 int AudioToken::idCounter = 0;
 
-AudioToken::AudioToken(int audiofileID, double startPosition, double duration, int audioTrack):
+AudioToken::AudioToken(int audiofileID, double startPosition, double duration, int audioTrack,
+                       QColor headerColor,
+                       QColor mainContentColor):
     audiofileID(audiofileID),
     startPosition(startPosition),
     duration(duration),
     audioTrack(audioTrack),
     relativeStartTime(0),
-    relativeDuration(duration)
+    relativeDuration(duration),
+    headerColor(headerColor),
+    mainContentColor(mainContentColor)
 {
-
     tokenID = idCounter++;
 }
 
-void AudioToken::drawToken (QPainter *painter) const{
-    painter->setBrush(Qt::blue);  // Цвет для токена
+void AudioToken::drawToken(QPainter *painter) const {
+    painter->setBrush(Qt::blue);
+    int x = this->startPosition;// * scaleFactor;
+    int w = this->relativeDuration;// * scaleFactor;
+    int y = TIME_BAR_HEIGHT + this->audioTrack * TRACK_HEIGHT;
 
-    int x = this->startPosition;  // Здесь нужно учитывать масштабирование
-    int w = this->relativeDuration;       // Здесь нужно учитывать масштабирование
-    int track = this->audioTrack;
+    int headerHeight = TRACK_HEIGHT * TOKEN_HEADER_RELATIVE_HEIGHT;
+    int mainContentHeight = TRACK_HEIGHT * (1 - TOKEN_HEADER_RELATIVE_HEIGHT);
 
-    painter->drawRect(x, TIME_BAR_HEIGHT + track * TRACK_HEIGHT, w, TRACK_HEIGHT);
+    // Верхняя часть токена с текстом
+    painter->setPen(ProjectConfiguration::clTokenText);
+    painter->setBrush(headerColor);
+    painter->drawRect(x, y, w, headerHeight);
+    painter->drawText(x + 5, y + TRACK_HEIGHT / 4, QString::number(audiofileID));
+
+    // Нижняя часть для будущего отображения аудиосигнала
+    painter->setBrush(mainContentColor);
+    painter->drawRect(x, y + headerHeight, w, mainContentHeight);
 }
 
 

@@ -1,10 +1,12 @@
 F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_autogen/EWIEGA46WW/moc_audiotrackframe.cpp: F:/Projects/SoundForge/audiotrackframe.h \
   F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_autogen/moc_predefs.h \
+  F:/Projects/SoundForge/projectconfiguration.h \
   F:/Projects/SoundForge/workspace-implementation/audiotoken.h \
   F:/Projects/SoundForge/workspace-implementation/audiotrack.h \
   F:/Projects/SoundForge/workspace-implementation/workspacemodel.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/QAbstractListModel \
   F:/QT/6.8.0/mingw_64/include/QtCore/QList \
+  F:/QT/6.8.0/mingw_64/include/QtCore/QString \
   F:/QT/6.8.0/mingw_64/include/QtCore/QVariant \
   F:/QT/6.8.0/mingw_64/include/QtCore/q20functional.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/q20iterator.h \
@@ -127,6 +129,7 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtCore/qversiontagging.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qxptype_traits.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qyieldcpu.h \
+  F:/QT/6.8.0/mingw_64/include/QtGui/QColor \
   F:/QT/6.8.0/mingw_64/include/QtGui/QPainter \
   F:/QT/6.8.0/mingw_64/include/QtGui/qaction.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qbitmap.h \

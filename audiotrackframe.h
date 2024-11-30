@@ -13,15 +13,17 @@ class AudioTrackFrame : public QFrame {
 public:
     AudioToken *draggedToken;
     bool isTokenDragging;
-    int draggedTokenMouseX;
-    int draggedTokenMouseY;
+    double draggedTokenStartX;
+    double draggedTokenStartY;
     int draggedTokenIndex;
+    double draggedTokenDeltaX; //расстояние от startPosition до точки захвата
+    double draggedTokenDeltaY; //расстояние от startPosition до точки захвата
 
     int trackTactCount;
     double tactDuration;
     int currTime;
 
-    explicit AudioTrackFrame(QWidget *parent = nullptr);
+    explicit AudioTrackFrame(QWidget *parent = nullptr, QScrollArea *scrollArea = nullptr);
     void setModel(WorkspaceModel *model);
     WorkspaceModel* getModel();
     void mousePressEvent(QMouseEvent *event) override;
@@ -40,7 +42,11 @@ protected:
 
 public slots:
     void onTrackAdded(); // Slot to handle track addition
+    void onVerticalScrollBarChanged();
 
+
+private:
+    QScrollArea* parentScrollArea;
 };
 
 #endif // AUDIOTRACKFRAME_H

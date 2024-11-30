@@ -29,12 +29,7 @@ void MainWindow::setupUI() {
     audioList->setFixedWidth(this->width() * DEFAULT_AUDIO_LIST_RELATIVE_WIDTH);
     sidePanelLayout->addWidget(audioList);
 
-    // Фрейм для отображения аудиодорожек
-    AudioTrackFrame *trackFrame = new AudioTrackFrame(this);
 
-    // Устанавливаем размеры trackFrame вручную, чтобы учитывать длину дорожек
-    trackFrame->setMinimumWidth(1000); // Увеличьте, если требуется больше
-    trackFrame->setMinimumHeight(400); // Увеличьте, если требуется больше
 
     // Оборачиваем trackFrame в QScrollArea
     QScrollArea *scrollArea = new QScrollArea(this);
@@ -43,6 +38,14 @@ void MainWindow::setupUI() {
                              + "QScrollBar::handle:vertical { background:  " + ProjectConfiguration::clScrollbar.name() + ";}"
                              + "QScrollBar:horizontal { border: none; background:  " + ProjectConfiguration::clScrollbarBackround.name() + "; height: " + QString::number(DEFAULT_SCROLLBAR_SIZE) + "px; }"
                              + "QScrollBar::handle:horizontal { background:  " + ProjectConfiguration::clScrollbar.name() + ";}");
+
+    // Фрейм для отображения аудиодорожек
+    AudioTrackFrame *trackFrame = new AudioTrackFrame(this, scrollArea);
+
+    // Устанавливаем размеры trackFrame вручную, чтобы учитывать длину дорожек
+    trackFrame->setMinimumWidth(1000);
+    trackFrame->setMinimumHeight(400);
+
     scrollArea->setWidget(trackFrame);
     scrollArea->setWidgetResizable(true); // Позволяет динамически изменять размеры
 

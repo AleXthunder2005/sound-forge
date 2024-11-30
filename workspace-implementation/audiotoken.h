@@ -2,10 +2,13 @@
 #define AUDIOTOKEN_H
 
 #include <QPainter>
+#include "../projectconfiguration.h"
 class AudioToken
 {
 public:
-    AudioToken(int audiofileID, double startPosition, double duration, int audioTrack);
+    AudioToken(int audiofileID, double startPosition, double duration, int audioTrack,
+               QColor headerColor = ProjectConfiguration::clDefaultTokenHeader,
+               QColor mainContentColor = ProjectConfiguration::clDefaultTokenMainContent);
     int tokenID;
     int audiofileID;          //ID аудиофайла
     double startPosition;     //начало фрагмента на аудиодорожке
@@ -19,6 +22,10 @@ public:
     void drawToken(QPainter *painter) const;
     void updateTokenRelativeStartTime(int newStartTime);
     void updateTokenDuration(double newDuration);
+
+private:
+    QColor headerColor;
+    QColor mainContentColor;
 };
 
 #endif // AUDIOTOKEN_H
