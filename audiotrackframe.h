@@ -15,7 +15,7 @@ public:
     bool isTokenDragging;
     bool isCurrTimeChanging;
 
-    double draggedTokenStartX;
+    double draggedTokenStartX;      //такие значения храним при масштабе 1.0
     double draggedTokenStartY;
     int draggedTokenIndex;
     double draggedTokenDeltaX; //расстояние от startPosition до точки захвата
@@ -33,6 +33,7 @@ public:
     void mouseReleaseEvent(QMouseEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
     void resizeToFitContent();
+    void wheelEvent(QWheelEvent *event) override;
 
     static WorkspaceModel *model;
 
@@ -49,6 +50,7 @@ public slots:
 
 private:
     QScrollArea* parentScrollArea;
+    double scaleFactor; // Масштабирование
 };
 
 #endif // AUDIOTRACKFRAME_H

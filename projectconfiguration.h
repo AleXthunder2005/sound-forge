@@ -24,6 +24,8 @@ const int DEFAULT_TACT_COUNT = 100;
 const int TIME_BAR_HEIGHT = 20;
 const int GRID_LINE_HEIGHT = 4; // Высота короткой черты для четвертей такта
 
+const double MIN_SCALE = 0.4;
+const double MAX_SCALE = 10.0;
 
 //AudioToken
 const double TOKEN_HEADER_RELATIVE_HEIGHT = 0.35;
@@ -43,8 +45,7 @@ const QColor LIGHT_GRAY_COLOR = QColor::fromRgb(0x3c, 0x49, 0x45);
 const QColor LIGHT_BLUE_COLOR = QColor::fromRgb(0xac, 0xcf, 0xc7, 30);
 const QColor LIGHT_BLUE_BOLD_COLOR = QColor::fromRgb(0xac, 0xcf, 0xc7, 120);
 
-
-const QColor DARK_DRAGGED_TOKEN_COLOR = QColor::fromRgb(0x94, 0x11, 0x12, 200);
+const QColor DARK_DRAGGED_TOKEN_COLOR = QColor::fromRgb(0xfd, 0x4c, 0x3c, 200);
 const QColor LIGHT_DRAGGED_TOKEN_COLOR = QColor::fromRgb(0xf3, 0x7e, 0x63, 130);
 
 const QColor DARK_ORANGE_TOKEN_COLOR = QColor::fromRgb(0xd8, 0x9b, 0x2b, 200);

@@ -20,11 +20,10 @@ AudioToken::AudioToken(int audiofileID, double startPosition, double duration, i
 {
     tokenID = idCounter++;
 }
-
-void AudioToken::drawToken(QPainter *painter) const {
+void AudioToken::drawToken(QPainter *painter, double scaleFactor) const {
     painter->setBrush(Qt::blue);
-    int x = this->startPosition;// * scaleFactor;
-    int w = this->relativeDuration;// * scaleFactor;
+    int x = this->startPosition * scaleFactor; // Масштабируем позицию
+    int w = this->relativeDuration * scaleFactor; // Масштабируем ширину
     int y = TIME_BAR_HEIGHT + this->audioTrack * TRACK_HEIGHT;
 
     int headerHeight = TRACK_HEIGHT * TOKEN_HEADER_RELATIVE_HEIGHT;

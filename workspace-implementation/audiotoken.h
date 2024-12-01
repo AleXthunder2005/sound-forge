@@ -19,7 +19,7 @@ public:
 
     static int idCounter;
 
-    void drawToken(QPainter *painter) const;
+    void drawToken(QPainter *painter, double scaleFactor) const;
     void updateTokenRelativeStartTime(int newStartTime);
     void updateTokenDuration(double newDuration);
 
