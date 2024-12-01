@@ -24,5 +24,5 @@ QString AudioFileLinker::getFilePathByID (int ID) {
 }
 
 double AudioFileLinker::calculateDuration(int ID) {
-    return 5;  //return this->getAudioFileByID(ID)->четотипо длительности
+    return 50;  //return this->getAudioFileByID(ID)->четотипо длительности
 }

@@ -55,8 +55,8 @@ void MainWindow::setupUI() {
 
     // Создаем аудиодорожку и добавляем токены
     AudioTrack *track1 = new AudioTrack();
-    track1->addToken(AudioToken(1, 0.0, 50.0, 0));
-    track1->addToken(AudioToken(2, 60.0, 40.0, 0));
+    //track1->addToken(AudioToken(1, 0.0, 50.0, 0));
+    //track1->addToken(AudioToken(2, 60.0, 40.0, 0));
 
     defaultModel->addTrack(*track1);
     trackFrame->setModel(defaultModel);

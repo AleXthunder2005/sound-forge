@@ -2,10 +2,10 @@
 
 AudioTrack::AudioTrack() {}
 
-void AudioTrack::addToken(const AudioToken &token) {
+void AudioTrack::addToken(AudioToken &token) {
     tokens.append(token);
 }
 
-const QList<AudioToken>& AudioTrack::getTokens() const {
+QList<AudioToken>& AudioTrack::getTokens() {
     return tokens;
 }

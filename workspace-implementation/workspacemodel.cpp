@@ -25,7 +25,7 @@ void WorkspaceModel::addTrack(AudioTrack track) {
     endInsertRows();
 }
 
-const QList<AudioTrack>& WorkspaceModel::getTracks() const {
+QList<AudioTrack>& WorkspaceModel::getTracks() {
     return tracks;
 }
 

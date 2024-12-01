@@ -37,6 +37,9 @@ public:
 
     static WorkspaceModel *model;
 
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dragMoveEvent(QDragMoveEvent *event);
+    void dropEvent(QDropEvent *event);
 
 
 protected:

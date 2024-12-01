@@ -46,33 +46,36 @@ void AudioFileList::loadAudioFiles(const QString &directoryPath) {
         model->appendRow(item);
     }
 }
-
 void AudioFileList::startDrag(Qt::DropActions supportedActions) {
     QModelIndex index = currentIndex();
     if (index.isValid()) {
         QMimeData *mimeData = new QMimeData;
-        mimeData->setText(index.data().toString());
-
+        // Получаем уникальный ID из данных модели
+        int uniqueID = index.data(Qt::UserRole).toInt();
+        // Устанавливаем ID в MimeData
+        mimeData->setData("application/x-audiofile", QByteArray::number(uniqueID));
+        // Создаем QDrag и устанавливаем MimeData
         QDrag *drag = new QDrag(this);
         drag->setMimeData(mimeData);
+        drag->setPixmap(QPixmap(MP3_ICON_PATH)); // Добавляем иконку для визуализации
         drag->exec(supportedActions);
     }
 }
 
 void AudioFileList::dragEnterEvent(QDragEnterEvent *event) {
-    if (event->mimeData()->hasText()) {
+    if (event->mimeData()->hasFormat("application/x-audiofile")) {
         event->acceptProposedAction();
     }
 }
 
 void AudioFileList::dragMoveEvent(QDragMoveEvent *event) {
-    if (event->mimeData()->hasText()) {
+    if (event->mimeData()->hasFormat("application/x-audiofile")) {
         event->acceptProposedAction();
     }
 }
 
 void AudioFileList::dropEvent(QDropEvent *event) {
-    if (event->mimeData()->hasText()) {
+    if (event->mimeData()->hasFormat("application/x-audiofile")) {
         QModelIndex targetIndex = indexAt(event->position().toPoint());
         QModelIndex sourceIndex = currentIndex();
 
@@ -89,7 +92,7 @@ void AudioFileList::dropEvent(QDropEvent *event) {
                 }
             }
         }
-        AudioFileList::removeEmptyRows();
+        removeEmptyRows();
         event->acceptProposedAction();
     }
 }

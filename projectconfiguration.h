@@ -45,8 +45,8 @@ const QColor LIGHT_GRAY_COLOR = QColor::fromRgb(0x3c, 0x49, 0x45);
 const QColor LIGHT_BLUE_COLOR = QColor::fromRgb(0xac, 0xcf, 0xc7, 30);
 const QColor LIGHT_BLUE_BOLD_COLOR = QColor::fromRgb(0xac, 0xcf, 0xc7, 120);
 
-const QColor DARK_DRAGGED_TOKEN_COLOR = QColor::fromRgb(0xfd, 0x4c, 0x3c, 200);
-const QColor LIGHT_DRAGGED_TOKEN_COLOR = QColor::fromRgb(0xf3, 0x7e, 0x63, 130);
+const QColor DARK_DRAGGED_TOKEN_COLOR = QColor::fromRgb(0xfd, 0x4c, 0x3c, 120);
+const QColor LIGHT_DRAGGED_TOKEN_COLOR = QColor::fromRgb(0xf3, 0x7e, 0x63, 70);
 
 const QColor DARK_ORANGE_TOKEN_COLOR = QColor::fromRgb(0xd8, 0x9b, 0x2b, 200);
 const QColor LIGHT_ORANGE_TOKEN_COLOR = QColor::fromRgb(0xe8, 0xc2, 0x6f, 130);

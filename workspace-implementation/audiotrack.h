@@ -9,8 +9,8 @@ class AudioTrack
 public:
     AudioTrack();
 
-    void addToken(const AudioToken &token);
-    const QList<AudioToken>& getTokens() const;
+    void addToken(AudioToken &token);
+    QList<AudioToken>& getTokens();
     QList<AudioToken> tokens;
 };
 

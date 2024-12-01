@@ -21,7 +21,7 @@ public:
 
 
 
-    const QList<AudioTrack>& getTracks() const;
+    QList<AudioTrack> &getTracks();
     QList<AudioTrack> tracks;
 };
 
