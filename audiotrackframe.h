@@ -13,6 +13,8 @@ class AudioTrackFrame : public QFrame {
 public:
     AudioToken *draggedToken;
     bool isTokenDragging;
+    bool isCurrTimeChanging;
+
     double draggedTokenStartX;
     double draggedTokenStartY;
     int draggedTokenIndex;

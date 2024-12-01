@@ -12,10 +12,11 @@ AudioTrackFrame::AudioTrackFrame(QWidget *parent, QScrollArea* scrollArea)
     : QFrame(parent),
     draggedToken(nullptr),
     isTokenDragging(false),
+    isCurrTimeChanging(false),
     draggedTokenStartX(0),
     draggedTokenStartY(0),
     draggedTokenIndex(-1),
-    currTime(5),  //пока что 5
+    currTime(0),
     trackTactCount(DEFAULT_TACT_COUNT),
     tactDuration(DEFAULT_TACT_DURATION),
     parentScrollArea(scrollArea)
@@ -127,8 +128,6 @@ void AudioTrackFrame::drawTimeBar(QPainter &painter, int width) {
 }
 
 void AudioTrackFrame::drawTrackGrid(QPainter &painter, int trackCount) {
-
-
     for (int i = 0; i < trackCount; i++) {
         int y = TIME_BAR_HEIGHT + i * TRACK_HEIGHT;
 
@@ -152,6 +151,16 @@ void AudioTrackFrame::drawTrackGrid(QPainter &painter, int trackCount) {
 void AudioTrackFrame::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
         QPoint mousePos = event->pos();
+
+        //клик по тайм бару
+        int scrollOffset = parentScrollArea->verticalScrollBar()->value();
+        if (mousePos.y() > scrollOffset && mousePos.y() < scrollOffset + TIME_BAR_HEIGHT) {
+            currTime = mousePos.x();
+            isCurrTimeChanging = true;
+            update();
+            return;
+        }
+
         int xClick = mousePos.x();
         int yClick = mousePos.y() - TIME_BAR_HEIGHT;
 
@@ -182,7 +191,14 @@ void AudioTrackFrame::mousePressEvent(QMouseEvent *event) {
 void AudioTrackFrame::mouseMoveEvent(QMouseEvent *event) {
     QPoint mousePos = event->pos();
 
-    if (isTokenDragging) {
+    if (isCurrTimeChanging) {
+        if (mousePos.x() > 0 && mousePos.x() < trackTactCount * tactDuration) {
+            currTime = mousePos.x();
+            update();
+            return;
+        }
+    }
+    else if (isTokenDragging) {
         draggedTokenStartX = mousePos.x() - draggedTokenDeltaX;
         draggedTokenStartY = mousePos.y()  - TIME_BAR_HEIGHT;
 
@@ -203,7 +219,6 @@ void AudioTrackFrame::mouseMoveEvent(QMouseEvent *event) {
             double quarterDuration = tactDuration / 4;
             draggedTokenStartX = trunc(draggedTokenStartX / quarterDuration) * quarterDuration;
         }
-
         update();
     }
 }
@@ -225,6 +240,8 @@ void AudioTrackFrame::mouseReleaseEvent(QMouseEvent *event) {
             delete draggedToken;
             draggedToken = nullptr;
         }
+        else if (isCurrTimeChanging) isCurrTimeChanging = false;
+
         update();
     }
 }
