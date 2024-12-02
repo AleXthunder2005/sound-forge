@@ -23,7 +23,7 @@ public:
 
     int trackTactCount;
     double tactDuration;
-    int currTime;
+    int currViewTime;
 
     explicit AudioTrackFrame(QWidget *parent = nullptr, QScrollArea *scrollArea = nullptr);
     void setModel(WorkspaceModel *model);
@@ -54,13 +54,15 @@ public slots:
 
 signals:
     void currTimeChanged();
+    void timeBarClicked();
 
 private:
     QScrollArea* parentScrollArea;
     double scaleFactor; // Масштабирование
     QTimer *timer;    // таймер для отслеживания времени
     int startTime;    // время начала воспроизведения в миллисекундах
-    int startCurrTime;
+    int currTime;
+    int startCurrViewTime;
 
     void updateCurrTime(); // метод для обновления currTime
 };

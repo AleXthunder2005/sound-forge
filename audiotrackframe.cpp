@@ -23,7 +23,8 @@ AudioTrackFrame::AudioTrackFrame(QWidget *parent, QScrollArea* scrollArea)
     draggedTokenStartY(0),
     draggedTokenIndex(-1),
     currTime(0),
-    startCurrTime(0),
+    currViewTime(0),
+    startCurrViewTime(0),
     trackTactCount(DEFAULT_TACT_COUNT),
     tactDuration(DEFAULT_TACT_DURATION),
     parentScrollArea(scrollArea),
@@ -34,6 +35,7 @@ AudioTrackFrame::AudioTrackFrame(QWidget *parent, QScrollArea* scrollArea)
 
     connect(scrollArea->verticalScrollBar(), &QScrollBar::valueChanged, this, &AudioTrackFrame::onVerticalScrollBarChanged);
     connect(this, AudioTrackFrame::currTimeChanged, this, AudioTrackFrame::onCurrTimeChanged);
+    connect(this, AudioTrackFrame::timeBarClicked, this, AudioTrackFrame::onPauseClicked);
 }
 
 void AudioTrackFrame::setModel(WorkspaceModel *model) {
@@ -108,7 +110,7 @@ void AudioTrackFrame::paintEvent(QPaintEvent *event) {
 
     // Рисуем текущую позицию проигрывания
     painter.setPen(Qt::red);
-    painter.drawLine(currTime * scaleFactor, 0, currTime * scaleFactor, height()); // Учет масштаба
+    painter.drawLine(currViewTime * scaleFactor, 0, currViewTime * scaleFactor, height()); // Учет масштаба
 }
 
 void AudioTrackFrame::drawTimeBar(QPainter &painter, int width) {
@@ -165,8 +167,9 @@ void AudioTrackFrame::mousePressEvent(QMouseEvent *event) {
         //клик по тайм бару
         int scrollOffset = parentScrollArea->verticalScrollBar()->value();
         if (mousePos.y() > scrollOffset && mousePos.y() < scrollOffset + TIME_BAR_HEIGHT) {
-            currTime = mousePos.x() / scaleFactor;      //currTime при 1.0
+            currViewTime = mousePos.x() / scaleFactor;      //currTime при 1.0
             emit currTimeChanged();
+            emit timeBarClicked();
             isCurrTimeChanging = true;
             update();
             return;
@@ -204,7 +207,7 @@ void AudioTrackFrame::mouseMoveEvent(QMouseEvent *event) {
 
     if (isCurrTimeChanging) {
         if (mousePos.x() > 0 && mousePos.x() < trackTactCount * tactDuration * scaleFactor) {
-            currTime = mousePos.x() / scaleFactor; // Учет масштаба                                //currTime при 1.0
+            currViewTime = mousePos.x() / scaleFactor; // Учет масштаба                                //currTime при 1.0
             emit currTimeChanged();
             update();
             return;
@@ -378,7 +381,7 @@ void AudioTrackFrame::onTrackAdded() {
 
 void AudioTrackFrame::onPlayClicked() {
     startTime = QDateTime::currentMSecsSinceEpoch(); // запоминаем время начала
-    startCurrTime = currTime;
+    startCurrViewTime = currViewTime;
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &AudioTrackFrame::updateCurrTime);
     timer->start(1); // срабатывает каждые 1 мс
@@ -389,14 +392,15 @@ void AudioTrackFrame::onPauseClicked() {
         timer->stop();
         delete timer;
         timer = nullptr;
-        startCurrTime = currTime;
+        startCurrViewTime = currViewTime;
     }
     update();
 }
 
 void AudioTrackFrame::updateCurrTime() {
     int elapsedTime = QDateTime::currentMSecsSinceEpoch() - startTime; // прошедшее время
-    currTime = round((startCurrTime * MS_TO_PX + elapsedTime) / MS_TO_PX); // обновляем currTime
+    currTime += elapsedTime;
+    currViewTime = round((startCurrViewTime * MS_TO_PX + elapsedTime) / MS_TO_PX);
     update(); // перерисовываем содержимое
 }
 
@@ -405,6 +409,7 @@ void AudioTrackFrame::onVerticalScrollBarChanged() {
 }
 
 void AudioTrackFrame::onCurrTimeChanged() {
-    startCurrTime = currTime;
+    startCurrViewTime = currViewTime;
+    currTime = currViewTime * MS_TO_PX;
     startTime = QDateTime::currentMSecsSinceEpoch();
 }
