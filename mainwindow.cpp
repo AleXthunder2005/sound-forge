@@ -92,4 +92,7 @@ void MainWindow::setupUI() {
 
     //connect(controlPanel, &ControlPanel::trackAdded, trackFrame, &AudioTrackFrame::update);
     connect(controlPanel, &ControlPanel::trackAdded, trackFrame, &AudioTrackFrame::onTrackAdded);
+    connect(controlPanel, &ControlPanel::playClicked, trackFrame, &AudioTrackFrame::onPlayClicked);
+    connect(controlPanel, &ControlPanel::pauseClicked, trackFrame, &AudioTrackFrame::onPauseClicked);
+
 }

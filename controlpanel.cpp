@@ -21,6 +21,9 @@ ControlPanel::ControlPanel(QWidget *parent): QFrame(parent) {
                 + "ControlPanel { background-color: " + ProjectConfiguration::clSidePanel.name() + "; }");
 
     connect(addTrackButton, &QPushButton::clicked, this, &ControlPanel::onAddTrackButtonClicked);
+    connect(playButton, &QPushButton::clicked, this, &ControlPanel::onPlayButtonClicked);
+    connect(pauseButton, &QPushButton::clicked, this, &ControlPanel::onPauseButtonClicked);
+
 }
 
 void ControlPanel::onAddTrackButtonClicked() {
@@ -31,3 +34,13 @@ void ControlPanel::onAddTrackButtonClicked() {
     emit trackAdded();
 }
 
+
+void ControlPanel::onPlayButtonClicked() {
+
+    emit playClicked();
+}
+
+void ControlPanel::onPauseButtonClicked() {
+
+    emit pauseClicked();
+}

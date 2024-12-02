@@ -38,7 +38,11 @@ constexpr auto qt_meta_stringdata_CLASSControlPanelENDCLASS = QtMocHelpers::stri
     "ControlPanel",
     "trackAdded",
     "",
-    "onAddTrackButtonClicked"
+    "playClicked",
+    "pauseClicked",
+    "onAddTrackButtonClicked",
+    "onPlayButtonClicked",
+    "onPauseButtonClicked"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -51,23 +55,31 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSControlPanelENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       1,       // signalCount
+       3,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   26,    2, 0x06,    1 /* Public */,
+       1,    0,   50,    2, 0x06,    1 /* Public */,
+       3,    0,   51,    2, 0x06,    2 /* Public */,
+       4,    0,   52,    2, 0x06,    3 /* Public */,
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       3,    0,   27,    2, 0x08,    2 /* Private */,
+       5,    0,   53,    2, 0x08,    4 /* Private */,
+       6,    0,   54,    2, 0x08,    5 /* Private */,
+       7,    0,   55,    2, 0x08,    6 /* Private */,
 
  // signals: parameters
     QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
 
  // slots: parameters
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
 
        0        // eod
@@ -84,7 +96,15 @@ Q_CONSTINIT const QMetaObject ControlPanel::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<ControlPanel, std::true_type>,
         // method 'trackAdded'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'playClicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'pauseClicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'onAddTrackButtonClicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'onPlayButtonClicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'onPauseButtonClicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -97,7 +117,11 @@ void ControlPanel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
         (void)_t;
         switch (_id) {
         case 0: _t->trackAdded(); break;
-        case 1: _t->onAddTrackButtonClicked(); break;
+        case 1: _t->playClicked(); break;
+        case 2: _t->pauseClicked(); break;
+        case 3: _t->onAddTrackButtonClicked(); break;
+        case 4: _t->onPlayButtonClicked(); break;
+        case 5: _t->onPauseButtonClicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -106,6 +130,20 @@ void ControlPanel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
             using _t = void (ControlPanel::*)();
             if (_t _q_method = &ControlPanel::trackAdded; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
                 *result = 0;
+                return;
+            }
+        }
+        {
+            using _t = void (ControlPanel::*)();
+            if (_t _q_method = &ControlPanel::playClicked; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
+                *result = 1;
+                return;
+            }
+        }
+        {
+            using _t = void (ControlPanel::*)();
+            if (_t _q_method = &ControlPanel::pauseClicked; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
+                *result = 2;
                 return;
             }
         }
@@ -132,13 +170,13 @@ int ControlPanel::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 2)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 6;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 2)
+        if (_id < 6)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 2;
+        _id -= 6;
     }
     return _id;
 }
@@ -147,5 +185,17 @@ int ControlPanel::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 void ControlPanel::trackAdded()
 {
     QMetaObject::activate(this, &staticMetaObject, 0, nullptr);
+}
+
+// SIGNAL 1
+void ControlPanel::playClicked()
+{
+    QMetaObject::activate(this, &staticMetaObject, 1, nullptr);
+}
+
+// SIGNAL 2
+void ControlPanel::pauseClicked()
+{
+    QMetaObject::activate(this, &staticMetaObject, 2, nullptr);
 }
 QT_WARNING_POP

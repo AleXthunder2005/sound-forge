@@ -36,9 +36,13 @@ namespace {
 struct qt_meta_stringdata_CLASSAudioTrackFrameENDCLASS_t {};
 constexpr auto qt_meta_stringdata_CLASSAudioTrackFrameENDCLASS = QtMocHelpers::stringData(
     "AudioTrackFrame",
-    "onTrackAdded",
+    "currTimeChanged",
     "",
-    "onVerticalScrollBarChanged"
+    "onTrackAdded",
+    "onPlayClicked",
+    "onPauseClicked",
+    "onVerticalScrollBarChanged",
+    "onCurrTimeChanged"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -51,18 +55,30 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSAudioTrackFrameENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       0,       // signalCount
+       1,       // signalCount
+
+ // signals: name, argc, parameters, tag, flags, initial metatype offsets
+       1,    0,   50,    2, 0x06,    1 /* Public */,
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   26,    2, 0x0a,    1 /* Public */,
-       3,    0,   27,    2, 0x0a,    2 /* Public */,
+       3,    0,   51,    2, 0x0a,    2 /* Public */,
+       4,    0,   52,    2, 0x0a,    3 /* Public */,
+       5,    0,   53,    2, 0x0a,    4 /* Public */,
+       6,    0,   54,    2, 0x0a,    5 /* Public */,
+       7,    0,   55,    2, 0x0a,    6 /* Public */,
+
+ // signals: parameters
+    QMetaType::Void,
 
  // slots: parameters
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -78,9 +94,17 @@ Q_CONSTINIT const QMetaObject AudioTrackFrame::staticMetaObject = { {
     qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSAudioTrackFrameENDCLASS_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<AudioTrackFrame, std::true_type>,
+        // method 'currTimeChanged'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'onTrackAdded'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'onPlayClicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'onPauseClicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'onVerticalScrollBarChanged'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'onCurrTimeChanged'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -92,9 +116,22 @@ void AudioTrackFrame::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
         auto *_t = static_cast<AudioTrackFrame *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->onTrackAdded(); break;
-        case 1: _t->onVerticalScrollBarChanged(); break;
+        case 0: _t->currTimeChanged(); break;
+        case 1: _t->onTrackAdded(); break;
+        case 2: _t->onPlayClicked(); break;
+        case 3: _t->onPauseClicked(); break;
+        case 4: _t->onVerticalScrollBarChanged(); break;
+        case 5: _t->onCurrTimeChanged(); break;
         default: ;
+        }
+    } else if (_c == QMetaObject::IndexOfMethod) {
+        int *result = reinterpret_cast<int *>(_a[0]);
+        {
+            using _t = void (AudioTrackFrame::*)();
+            if (_t _q_method = &AudioTrackFrame::currTimeChanged; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
+                *result = 0;
+                return;
+            }
         }
     }
     (void)_a;
@@ -119,14 +156,20 @@ int AudioTrackFrame::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 2)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 6;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 2)
+        if (_id < 6)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 2;
+        _id -= 6;
     }
     return _id;
+}
+
+// SIGNAL 0
+void AudioTrackFrame::currTimeChanged()
+{
+    QMetaObject::activate(this, &staticMetaObject, 0, nullptr);
 }
 QT_WARNING_POP

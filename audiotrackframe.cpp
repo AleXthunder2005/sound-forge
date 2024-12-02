@@ -2,12 +2,15 @@
 #include "projectconfiguration.h"
 #include "workspace-implementation/workspacemodel.h"
 #include "audiofilelinker.h"
+#include "controlpanel.h"
 #include <QPainter>
 #include <QMouseEvent>
 #include <cmath>
 #include <QScrollBar>
 #include <QMimeData>
 #include <QDrag>
+#include <QTimer>
+#include <QDateTime>
 
 WorkspaceModel* AudioTrackFrame::model = nullptr;
 
@@ -20,6 +23,7 @@ AudioTrackFrame::AudioTrackFrame(QWidget *parent, QScrollArea* scrollArea)
     draggedTokenStartY(0),
     draggedTokenIndex(-1),
     currTime(0),
+    startCurrTime(0),
     trackTactCount(DEFAULT_TACT_COUNT),
     tactDuration(DEFAULT_TACT_DURATION),
     parentScrollArea(scrollArea),
@@ -29,6 +33,7 @@ AudioTrackFrame::AudioTrackFrame(QWidget *parent, QScrollArea* scrollArea)
     setMouseTracking(true);
 
     connect(scrollArea->verticalScrollBar(), &QScrollBar::valueChanged, this, &AudioTrackFrame::onVerticalScrollBarChanged);
+    connect(this, AudioTrackFrame::currTimeChanged, this, AudioTrackFrame::onCurrTimeChanged);
 }
 
 void AudioTrackFrame::setModel(WorkspaceModel *model) {
@@ -161,6 +166,7 @@ void AudioTrackFrame::mousePressEvent(QMouseEvent *event) {
         int scrollOffset = parentScrollArea->verticalScrollBar()->value();
         if (mousePos.y() > scrollOffset && mousePos.y() < scrollOffset + TIME_BAR_HEIGHT) {
             currTime = mousePos.x() / scaleFactor;      //currTime при 1.0
+            emit currTimeChanged();
             isCurrTimeChanging = true;
             update();
             return;
@@ -199,6 +205,7 @@ void AudioTrackFrame::mouseMoveEvent(QMouseEvent *event) {
     if (isCurrTimeChanging) {
         if (mousePos.x() > 0 && mousePos.x() < trackTactCount * tactDuration * scaleFactor) {
             currTime = mousePos.x() / scaleFactor; // Учет масштаба                                //currTime при 1.0
+            emit currTimeChanged();
             update();
             return;
         }
@@ -369,7 +376,35 @@ void AudioTrackFrame::onTrackAdded() {
     update();             // Перерисовать содержимое
 }
 
+void AudioTrackFrame::onPlayClicked() {
+    startTime = QDateTime::currentMSecsSinceEpoch(); // запоминаем время начала
+    startCurrTime = currTime;
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &AudioTrackFrame::updateCurrTime);
+    timer->start(1); // срабатывает каждые 1 мс
+}
+
+void AudioTrackFrame::onPauseClicked() {
+    if (timer) {
+        timer->stop();
+        delete timer;
+        timer = nullptr;
+        startCurrTime = currTime;
+    }
+    update();
+}
+
+void AudioTrackFrame::updateCurrTime() {
+    int elapsedTime = QDateTime::currentMSecsSinceEpoch() - startTime; // прошедшее время
+    currTime = round((startCurrTime * MS_TO_PX + elapsedTime) / MS_TO_PX); // обновляем currTime
+    update(); // перерисовываем содержимое
+}
+
 void AudioTrackFrame::onVerticalScrollBarChanged() {
     update();
 }
 
+void AudioTrackFrame::onCurrTimeChanged() {
+    startCurrTime = currTime;
+    startTime = QDateTime::currentMSecsSinceEpoch();
+}

@@ -41,19 +41,28 @@ public:
     void dragMoveEvent(QDragMoveEvent *event);
     void dropEvent(QDropEvent *event);
 
-
 protected:
     void drawTimeBar(QPainter &painter, int width);
     void drawTrackGrid(QPainter &painter, int trackCount);
 
 public slots:
     void onTrackAdded(); // Slot to handle track addition
+    void onPlayClicked();
+    void onPauseClicked();
     void onVerticalScrollBarChanged();
+    void onCurrTimeChanged();
 
+signals:
+    void currTimeChanged();
 
 private:
     QScrollArea* parentScrollArea;
     double scaleFactor; // Масштабирование
+    QTimer *timer;    // таймер для отслеживания времени
+    int startTime;    // время начала воспроизведения в миллисекундах
+    int startCurrTime;
+
+    void updateCurrTime(); // метод для обновления currTime
 };
 
 #endif // AUDIOTRACKFRAME_H

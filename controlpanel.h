@@ -18,9 +18,13 @@ private:
 
 private slots:
     void onAddTrackButtonClicked(); // Slot for button click
+    void onPlayButtonClicked();
+    void onPauseButtonClicked();
 
 signals:
     void trackAdded();
+    void playClicked();
+    void pauseClicked();
 };
 
 #endif // CONTROLPANEL_H
