@@ -27,7 +27,10 @@ SoundForge_autogen/timestamp: \
 	F:/Projects/SoundForge/workspace-implementation/workspacemodel.cpp \
 	F:/Projects/SoundForge/workspace-implementation/workspacemodel.h \
 	F:/QT/6.8.0/mingw_64/include/QtCore/QAbstractListModel \
+	F:/QT/6.8.0/mingw_64/include/QtCore/QByteArray \
+	F:/QT/6.8.0/mingw_64/include/QtCore/QDebug \
 	F:/QT/6.8.0/mingw_64/include/QtCore/QDir \
+	F:/QT/6.8.0/mingw_64/include/QtCore/QFile \
 	F:/QT/6.8.0/mingw_64/include/QtCore/QList \
 	F:/QT/6.8.0/mingw_64/include/QtCore/QMimeData \
 	F:/QT/6.8.0/mingw_64/include/QtCore/QObject \
@@ -35,6 +38,7 @@ SoundForge_autogen/timestamp: \
 	F:/QT/6.8.0/mingw_64/include/QtCore/QSize \
 	F:/QT/6.8.0/mingw_64/include/QtCore/QSizeF \
 	F:/QT/6.8.0/mingw_64/include/QtCore/QString \
+	F:/QT/6.8.0/mingw_64/include/QtCore/QUrl \
 	F:/QT/6.8.0/mingw_64/include/QtCore/QVariant \
 	F:/QT/6.8.0/mingw_64/include/QtCore/q20functional.h \
 	F:/QT/6.8.0/mingw_64/include/QtCore/q20iterator.h \
@@ -227,6 +231,17 @@ SoundForge_autogen/timestamp: \
 	F:/QT/6.8.0/mingw_64/include/QtGui/qvectornd.h \
 	F:/QT/6.8.0/mingw_64/include/QtGui/qwindowdefs.h \
 	F:/QT/6.8.0/mingw_64/include/QtGui/qwindowdefs_win.h \
+	F:/QT/6.8.0/mingw_64/include/QtMultimedia/QAudioFormat \
+	F:/QT/6.8.0/mingw_64/include/QtMultimedia/QMediaMetaData \
+	F:/QT/6.8.0/mingw_64/include/QtMultimedia/QMediaPlayer \
+	F:/QT/6.8.0/mingw_64/include/QtMultimedia/qaudio.h \
+	F:/QT/6.8.0/mingw_64/include/QtMultimedia/qaudioformat.h \
+	F:/QT/6.8.0/mingw_64/include/QtMultimedia/qmediametadata.h \
+	F:/QT/6.8.0/mingw_64/include/QtMultimedia/qmediaplayer.h \
+	F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtaudio.h \
+	F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+	F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+	F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QFrame \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QHBoxLayout \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QLabel \
@@ -375,6 +390,49 @@ SoundForge_autogen/timestamp: \
 	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsTargets-relwithdebinfo.cmake \
 	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsTargets.cmake \
 	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsVersionlessTargets.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaAdditionalTargetInfo.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaConfig.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaConfigVersion.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaConfigVersionImpl.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaDependencies.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaMacros.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaPlugins.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaTargets-relwithdebinfo.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaTargets.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaVersionlessAliasTargets.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QFFmpegMediaPluginAdditionalTargetInfo.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QFFmpegMediaPluginConfig.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QFFmpegMediaPluginTargets-relwithdebinfo.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QFFmpegMediaPluginTargets.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QWindowsMediaPluginAdditionalTargetInfo.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QWindowsMediaPluginConfig.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QWindowsMediaPluginTargets-relwithdebinfo.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QWindowsMediaPluginTargets.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkAdditionalTargetInfo.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkConfig.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkConfigVersion.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkConfigVersionImpl.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkDependencies.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkPlugins.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkTargets-relwithdebinfo.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkTargets.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkVersionlessAliasTargets.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QNLMNIPluginAdditionalTargetInfo.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QNLMNIPluginConfig.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QNLMNIPluginTargets-relwithdebinfo.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QNLMNIPluginTargets.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginAdditionalTargetInfo.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginConfig.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginTargets-relwithdebinfo.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginTargets.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginAdditionalTargetInfo.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginConfig.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginTargets-relwithdebinfo.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginTargets.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginAdditionalTargetInfo.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginConfig.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginTargets-relwithdebinfo.cmake \
+	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginTargets.cmake \
 	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginAdditionalTargetInfo.cmake \
 	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginConfig.cmake \
 	F:/QT/6.8.0/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginTargets-relwithdebinfo.cmake \

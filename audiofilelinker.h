@@ -2,17 +2,18 @@
 #define AUDIOFILELINKER_H
 
 #include <QList>
+#include <QString>
 #include "audiofileobject.h"
 
 class AudioFileLinker
 {
 public:
-    static QList<AudioFileObject> audioFiles;
+    static QList<AudioFileObject*> audioFiles; // Используем указатели
     AudioFileLinker();
 
-    int appendAudioFile(QString filePath);
-    int getLastID();
-    QString getFilePathByID (int ID);
+    int appendAudioFile(const QString &filePath);
+    int getLastID() const;
+    QString getFilePathByID(int ID) const;
     static double calculateDuration(int ID);
 };
 

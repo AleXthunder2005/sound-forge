@@ -2,7 +2,10 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_autogen/moc_predefs.h \
   F:/Projects/SoundForge/audiofilelinker.h \
   F:/Projects/SoundForge/audiofileobject.h \
+  F:/QT/6.8.0/mingw_64/include/QtCore/QByteArray \
+  F:/QT/6.8.0/mingw_64/include/QtCore/QDebug \
   F:/QT/6.8.0/mingw_64/include/QtCore/QDir \
+  F:/QT/6.8.0/mingw_64/include/QtCore/QFile \
   F:/QT/6.8.0/mingw_64/include/QtCore/QList \
   F:/QT/6.8.0/mingw_64/include/QtCore/QMimeData \
   F:/QT/6.8.0/mingw_64/include/QtCore/QObject \
@@ -10,6 +13,7 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtCore/QSize \
   F:/QT/6.8.0/mingw_64/include/QtCore/QSizeF \
   F:/QT/6.8.0/mingw_64/include/QtCore/QString \
+  F:/QT/6.8.0/mingw_64/include/QtCore/QUrl \
   F:/QT/6.8.0/mingw_64/include/QtCore/q20functional.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/q20iterator.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/q20memory.h \
@@ -194,6 +198,17 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtGui/qvectornd.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qwindowdefs.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qwindowdefs_win.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/QAudioFormat \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/QMediaMetaData \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/QMediaPlayer \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qaudio.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qaudioformat.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qmediametadata.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qmediaplayer.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtaudio.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/QListView \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qabstractitemview.h \

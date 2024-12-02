@@ -8,6 +8,9 @@
 const int MIN_MAIN_WINDOW_WIDTH = 600;
 const int MIN_MAIN_WINDOW_HEIGHT = 400;
 
+//AudioFileObject
+const double MS_TO_PX = 75;
+
 //AudioList
 const float DEFAULT_AUDIO_LIST_RELATIVE_WIDTH = 0.3;
 const int DEFAULT_LIST_ITEM_HEIGHT = 25;
