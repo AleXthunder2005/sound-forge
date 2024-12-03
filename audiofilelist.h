@@ -13,7 +13,7 @@ class AudioFileList : public QListView {
     Q_OBJECT
 
 public:
-    AudioFileList(QWidget *parent = nullptr);
+    AudioFileList(QWidget *parent = nullptr, AudioFileLinker *linker = nullptr);
     AudioFileLinker *audioFileLinker;
     void loadAudioFiles(const QString &directoryPath);
 

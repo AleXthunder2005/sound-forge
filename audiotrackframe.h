@@ -6,6 +6,7 @@
 #include "workspace-implementation/audiotrack.h"
 #include "workspace-implementation/workspacemodel.h"
 #include <QScrollArea>
+#include "audiofilelinker.h"
 
 class AudioTrackFrame : public QFrame {
     Q_OBJECT
@@ -25,7 +26,7 @@ public:
     double tactDuration;
     int currViewTime;
 
-    explicit AudioTrackFrame(QWidget *parent = nullptr, QScrollArea *scrollArea = nullptr);
+    explicit AudioTrackFrame(QWidget *parent = nullptr, QScrollArea *scrollArea = nullptr, AudioFileLinker *linker = nullptr);
     void setModel(WorkspaceModel *model);
     WorkspaceModel* getModel();
     void mousePressEvent(QMouseEvent *event) override;
@@ -40,6 +41,9 @@ public:
     void dragEnterEvent(QDragEnterEvent *event);
     void dragMoveEvent(QDragMoveEvent *event);
     void dropEvent(QDropEvent *event);
+
+    void playAudioTokens(); // Метод для запуска воспроизведения
+
 
 protected:
     void drawTimeBar(QPainter &painter, int width);
@@ -58,11 +62,26 @@ signals:
 
 private:
     QScrollArea* parentScrollArea;
+    AudioFileLinker *fileLinker;
     double scaleFactor; // Масштабирование
     QTimer *timer;    // таймер для отслеживания времени
     int startTime;    // время начала воспроизведения в миллисекундах
-    int currTime;
+    qint64 currTime;
     int startCurrViewTime;
+
+
+    QTimer *playbackTimer;      // Таймер для обновления времени
+    struct TokenPlaybackInfo {
+        AudioToken* token;
+        qint64 startTimeMs;
+    };
+
+    QMap<qint64, QList<TokenPlaybackInfo>> playbackSchedule; // План воспроизведения
+
+    void scheduleTokens();                     // Планирование токенов
+    void startPlayback();                      // Запуск воспроизведения
+    void advanceTime();                        // Обновление времени воспроизведения
+    void playToken(AudioToken* token);         // Проигрывание конкретного токена
 
     void updateCurrTime(); // метод для обновления currTime
 };

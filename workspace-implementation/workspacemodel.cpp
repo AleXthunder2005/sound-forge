@@ -41,7 +41,7 @@ void WorkspaceModel::moveToken(int oldTrackIndex, int newTrackIndex, int tokenIn
 
     // Обновляем поля токена
     token.audioTrack = newTrackIndex;
-    token.startPosition = newStartPosition;
+    token.startPositionView = newStartPosition;
 
     // Добавляем токен в новую дорожку
     tracks[newTrackIndex].addToken(token);

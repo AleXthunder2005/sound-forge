@@ -9,7 +9,7 @@
 #include <QStandardItemModel>
 #include <QDir>
 
-AudioFileList::AudioFileList(QWidget *parent) : QListView(parent) {
+AudioFileList::AudioFileList(QWidget *parent, AudioFileLinker *linker) : QListView(parent) {
     model = new QStandardItemModel(this);
     setModel(model);
     setDragEnabled(true);
@@ -25,7 +25,7 @@ AudioFileList::AudioFileList(QWidget *parent) : QListView(parent) {
                   + "QScrollBar:horizontal { border: none; background:  " + ProjectConfiguration::clScrollbarBackround.name() + "; height: " + QString::number(DEFAULT_SCROLLBAR_SIZE) + "px; }"
                   + "QScrollBar::handle:horizontal { background:  " + ProjectConfiguration::clScrollbar.name() + ";}");
 
-    audioFileLinker = new AudioFileLinker();
+    audioFileLinker = linker;
     loadAudioFiles(AUDIO_RESOURCES_PATH);
 }
 

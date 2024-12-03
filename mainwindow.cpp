@@ -24,8 +24,9 @@ void MainWindow::setupUI() {
     mainLayout->addLayout(sidePanelLayout);
     mainLayout->addLayout(workspaceLayout);
 
+    AudioFileLinker *linker = new AudioFileLinker();
     // Боковая панель для списка аудиофайлов
-    AudioFileList *audioList = new AudioFileList(this);
+    AudioFileList *audioList = new AudioFileList(this, linker);
     audioList->setFixedWidth(this->width() * DEFAULT_AUDIO_LIST_RELATIVE_WIDTH);
     sidePanelLayout->addWidget(audioList);
 
@@ -40,7 +41,7 @@ void MainWindow::setupUI() {
                              + "QScrollBar::handle:horizontal { background:  " + ProjectConfiguration::clScrollbar.name() + ";}");
 
     // Фрейм для отображения аудиодорожек
-    AudioTrackFrame *trackFrame = new AudioTrackFrame(this, scrollArea);
+    AudioTrackFrame *trackFrame = new AudioTrackFrame(this, scrollArea, linker);
 
     // Устанавливаем размеры trackFrame вручную, чтобы учитывать длину дорожек
     trackFrame->setMinimumWidth(1000);

@@ -10,11 +10,11 @@ AudioToken::AudioToken(int audiofileID, double startPosition, double duration, i
                        QColor headerColor,
                        QColor mainContentColor):
     audiofileID(audiofileID),
-    startPosition(startPosition),
-    duration(duration),
+    startPositionView(startPosition),
+    durationView(duration),
     audioTrack(audioTrack),
-    relativeStartTime(0),
-    relativeDuration(duration),
+    relativeStartTimeView(0),
+    relativeDurationView(duration),
     headerColor(headerColor),
     mainContentColor(mainContentColor)
 {
@@ -22,8 +22,8 @@ AudioToken::AudioToken(int audiofileID, double startPosition, double duration, i
 }
 void AudioToken::drawToken(QPainter *painter, double scaleFactor) const {
     painter->setBrush(Qt::blue);
-    int x = this->startPosition * scaleFactor; // Масштабируем позицию
-    int w = this->relativeDuration * scaleFactor; // Масштабируем ширину
+    int x = this->startPositionView * scaleFactor; // Масштабируем позицию
+    int w = this->relativeDurationView * scaleFactor; // Масштабируем ширину
     int y = TIME_BAR_HEIGHT + this->audioTrack * TRACK_HEIGHT;
 
     int headerHeight = TRACK_HEIGHT * TOKEN_HEADER_RELATIVE_HEIGHT;
@@ -43,14 +43,14 @@ void AudioToken::drawToken(QPainter *painter, double scaleFactor) const {
 
 void AudioToken::updateTokenRelativeStartTime(int newRelativeStartTime) {
     // Убедитесь, что новое значение не превышает границы
-    if (newRelativeStartTime >= 0 && newRelativeStartTime < (relativeStartTime + relativeDuration)) {
-        relativeStartTime = newRelativeStartTime;
+    if (newRelativeStartTime >= 0 && newRelativeStartTime < (relativeStartTimeView + relativeDurationView)) {
+        relativeStartTimeView = newRelativeStartTime;
     }
 }
 
 void AudioToken::updateTokenDuration(double newDuration) {
     // Убедитесь, что новая длительность больше нуля
-    if (newDuration > 0 && (relativeStartTime + newDuration) <= (startPosition + duration)) {
-        relativeDuration = newDuration;
+    if (newDuration > 0 && (relativeStartTimeView + newDuration) <= (startPositionView + durationView)) {
+        relativeDurationView = newDuration;
     }
 }
