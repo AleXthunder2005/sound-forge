@@ -27,6 +27,7 @@ SoundForge_autogen/timestamp: \
 	F:/Projects/SoundForge/workspace-implementation/workspacemodel.cpp \
 	F:/Projects/SoundForge/workspace-implementation/workspacemodel.h \
 	F:/QT/6.8.0/mingw_64/include/QtCore/QAbstractListModel \
+	F:/QT/6.8.0/mingw_64/include/QtCore/QBuffer \
 	F:/QT/6.8.0/mingw_64/include/QtCore/QByteArray \
 	F:/QT/6.8.0/mingw_64/include/QtCore/QDebug \
 	F:/QT/6.8.0/mingw_64/include/QtCore/QDir \
@@ -56,6 +57,7 @@ SoundForge_autogen/timestamp: \
 	F:/QT/6.8.0/mingw_64/include/QtCore/qatomic_cxx11.h \
 	F:/QT/6.8.0/mingw_64/include/QtCore/qbasicatomic.h \
 	F:/QT/6.8.0/mingw_64/include/QtCore/qbindingstorage.h \
+	F:/QT/6.8.0/mingw_64/include/QtCore/qbuffer.h \
 	F:/QT/6.8.0/mingw_64/include/QtCore/qbytearray.h \
 	F:/QT/6.8.0/mingw_64/include/QtCore/qbytearrayalgorithms.h \
 	F:/QT/6.8.0/mingw_64/include/QtCore/qbytearraylist.h \

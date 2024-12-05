@@ -12,6 +12,7 @@
 #include <QTimer>
 #include <QDateTime>
 #include <QAudioOutput>
+#include <QBuffer>
 
 WorkspaceModel* AudioTrackFrame::model = nullptr;
 
@@ -471,14 +472,24 @@ void AudioTrackFrame::playToken(AudioToken* token) {
         QAudioOutput *audioOutput = new QAudioOutput;
 
         player->setAudioOutput(audioOutput);
-        player->setSource(QUrl::fromLocalFile(audioFile->audioFilePath));
         audioOutput->setVolume(100);
+        // Создаем QBuffer и загружаем в него аудиоданные
+        QBuffer *buffer = new QBuffer;
+        buffer->setData(audioFile->audioData); // Предполагается, что audioData - это QByteArray
+        buffer->open(QIODevice::ReadOnly);
+
+        // Устанавливаем источник для QMediaPlayer
+        player->setSource(QUrl::fromLocalFile(QString())); // Пустая строка, так как мы используем QBuffer
+        player->setSourceDevice(buffer);
+
+        // Начинаем воспроизведение
         player->play();
 
-        connect(player, &QMediaPlayer::mediaStatusChanged, this, [player, audioOutput](QMediaPlayer::MediaStatus status) {
+        connect(player, &QMediaPlayer::mediaStatusChanged, this, [player, audioOutput, buffer](QMediaPlayer::MediaStatus status) {
             if (status == QMediaPlayer::EndOfMedia) {
                 player->deleteLater();
                 audioOutput->deleteLater();
+                buffer->deleteLater(); // Освобождаем QBuffer
             }
         });
     } else {
