@@ -69,18 +69,6 @@ private:
     qint64 currTime;
     int startCurrViewTime;
 
-
-    QTimer *playbackTimer;      // Таймер для обновления времени
-    struct TokenPlaybackInfo {
-        AudioToken* token;
-        qint64 startTimeMs;
-    };
-
-    QMap<qint64, QList<TokenPlaybackInfo>> playbackSchedule; // План воспроизведения
-
-    void scheduleTokens();                     // Планирование токенов
-    void startPlayback();                      // Запуск воспроизведения
-    void advanceTime();                        // Обновление времени воспроизведения
     void playToken(AudioToken* token);         // Проигрывание конкретного токена
 
     void updateCurrTime(); // метод для обновления currTime

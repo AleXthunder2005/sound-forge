@@ -51,7 +51,7 @@ void AudioFileObject::onMediaStatusChanged(QMediaPlayer::MediaStatus status)
 {
     if (status == QMediaPlayer::LoadedMedia) {
         durationMs = mediaPlayer.duration(); // Duration in milliseconds
-        bitRate = mediaPlayer.metaData().value(QMediaMetaData::AudioBitRate).toInt();
+        //bitRate = mediaPlayer.metaData().value(QMediaMetaData::AudioBitRate).toInt();
         //channels = mediaPlayer.metaData().value(QMediaMetaData::AudioChannelCount).toInt();
         mediaPlayer.stop(); // Stop playback after fetching the metadata
     }

@@ -11,6 +11,7 @@
 #include <QDrag>
 #include <QTimer>
 #include <QDateTime>
+#include <QAudioOutput>
 
 WorkspaceModel* AudioTrackFrame::model = nullptr;
 
@@ -37,7 +38,6 @@ AudioTrackFrame::AudioTrackFrame(QWidget *parent, QScrollArea* scrollArea, Audio
     connect(scrollArea->verticalScrollBar(), &QScrollBar::valueChanged, this, &AudioTrackFrame::onVerticalScrollBarChanged);
     connect(this, AudioTrackFrame::currTimeChanged, this, AudioTrackFrame::onCurrTimeChanged);
     connect(this, AudioTrackFrame::timeBarClicked, this, AudioTrackFrame::onPauseClicked);
-    connect(playbackTimer, &QTimer::timeout, this, &AudioTrackFrame::advanceTime);
 }
 
 void AudioTrackFrame::setModel(WorkspaceModel *model) {
@@ -388,7 +388,9 @@ void AudioTrackFrame::onPlayClicked() {
     connect(timer, &QTimer::timeout, this, &AudioTrackFrame::updateCurrTime);
     timer->start(1); // срабатывает каждые 1 мс
 
-    playAudioTokens();
+    AudioToken myToken = model->tracks[0].tokens[0];
+    playToken(&myToken);
+    //playAudioTokens();
 }
 
 void AudioTrackFrame::onPauseClicked() {
@@ -419,72 +421,69 @@ void AudioTrackFrame::onCurrTimeChanged() {
 }
 
 
-void AudioTrackFrame::playAudioTokens() {
-    scheduleTokens(); // Упорядочиваем токены по времени воспроизведения
-    currTime = 0;     // Сбрасываем текущее время
-    playbackTimer->start(10); // Запускаем таймер (10 мс шаг)
-}
+// void AudioTrackFrame::playToken(AudioToken* token) {
+//     // Ищем аудиофайл по ID токена
+//     AudioFileObject* audioFile = AudioFileLinker::audioFiles[token->audiofileID];
 
-void AudioTrackFrame::scheduleTokens() {
-    playbackSchedule.clear();
+//     // Если аудиофайл найден и доступен
+//     if (audioFile && audioFile->canAccess) {
+//         QFile* audioFileStream = new QFile(audioFile->audioFilePath);
+//         if (!audioFileStream->open(QIODevice::ReadOnly)) {
+//             qWarning() << "Cannot open audio file:" << audioFile->audioFilePath;
+//             delete audioFileStream;
+//             return;
+//         }
 
-    // Проходим по всем дорожкам
-    for (const AudioTrack& track : model->tracks) {
-        // Получаем токены дорожки
-        QList<AudioToken> tokens = track.tokens;
+//         QAudioFormat format;
+//         format.setSampleRate(44100); // Установите частоту дискретизации
+//         format.setChannelCount(2);    // Установите количество каналов (стерео)
+//         format.setSampleSize(16);     // Установите размер выборки (бит)
+//         format.setCodec("audio/pcm");
+//         format.setByteOrder(QAudioFormat::LittleEndian);
+//         format.setSampleType(QAudioFormat::SignedInt);
 
-        // Упорядочиваем токены по startPositionView
-        std::sort(tokens.begin(), tokens.end(), [](const AudioToken& a, const AudioToken& b) {
-            return a.startPositionView < b.startPositionView;
-        });
+//         QAudioOutput* audioOutput = new QAudioOutput(format, this);
 
-        // Добавляем токены в план воспроизведения
-        for (AudioToken& token : tokens) {
-            qint64 startTimeMs = static_cast<qint64>((token.startPositionView + token.relativeStartTimeView) * MS_TO_PX);
-            playbackSchedule[startTimeMs].append({&token, startTimeMs});
-        }
-    }
-}
+//         // Устанавливаем позицию воспроизведения, если требуется
+//         audioFileStream->seek(static_cast<qint64>(token->relativeStartTimeView * MS_TO_PX));
 
-void AudioTrackFrame::startPlayback() {
-    // Проходим по всем запланированным токенам и запускаем их воспроизведение
-    for (auto it = playbackSchedule.begin(); it != playbackSchedule.end(); ++it) {
-        qint64 startTime = it.key();
-        QList<TokenPlaybackInfo>& tokens = it.value();
+//         audioOutput->start(audioFileStream);
 
-        QTimer::singleShot(startTime - currTime, this, [this, tokens]() {
-            for (const TokenPlaybackInfo& playbackInfo : tokens) {
-                playToken(playbackInfo.token);
-            }
-        });
-    }
-}
-
-void AudioTrackFrame::advanceTime() {
-    currTime += 10; // Увеличиваем текущее время на шаг таймера
-
-    // Если достигли конца всех токенов, останавливаем таймер
-    if (currTime > playbackSchedule.lastKey()) {
-        playbackTimer->stop();
-    }
-}
+//         // Удаляем аудиовыход, когда воспроизведение завершено
+//         connect(audioOutput, &QAudioOutput::stateChanged, this, [audioOutput](QAudio::State state) {
+//             if (state == QAudio::StoppedState) {
+//                 audioOutput->deleteLater();
+//             }
+//         });
+//     } else {
+//         // Обработка случая, когда аудиофайл не найден или недоступен
+//         qWarning() << "Audio file not found or not accessible for ID:" << token->audiofileID;
+//     }
+// }
 
 void AudioTrackFrame::playToken(AudioToken* token) {
     // Ищем аудиофайл по ID токена
-    AudioFileObject* audioFile = AudioFileLinker::audioFiles[token->audiofileID];
+    AudioFileObject *audioFile = AudioFileLinker::audioFiles[token->audiofileID];
 
-    // Если аудиофайл найден, воспроизводим его
+    // Если аудиофайл найден и доступен
     if (audioFile && audioFile->canAccess) {
-        QMediaPlayer* player = new QMediaPlayer(this);
+        QMediaPlayer *player = new QMediaPlayer;
+        QAudioOutput *audioOutput = new QAudioOutput;
+
+        player->setAudioOutput(audioOutput);
         player->setSource(QUrl::fromLocalFile(audioFile->audioFilePath));
-        player->setPosition(static_cast<qint64>(token->relativeStartTimeView * MS_TO_PX)); // Устанавливаем позицию
+        audioOutput->setVolume(100);
         player->play();
 
-        // Удаляем плеер, когда воспроизведение завершено
-        // connect(player, &QMediaPlayer::stateChanged, player, [player](QMediaPlayer::State state) {
-        //     if (state == QMediaPlayer::StoppedState) {
-        //         player->deleteLater();
-        //     }
-        // });
+        connect(player, &QMediaPlayer::mediaStatusChanged, this, [player, audioOutput](QMediaPlayer::MediaStatus status) {
+            if (status == QMediaPlayer::EndOfMedia) {
+                player->deleteLater();
+                audioOutput->deleteLater();
+            }
+        });
+    } else {
+        // Обработка случая, когда аудиофайл не найден или недоступен
+        qWarning() << "Audio file not found or not accessible for ID:" << token->audiofileID;
     }
 }
+
