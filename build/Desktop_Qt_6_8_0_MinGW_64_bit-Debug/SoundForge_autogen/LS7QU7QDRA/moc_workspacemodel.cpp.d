@@ -4,6 +4,7 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/Projects/SoundForge/workspace-implementation/audiotoken.h \
   F:/Projects/SoundForge/workspace-implementation/audiotrack.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/QAbstractListModel \
+  F:/QT/6.8.0/mingw_64/include/QtCore/QByteArray \
   F:/QT/6.8.0/mingw_64/include/QtCore/QList \
   F:/QT/6.8.0/mingw_64/include/QtCore/QString \
   F:/QT/6.8.0/mingw_64/include/QtCore/QVariant \

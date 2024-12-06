@@ -11,10 +11,10 @@ public:
                QColor mainContentColor = ProjectConfiguration::clDefaultTokenMainContent);
     int tokenID;
     int audiofileID;          //ID аудиофайла
-    double startPositionView;     //начало фрагмента на аудиодорожке
-    double durationView;           //длительность фрагмента
-    double relativeStartTimeView; //начало активной части фрагмента относительно всего фрагмента
-    double relativeDurationView;   //длительность активной части фрагмента
+    double startPositionView;     //начало фрагмента на аудиодорожке в px
+    double durationView;           //длительность фрагмента  в px
+    double relativeStartTimeView; //начало активной части фрагмента относительно всего фрагмента  в px
+    double relativeDurationView;   //длительность активной части фрагмента  в px
     int audioTrack;           //номер аудиодорожки
 
     static int idCounter;

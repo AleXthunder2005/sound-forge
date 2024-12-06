@@ -70,7 +70,7 @@ private:
     int startCurrViewTime;
 
     void playToken(AudioToken* token);         // Проигрывание конкретного токена
-
+    void playTrack(QByteArray *data);
     void updateCurrTime(); // метод для обновления currTime
 };
 

@@ -3,6 +3,7 @@
 
 #include <QList>
 #include "audiotoken.h"
+#include <QByteArray>
 
 class AudioTrack
 {
@@ -12,6 +13,8 @@ public:
     void addToken(AudioToken &token);
     QList<AudioToken>& getTokens();
     QList<AudioToken> tokens;
+    QByteArray *trackData;
+    QByteArray *processAudioTrack();
 };
 
 #endif // AUDIOTRACK_H

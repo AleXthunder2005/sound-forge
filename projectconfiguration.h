@@ -30,6 +30,14 @@ const int GRID_LINE_HEIGHT = 4; // Высота короткой черты дл
 const double MIN_SCALE = 0.4;
 const double MAX_SCALE = 10.0;
 
+//AudioTrack
+const int SAMPLE_RATE = 44100;           // Частота дискретизации (Гц)
+const int CHANNELS = 2;                 // Количество каналов (стерео)
+const int BITS_PER_SAMPLE = 16;         // Битность (16 бит)
+const int BLOCK_ALIGN = CHANNELS * (BITS_PER_SAMPLE / 8); // Размер блока данных
+const double MS_TO_BYTES = SAMPLE_RATE * BLOCK_ALIGN / 1000.0; // Перевод миллисекунд в байты
+const int WAV_HEADER_SIZE = 44;
+
 //AudioToken
 const double TOKEN_HEADER_RELATIVE_HEIGHT = 0.35;
 

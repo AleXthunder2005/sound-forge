@@ -389,8 +389,15 @@ void AudioTrackFrame::onPlayClicked() {
     connect(timer, &QTimer::timeout, this, &AudioTrackFrame::updateCurrTime);
     timer->start(1); // срабатывает каждые 1 мс
 
-    AudioToken myToken = model->tracks[0].tokens[0];
-    playToken(&myToken);
+    AudioTrack *firstTrack = new AudioTrack;
+    *firstTrack = model->tracks[0];
+    QByteArray *firstTrackData = new QByteArray;
+    firstTrackData = firstTrack->processAudioTrack();
+
+    playTrack(firstTrackData);
+
+    //AudioToken myToken = model->tracks[0].tokens[0];
+    //playToken(&myToken);
     //playAudioTokens();
 }
 
@@ -420,47 +427,6 @@ void AudioTrackFrame::onCurrTimeChanged() {
     currTime = currViewTime * MS_TO_PX;
     startTime = QDateTime::currentMSecsSinceEpoch();
 }
-
-
-// void AudioTrackFrame::playToken(AudioToken* token) {
-//     // Ищем аудиофайл по ID токена
-//     AudioFileObject* audioFile = AudioFileLinker::audioFiles[token->audiofileID];
-
-//     // Если аудиофайл найден и доступен
-//     if (audioFile && audioFile->canAccess) {
-//         QFile* audioFileStream = new QFile(audioFile->audioFilePath);
-//         if (!audioFileStream->open(QIODevice::ReadOnly)) {
-//             qWarning() << "Cannot open audio file:" << audioFile->audioFilePath;
-//             delete audioFileStream;
-//             return;
-//         }
-
-//         QAudioFormat format;
-//         format.setSampleRate(44100); // Установите частоту дискретизации
-//         format.setChannelCount(2);    // Установите количество каналов (стерео)
-//         format.setSampleSize(16);     // Установите размер выборки (бит)
-//         format.setCodec("audio/pcm");
-//         format.setByteOrder(QAudioFormat::LittleEndian);
-//         format.setSampleType(QAudioFormat::SignedInt);
-
-//         QAudioOutput* audioOutput = new QAudioOutput(format, this);
-
-//         // Устанавливаем позицию воспроизведения, если требуется
-//         audioFileStream->seek(static_cast<qint64>(token->relativeStartTimeView * MS_TO_PX));
-
-//         audioOutput->start(audioFileStream);
-
-//         // Удаляем аудиовыход, когда воспроизведение завершено
-//         connect(audioOutput, &QAudioOutput::stateChanged, this, [audioOutput](QAudio::State state) {
-//             if (state == QAudio::StoppedState) {
-//                 audioOutput->deleteLater();
-//             }
-//         });
-//     } else {
-//         // Обработка случая, когда аудиофайл не найден или недоступен
-//         qWarning() << "Audio file not found or not accessible for ID:" << token->audiofileID;
-//     }
-// }
 
 void AudioTrackFrame::playToken(AudioToken* token) {
     // Ищем аудиофайл по ID токена
@@ -498,3 +464,29 @@ void AudioTrackFrame::playToken(AudioToken* token) {
     }
 }
 
+void AudioTrackFrame::playTrack(QByteArray *data) {
+    QMediaPlayer *player = new QMediaPlayer;
+    QAudioOutput *audioOutput = new QAudioOutput;
+
+    player->setAudioOutput(audioOutput);
+    audioOutput->setVolume(100);
+    // Создаем QBuffer и загружаем в него аудиоданные
+    QBuffer *buffer = new QBuffer;
+    buffer->setData(*data); // Предполагается, что audioData - это QByteArray
+    buffer->open(QIODevice::ReadOnly);
+
+    // Устанавливаем источник для QMediaPlayer
+    player->setSource(QUrl::fromLocalFile(QString())); // Пустая строка, так как мы используем QBuffer
+    player->setSourceDevice(buffer);
+
+    // Начинаем воспроизведение
+    player->play();
+
+    connect(player, &QMediaPlayer::mediaStatusChanged, this, [player, audioOutput, buffer](QMediaPlayer::MediaStatus status) {
+        if (status == QMediaPlayer::EndOfMedia) {
+            player->deleteLater();
+            audioOutput->deleteLater();
+            buffer->deleteLater(); // Освобождаем QBuffer
+        }
+    });
+}
