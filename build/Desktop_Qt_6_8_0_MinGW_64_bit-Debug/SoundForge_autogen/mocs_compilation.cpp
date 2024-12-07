@@ -4,4 +4,5 @@
 #include "EWIEGA46WW/moc_audiotrackframe.cpp"
 #include "EWIEGA46WW/moc_controlpanel.cpp"
 #include "EWIEGA46WW/moc_mainwindow.cpp"
+#include "LS7QU7QDRA/moc_audiotrack.cpp"
 #include "LS7QU7QDRA/moc_workspacemodel.cpp"

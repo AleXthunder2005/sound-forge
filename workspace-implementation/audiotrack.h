@@ -4,17 +4,37 @@
 #include <QList>
 #include "audiotoken.h"
 #include <QByteArray>
+#include <QMediaPlayer>
+#include <QBuffer>
+#include <QAudioOutput>
 
-class AudioTrack
+class AudioTrack : public QObject
 {
+    Q_OBJECT
+
 public:
-    AudioTrack();
+    explicit AudioTrack(QObject *parent = nullptr);
+
+    // Удаляем конструктор копирования и оператор присваивания
+    AudioTrack(const AudioTrack&) = delete;
+    AudioTrack& operator=(const AudioTrack&) = delete;
 
     void addToken(AudioToken &token);
     QList<AudioToken>& getTokens();
     QList<AudioToken> tokens;
     QByteArray *trackData;
-    QByteArray *processAudioTrack();
+    QBuffer *buffer;
+    QMediaPlayer *player;
+    QAudioOutput *audioOutput;
+    bool isTrackChanged;
+    void processAudioTrack();
+    void playTrack(qint64 startTime);
+    void pauseTrack();
+    void setTrackChangeFlag();
+
+private slots:
+    void onMediaStatusChanged(QMediaPlayer::MediaStatus status);
+
 };
 
 #endif // AUDIOTRACK_H

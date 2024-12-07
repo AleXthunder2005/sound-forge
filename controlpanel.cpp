@@ -29,7 +29,7 @@ ControlPanel::ControlPanel(QWidget *parent): QFrame(parent) {
 void ControlPanel::onAddTrackButtonClicked() {
     // Create a new track and add it to the model
     AudioTrack *newTrack = new AudioTrack();
-    AudioTrackFrame::model->addTrack(*newTrack);
+    AudioTrackFrame::model->addTrack(newTrack);
 
     emit trackAdded();
 }

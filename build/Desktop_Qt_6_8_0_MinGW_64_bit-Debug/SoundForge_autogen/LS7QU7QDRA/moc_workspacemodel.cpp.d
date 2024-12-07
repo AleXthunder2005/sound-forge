@@ -4,6 +4,7 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/Projects/SoundForge/workspace-implementation/audiotoken.h \
   F:/Projects/SoundForge/workspace-implementation/audiotrack.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/QAbstractListModel \
+  F:/QT/6.8.0/mingw_64/include/QtCore/QBuffer \
   F:/QT/6.8.0/mingw_64/include/QtCore/QByteArray \
   F:/QT/6.8.0/mingw_64/include/QtCore/QList \
   F:/QT/6.8.0/mingw_64/include/QtCore/QString \
@@ -24,6 +25,7 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtCore/qatomic_cxx11.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qbasicatomic.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qbindingstorage.h \
+  F:/QT/6.8.0/mingw_64/include/QtCore/qbuffer.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qbytearray.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qbytearrayalgorithms.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qbytearraylist.h \
@@ -54,6 +56,7 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtCore/qglobalstatic.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qhash.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qhashfunctions.h \
+  F:/QT/6.8.0/mingw_64/include/QtCore/qiodevice.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qiodevicebase.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qiterable.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qiterator.h \
@@ -123,6 +126,7 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtCore/qtversionchecks.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qtypeinfo.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qtypes.h \
+  F:/QT/6.8.0/mingw_64/include/QtCore/qurl.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qutf8stringview.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qvariant.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qvarlengtharray.h \
@@ -153,6 +157,15 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtGui/qtransform.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qwindowdefs.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qwindowdefs_win.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/QAudioOutput \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/QMediaPlayer \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qaudio.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qaudiooutput.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qmediaplayer.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtaudio.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/algorithm \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/array \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/atomic \

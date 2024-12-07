@@ -24,7 +24,7 @@ public:
 
     int trackTactCount;
     double tactDuration;
-    int currViewTime;
+
 
     explicit AudioTrackFrame(QWidget *parent = nullptr, QScrollArea *scrollArea = nullptr, AudioFileLinker *linker = nullptr);
     void setModel(WorkspaceModel *model);
@@ -55,10 +55,12 @@ public slots:
     void onPauseClicked();
     void onVerticalScrollBarChanged();
     void onCurrTimeChanged();
+    void onTrackChanged(int index);
 
 signals:
     void currTimeChanged();
     void timeBarClicked();
+    void trackChanged(int index);
 
 private:
     QScrollArea* parentScrollArea;
@@ -67,10 +69,9 @@ private:
     QTimer *timer;    // таймер для отслеживания времени
     int startTime;    // время начала воспроизведения в миллисекундах
     qint64 currTime;
-    int startCurrViewTime;
+    int currViewTime;
+    int startViewTime;
 
-    void playToken(AudioToken* token);         // Проигрывание конкретного токена
-    void playTrack(QByteArray *data);
     void updateCurrTime(); // метод для обновления currTime
 };
 

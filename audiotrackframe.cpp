@@ -26,7 +26,7 @@ AudioTrackFrame::AudioTrackFrame(QWidget *parent, QScrollArea* scrollArea, Audio
     draggedTokenIndex(-1),
     currTime(0),
     currViewTime(0),
-    startCurrViewTime(0),
+    startViewTime(0),
     trackTactCount(DEFAULT_TACT_COUNT),
     tactDuration(DEFAULT_TACT_DURATION),
     parentScrollArea(scrollArea),
@@ -36,9 +36,14 @@ AudioTrackFrame::AudioTrackFrame(QWidget *parent, QScrollArea* scrollArea, Audio
     setAcceptDrops(true);
     setMouseTracking(true);
 
+    timer = new QTimer(this);
+
+
     connect(scrollArea->verticalScrollBar(), &QScrollBar::valueChanged, this, &AudioTrackFrame::onVerticalScrollBarChanged);
-    connect(this, AudioTrackFrame::currTimeChanged, this, AudioTrackFrame::onCurrTimeChanged);
-    connect(this, AudioTrackFrame::timeBarClicked, this, AudioTrackFrame::onPauseClicked);
+    connect(this, &AudioTrackFrame::currTimeChanged, this, &AudioTrackFrame::onCurrTimeChanged);
+    connect(this, &AudioTrackFrame::timeBarClicked, this, &AudioTrackFrame::onPauseClicked);
+    connect(this, &AudioTrackFrame::trackChanged, this, &AudioTrackFrame::onTrackChanged);
+    connect(timer, &QTimer::timeout, this, &AudioTrackFrame::updateCurrTime);
 }
 
 void AudioTrackFrame::setModel(WorkspaceModel *model) {
@@ -60,7 +65,7 @@ void AudioTrackFrame::paintEvent(QPaintEvent *event) {
 
     // Рисуем дорожки
     for (int i = 0; i < model->rowCount(); i++) {
-        const AudioTrack &track = model->getTracks().at(i);
+        AudioTrack *track = model->tracks[i];
 
         // Фон дорожки
         painter.setBrush(ProjectConfiguration::clAudioTrack);
@@ -72,17 +77,17 @@ void AudioTrackFrame::paintEvent(QPaintEvent *event) {
 
     // Рисуем токены на дорожке
     for (int i = 0; i < model->rowCount(); i++) {
-        const AudioTrack &track = model->tracks.at(i);
+        AudioTrack *track = model->tracks[i];
 
         if (isTokenDragging && draggedToken->audioTrack == i) {
-            for (int j = 0; j < track.tokens.size(); j++) {
+            for (int j = 0; j < track->tokens.size(); j++) {
                 if (draggedTokenIndex != j) {
-                    AudioToken token = track.tokens.at(j);
+                    AudioToken token = track->tokens.at(j);
                     token.drawToken(&painter, scaleFactor); // Передаем масштаб
                 }
             }
         } else {
-            for (AudioToken token : track.tokens) {
+            for (AudioToken token : track->tokens) {
                 token.drawToken(&painter, scaleFactor); // Передаем масштаб
             }
         }
@@ -184,9 +189,9 @@ void AudioTrackFrame::mousePressEvent(QMouseEvent *event) {
         int trackIndex = yClick / TRACK_HEIGHT;
         if (trackIndex < 0 || trackIndex >= model->rowCount()) return;
 
-        const AudioTrack &track = model->getTracks().at(trackIndex);
-        for (int tokenIndex = 0; tokenIndex < track.tokens.size(); ++tokenIndex) {
-            const AudioToken &token = track.tokens.at(tokenIndex);
+        AudioTrack *track = model->tracks[trackIndex];
+        for (int tokenIndex = 0; tokenIndex < track->tokens.size(); ++tokenIndex) {
+            AudioToken token = track->tokens[tokenIndex];
             double x = token.startPositionView * scaleFactor;
             double w = token.relativeDurationView * scaleFactor;
 
@@ -252,9 +257,14 @@ void AudioTrackFrame::mouseReleaseEvent(QMouseEvent *event) {
                 dropX = round(draggedTokenStartX / quarterDuration) * quarterDuration;  //dropX в больших координатах
             }
 
-            int dropTrack = (draggedTokenStartY) / TRACK_HEIGHT;
+            int dropTrackIndex = (draggedTokenStartY) / TRACK_HEIGHT;
+            int oldTrackIndex = draggedToken->audioTrack;
 
-            model->moveToken(draggedToken->audioTrack, dropTrack, draggedTokenIndex, dropX / scaleFactor);
+            model->moveToken(oldTrackIndex, dropTrackIndex, draggedTokenIndex, dropX / scaleFactor);
+            emit trackChanged(oldTrackIndex);
+            emit trackChanged(dropTrackIndex);
+
+
             delete draggedToken;
             draggedToken = nullptr;
         }
@@ -363,8 +373,9 @@ void AudioTrackFrame::dropEvent(QDropEvent *event) {
         }
 
         AudioToken *newToken = new AudioToken(uniqueAudiofileID, dropX / scaleFactor, AudioFileLinker::calculateDuration(uniqueAudiofileID), dropTrack);
-        AudioTrack &track = model->tracks[dropTrack];
-        track.addToken(*newToken);
+        AudioTrack *track = model->tracks[dropTrack];
+        track->addToken(*newToken);
+        emit trackChanged(dropTrack);
 
         delete(draggedToken);
         draggedToken = nullptr;
@@ -375,8 +386,6 @@ void AudioTrackFrame::dropEvent(QDropEvent *event) {
     }
 }
 
-
-
 void AudioTrackFrame::onTrackAdded() {
     resizeToFitContent(); // Пересчитать размеры
     update();             // Перерисовать содержимое
@@ -384,29 +393,22 @@ void AudioTrackFrame::onTrackAdded() {
 
 void AudioTrackFrame::onPlayClicked() {
     startTime = QDateTime::currentMSecsSinceEpoch(); // запоминаем время начала
-    startCurrViewTime = currViewTime;
-    timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &AudioTrackFrame::updateCurrTime);
+    startViewTime = currViewTime;
     timer->start(1); // срабатывает каждые 1 мс
 
-    AudioTrack *firstTrack = new AudioTrack;
-    *firstTrack = model->tracks[0];
-    QByteArray *firstTrackData = new QByteArray;
-    firstTrackData = firstTrack->processAudioTrack();
-
-    playTrack(firstTrackData);
-
-    //AudioToken myToken = model->tracks[0].tokens[0];
-    //playToken(&myToken);
-    //playAudioTokens();
+    for (AudioTrack *track: model->tracks) {
+        track->playTrack(currTime);
+    }
 }
 
 void AudioTrackFrame::onPauseClicked() {
-    if (timer) {
+    if (timer && (timer->isActive())) {
         timer->stop();
-        delete timer;
-        timer = nullptr;
-        startCurrViewTime = currViewTime;
+        startViewTime = currViewTime;
+
+        for (AudioTrack *track: model->tracks) {
+            track->pauseTrack();
+        }
     }
     update();
 }
@@ -414,7 +416,7 @@ void AudioTrackFrame::onPauseClicked() {
 void AudioTrackFrame::updateCurrTime() {
     int elapsedTime = QDateTime::currentMSecsSinceEpoch() - startTime; // прошедшее время
     currTime += elapsedTime;
-    currViewTime = round((startCurrViewTime * MS_TO_PX + elapsedTime) / MS_TO_PX);
+    currViewTime = round((startViewTime * MS_TO_PX + elapsedTime) / MS_TO_PX);
     update(); // перерисовываем содержимое
 }
 
@@ -423,70 +425,11 @@ void AudioTrackFrame::onVerticalScrollBarChanged() {
 }
 
 void AudioTrackFrame::onCurrTimeChanged() {
-    startCurrViewTime = currViewTime;
+    startViewTime = currViewTime;
     currTime = currViewTime * MS_TO_PX;
     startTime = QDateTime::currentMSecsSinceEpoch();
 }
 
-void AudioTrackFrame::playToken(AudioToken* token) {
-    // Ищем аудиофайл по ID токена
-    AudioFileObject *audioFile = AudioFileLinker::audioFiles[token->audiofileID];
-
-    // Если аудиофайл найден и доступен
-    if (audioFile && audioFile->canAccess) {
-        QMediaPlayer *player = new QMediaPlayer;
-        QAudioOutput *audioOutput = new QAudioOutput;
-
-        player->setAudioOutput(audioOutput);
-        audioOutput->setVolume(100);
-        // Создаем QBuffer и загружаем в него аудиоданные
-        QBuffer *buffer = new QBuffer;
-        buffer->setData(audioFile->audioData); // Предполагается, что audioData - это QByteArray
-        buffer->open(QIODevice::ReadOnly);
-
-        // Устанавливаем источник для QMediaPlayer
-        player->setSource(QUrl::fromLocalFile(QString())); // Пустая строка, так как мы используем QBuffer
-        player->setSourceDevice(buffer);
-
-        // Начинаем воспроизведение
-        player->play();
-
-        connect(player, &QMediaPlayer::mediaStatusChanged, this, [player, audioOutput, buffer](QMediaPlayer::MediaStatus status) {
-            if (status == QMediaPlayer::EndOfMedia) {
-                player->deleteLater();
-                audioOutput->deleteLater();
-                buffer->deleteLater(); // Освобождаем QBuffer
-            }
-        });
-    } else {
-        // Обработка случая, когда аудиофайл не найден или недоступен
-        qWarning() << "Audio file not found or not accessible for ID:" << token->audiofileID;
-    }
-}
-
-void AudioTrackFrame::playTrack(QByteArray *data) {
-    QMediaPlayer *player = new QMediaPlayer;
-    QAudioOutput *audioOutput = new QAudioOutput;
-
-    player->setAudioOutput(audioOutput);
-    audioOutput->setVolume(100);
-    // Создаем QBuffer и загружаем в него аудиоданные
-    QBuffer *buffer = new QBuffer;
-    buffer->setData(*data); // Предполагается, что audioData - это QByteArray
-    buffer->open(QIODevice::ReadOnly);
-
-    // Устанавливаем источник для QMediaPlayer
-    player->setSource(QUrl::fromLocalFile(QString())); // Пустая строка, так как мы используем QBuffer
-    player->setSourceDevice(buffer);
-
-    // Начинаем воспроизведение
-    player->play();
-
-    connect(player, &QMediaPlayer::mediaStatusChanged, this, [player, audioOutput, buffer](QMediaPlayer::MediaStatus status) {
-        if (status == QMediaPlayer::EndOfMedia) {
-            player->deleteLater();
-            audioOutput->deleteLater();
-            buffer->deleteLater(); // Освобождаем QBuffer
-        }
-    });
+void AudioTrackFrame::onTrackChanged(int index){
+    model->tracks[index]->setTrackChangeFlag();
 }

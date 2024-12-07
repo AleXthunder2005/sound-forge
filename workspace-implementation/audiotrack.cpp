@@ -6,9 +6,17 @@
 #include <cstring>
 #include <QDebug>
 #include "../audiofilelinker.h"
+#include "../audiotrackframe.h"
 
-AudioTrack::AudioTrack() {
+AudioTrack::AudioTrack(QObject *parent) : QObject(parent)
+{
     trackData = nullptr;
+    isTrackChanged = true;
+    player = new QMediaPlayer;
+    audioOutput = new QAudioOutput;
+    buffer = new QBuffer;
+
+    connect(player, &QMediaPlayer::mediaStatusChanged, this, &AudioTrack::onMediaStatusChanged);
 }
 
 void AudioTrack::addToken(AudioToken &token) {
@@ -50,7 +58,7 @@ QByteArray createWavHeader(int dataSize) {
 }
 
 // Функция для обработки аудиодорожки
-QByteArray* AudioTrack::processAudioTrack() {
+void AudioTrack::processAudioTrack() {
     // 1. Сортировка токенов по возрастанию startPositionView
     std::sort(tokens.begin(), tokens.end(),
               [](const AudioToken &a, const AudioToken &b) {
@@ -59,8 +67,6 @@ QByteArray* AudioTrack::processAudioTrack() {
 
     // 2. Объявляем результирующий массив для данных
     QByteArray *combinedAudioData = new QByteArray();
-    QByteArray debugAudioData;
-
 
     // Изначально заполняем массив заголовком WAV
     combinedAudioData->append(createWavHeader(0)); // Заголовок обновим позже
@@ -71,7 +77,6 @@ QByteArray* AudioTrack::processAudioTrack() {
     for (const AudioToken &token : tokens) {
         // Получаем аудиоданные из карты файлов
         QByteArray audioFileData = AudioFileLinker::audioFiles[token.audiofileID]->audioData;
-        debugAudioData = audioFileData;
 
         QByteArray audioData = audioFileData.mid(WAV_HEADER_SIZE);
 
@@ -109,6 +114,80 @@ QByteArray* AudioTrack::processAudioTrack() {
     QByteArray header = createWavHeader(dataSize);
     std::memcpy(combinedAudioData->data(), header.data(), WAV_HEADER_SIZE);
 
+    buffer->setData(*combinedAudioData); // Предполагается, что audioData - это QByteArray
+    isTrackChanged = false;
+}
 
-    return combinedAudioData;
+void AudioTrack::playTrack(qint64 startTime) {
+    if ((startTime != player->position()) || (isTrackChanged)) {
+        if (buffer && (buffer->isOpen())) {
+            buffer->close();
+        }
+
+        qDebug() << "startTime: " << startTime;
+        qDebug() << "old position: " << player->position();
+
+        player->setAudioOutput(audioOutput);
+        audioOutput->setVolume(80);
+
+        // Если трек изменился, подготавливаем новый трек
+        if (isTrackChanged) {
+            processAudioTrack();
+        }
+
+        buffer->open(QIODevice::ReadOnly);
+        player->setSourceDevice(buffer);
+
+        player->setPosition(startTime);
+
+        player->play();
+        player->pause();
+
+        player->play();
+
+        // // Подключаемся к сигналу, чтобы установить стартовую позицию после загрузки трека
+        // connect(player, &QMediaPlayer::mediaStatusChanged, this, [=](QMediaPlayer::MediaStatus status) {
+        //     if (status == QMediaPlayer::LoadedMedia) {
+        //         qDebug() << "Media loaded, setting position to: " << startTime;
+
+        //         player->setPosition(startTime);
+        //         player->play();
+        //         player->pause();
+        //         player->play();
+
+
+        //         // Подключаемся к positionChanged, чтобы дождаться установки позиции
+        //         // connect(player, &QMediaPlayer::positionChanged, this, [=](qint64 position) {
+        //         //     qDebug() << "Position: " << position;
+        //         //     if (position == startTime) {
+        //         //         qDebug() << "Position set, starting playback";
+        //         //         //player->play();
+        //         //     }
+        //         // });
+        //     }
+        // });
+
+    } else {
+        // Если стартовая позиция совпадает, просто запускаем воспроизведение
+        player->play();
+    }
+}
+
+void AudioTrack::pauseTrack(){
+    qDebug() << "Pause track";
+    player->pause();
+}
+
+void AudioTrack::onMediaStatusChanged(QMediaPlayer::MediaStatus status) {
+    if (status == QMediaPlayer::EndOfMedia) {
+        //buffer->close();
+        //player->deleteLater();
+        //audioOutput->deleteLater();
+        //buffer->deleteLater(); // Освобождаем QBuffer
+    }
+}
+
+
+void AudioTrack::setTrackChangeFlag(){
+    isTrackChanged = true;
 }

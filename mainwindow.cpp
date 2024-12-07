@@ -59,7 +59,7 @@ void MainWindow::setupUI() {
     //track1->addToken(AudioToken(1, 0.0, 50.0, 0));
     //track1->addToken(AudioToken(2, 60.0, 40.0, 0));
 
-    defaultModel->addTrack(*track1);
+    defaultModel->addTrack(track1);
     trackFrame->setModel(defaultModel);
 
     trackFrame->show();

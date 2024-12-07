@@ -19,13 +19,13 @@ QVariant WorkspaceModel::data(const QModelIndex &index, int role) const {
     return QVariant();
 }
 
-void WorkspaceModel::addTrack(AudioTrack track) {
+void WorkspaceModel::addTrack(AudioTrack *track) {
     beginInsertRows(QModelIndex(), tracks.size(), tracks.size());
     tracks.append(track);
     endInsertRows();
 }
 
-QList<AudioTrack>& WorkspaceModel::getTracks() {
+QList<AudioTrack*>& WorkspaceModel::getTracks() {
     return tracks;
 }
 
@@ -37,14 +37,14 @@ void WorkspaceModel::moveToken(int oldTrackIndex, int newTrackIndex, int tokenIn
     }
 
     // Извлекаем токен из старой дорожки
-    AudioToken token = tracks[oldTrackIndex].tokens.takeAt(tokenIndex);
+    AudioToken token = tracks[oldTrackIndex]->tokens.takeAt(tokenIndex);
 
     // Обновляем поля токена
     token.audioTrack = newTrackIndex;
     token.startPositionView = newStartPosition;
 
     // Добавляем токен в новую дорожку
-    tracks[newTrackIndex].addToken(token);
+    tracks[newTrackIndex]->addToken(token);
 
     // Уведомляем об изменениях
     emit dataChanged(index(oldTrackIndex), index(oldTrackIndex));

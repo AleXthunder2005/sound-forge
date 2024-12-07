@@ -7,6 +7,7 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/Projects/SoundForge/workspace-implementation/audiotrack.h \
   F:/Projects/SoundForge/workspace-implementation/workspacemodel.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/QAbstractListModel \
+  F:/QT/6.8.0/mingw_64/include/QtCore/QBuffer \
   F:/QT/6.8.0/mingw_64/include/QtCore/QByteArray \
   F:/QT/6.8.0/mingw_64/include/QtCore/QDebug \
   F:/QT/6.8.0/mingw_64/include/QtCore/QFile \
@@ -31,6 +32,7 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtCore/qatomic_cxx11.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qbasicatomic.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qbindingstorage.h \
+  F:/QT/6.8.0/mingw_64/include/QtCore/qbuffer.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qbytearray.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qbytearrayalgorithms.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qbytearraylist.h \
@@ -171,10 +173,12 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtGui/qwindowdefs.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qwindowdefs_win.h \
   F:/QT/6.8.0/mingw_64/include/QtMultimedia/QAudioFormat \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/QAudioOutput \
   F:/QT/6.8.0/mingw_64/include/QtMultimedia/QMediaMetaData \
   F:/QT/6.8.0/mingw_64/include/QtMultimedia/QMediaPlayer \
   F:/QT/6.8.0/mingw_64/include/QtMultimedia/qaudio.h \
   F:/QT/6.8.0/mingw_64/include/QtMultimedia/qaudioformat.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qaudiooutput.h \
   F:/QT/6.8.0/mingw_64/include/QtMultimedia/qmediametadata.h \
   F:/QT/6.8.0/mingw_64/include/QtMultimedia/qmediaplayer.h \
   F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtaudio.h \

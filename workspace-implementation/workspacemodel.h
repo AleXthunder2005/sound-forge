@@ -16,13 +16,14 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    void addTrack(AudioTrack track);
+    void addTrack(AudioTrack *track);
     void moveToken(int oldTrackIndex, int newTrackIndex, int tokenIndex, double newStartPosition);
 
 
 
-    QList<AudioTrack> &getTracks();
-    QList<AudioTrack> tracks;
+    QList<AudioTrack*> &getTracks();
+    QList<AudioTrack*> tracks;
+
 };
 
 #endif // WORKSPACEMODEL_H
