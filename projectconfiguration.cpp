@@ -14,6 +14,7 @@ QColor ProjectConfiguration::clScrollbar = BLUE_COLOR;
 QColor ProjectConfiguration::clTimeBar = DARK_GRAY_COLOR;
 QColor ProjectConfiguration::clTimeBarMark = WHITE_COLOR;
 QColor ProjectConfiguration::clAudioTrack = LIGHT_GRAY_COLOR;
+QColor ProjectConfiguration::clSelectedAudioTrack = SELECTED_TRACK_COLOR;
 QColor ProjectConfiguration::clAudioTrackMark = LIGHT_BLUE_COLOR;
 QColor ProjectConfiguration::clAudioTrackBoldMark = LIGHT_BLUE_BOLD_COLOR;
 

@@ -36,6 +36,16 @@ public:
     void resizeToFitContent();
     void wheelEvent(QWheelEvent *event) override;
 
+    void showTrackContextMenu(const QPoint &pos, int trackIndex);
+    void showTokenContextMenu(const QPoint &pos, int trackIndex, int tokenIndex);
+    void deleteTrack(int trackIndex);
+    void deleteToken(int trackIndex, int tokenIndex);
+    void openEditTokenWindow(int trackIndex, int tokenIndex);
+
+
+
+
+
     static WorkspaceModel *model;
 
     void dragEnterEvent(QDragEnterEvent *event);

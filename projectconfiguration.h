@@ -65,6 +65,8 @@ const QColor LIGHT_ORANGE_TOKEN_COLOR = QColor::fromRgb(0xe8, 0xc2, 0x6f, 130);
 //const QColor DARK_TEAL_TOKEN_COLOR = QColor::fromRgb(0x30, 0x6c, 0x6f, 200);
 //const QColor LIGHT_TEAL_TOKEN_COLOR = QColor::fromRgb(0x7b, 0xbb, 0xab, 130);
 
+const QColor SELECTED_TRACK_COLOR = QColor::fromRgb(0xf3, 0x7e, 0x63, 70);
+
 class ProjectConfiguration
 {
 public:
@@ -84,6 +86,7 @@ public:
     static QColor clTimeBar;
     static QColor clTimeBarMark;
     static QColor clAudioTrack;
+    static QColor clSelectedAudioTrack;
     static QColor clAudioTrackMark;
     static QColor clAudioTrackBoldMark;
     static QColor clDefaultTokenHeader;

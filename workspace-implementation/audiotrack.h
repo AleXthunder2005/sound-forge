@@ -27,6 +27,7 @@ public:
     QMediaPlayer *player;
     QAudioOutput *audioOutput;
     bool isTrackChanged;
+    bool isSelected;
     void processAudioTrack();
     void playTrack(qint64 startTime);
     void pauseTrack();

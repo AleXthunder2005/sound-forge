@@ -13,6 +13,9 @@
 #include <QDateTime>
 #include <QAudioOutput>
 #include <QBuffer>
+#include <QMenu>
+#include <QMenuBar>
+#include <QDialog>
 
 WorkspaceModel* AudioTrackFrame::model = nullptr;
 
@@ -68,7 +71,7 @@ void AudioTrackFrame::paintEvent(QPaintEvent *event) {
         AudioTrack *track = model->tracks[i];
 
         // Фон дорожки
-        painter.setBrush(ProjectConfiguration::clAudioTrack);
+        painter.setBrush((track->isSelected) ? ProjectConfiguration::clAudioTrack : ProjectConfiguration::clSelectedAudioTrack);
         painter.drawRect(0, TIME_BAR_HEIGHT + i * TRACK_HEIGHT, trackWidth, TRACK_HEIGHT);
     }
 
@@ -172,10 +175,10 @@ void AudioTrackFrame::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
         QPoint mousePos = event->pos();
 
-        //клик по тайм бару
+        // Клик по таймбару
         int scrollOffset = parentScrollArea->verticalScrollBar()->value();
         if (mousePos.y() > scrollOffset && mousePos.y() < scrollOffset + TIME_BAR_HEIGHT) {
-            currViewTime = mousePos.x() / scaleFactor;      //currTime при 1.0
+            currViewTime = mousePos.x() / scaleFactor;      // currTime при 1.0
             emit currTimeChanged();
             emit timeBarClicked();
             isCurrTimeChanging = true;
@@ -198,17 +201,138 @@ void AudioTrackFrame::mousePressEvent(QMouseEvent *event) {
             if (xClick > x && xClick < (x + w)) {
                 isTokenDragging = true;
                 draggedToken = new AudioToken(token);
-                draggedTokenDeltaX = xClick - token.startPositionView * scaleFactor;   //startPosition при 1.0
+                draggedTokenDeltaX = xClick - token.startPositionView * scaleFactor;   // startPosition при 1.0
                 draggedTokenDeltaY = yClick - token.audioTrack * TRACK_HEIGHT;
 
-                draggedTokenStartX = xClick - draggedTokenDeltaX;    //startX и deltaX в больших координатах
+                draggedTokenStartX = xClick - draggedTokenDeltaX;    // startX и deltaX в больших координатах
                 draggedTokenStartY = yClick - draggedTokenDeltaY;
                 draggedTokenIndex = tokenIndex;
                 break;
             }
         }
+    } else if (event->button() == Qt::RightButton) {
+        QPoint mousePos = event->pos();
+        int yClick = mousePos.y() - TIME_BAR_HEIGHT;
+        int trackIndex = yClick / TRACK_HEIGHT;
+
+        if (trackIndex < 0 || trackIndex >= model->rowCount()) return;
+
+        AudioTrack *track = model->tracks[trackIndex];
+
+        // Клик по токену
+        for (int tokenIndex = 0; tokenIndex < track->tokens.size(); ++tokenIndex) {
+            AudioToken token = track->tokens[tokenIndex];
+            double x = token.startPositionView * scaleFactor;
+            double w = token.relativeDurationView * scaleFactor;
+
+            if (mousePos.x() > x && mousePos.x() < (x + w)) {
+                showTokenContextMenu(mousePos, trackIndex, tokenIndex);
+                return;
+            }
+        }
+
+        // Клик по дорожке (не по токену)
+        showTrackContextMenu(mousePos, trackIndex);
     }
 }
+
+void AudioTrackFrame::showTrackContextMenu(const QPoint &pos, int trackIndex) {
+    QMenu contextMenu(this);
+
+    QAction *deleteAction = contextMenu.addAction("Delete audiotrack");
+    connect(deleteAction, &QAction::triggered, this, [=]() {
+        deleteTrack(trackIndex);
+    });
+
+    // Устанавливаем флаг выбранной дорожки
+    AudioTrack *currTrack = model->tracks[trackIndex];
+    currTrack->isSelected = true;
+
+    contextMenu.exec(mapToGlobal(pos));
+}
+
+void AudioTrackFrame::showTokenContextMenu(const QPoint &pos, int trackIndex, int tokenIndex) {
+    QMenu contextMenu(this);
+
+    QAction *deleteAction = contextMenu.addAction("Delete token");
+    connect(deleteAction, &QAction::triggered, this, [=]() {
+        deleteToken(trackIndex, tokenIndex);
+    });
+
+    QAction *editAction = contextMenu.addAction("Edit token");
+    connect(editAction, &QAction::triggered, this, [=]() {
+        openEditTokenWindow(trackIndex, tokenIndex);
+    });
+
+    contextMenu.exec(mapToGlobal(pos));
+}
+
+void AudioTrackFrame::deleteTrack(int trackIndex) {
+    if (trackIndex < 0 || trackIndex >= model->rowCount()) return;
+
+    delete model->tracks[trackIndex];
+    model->tracks.removeAt(trackIndex);
+
+    update(); // Перерисовать интерфейс
+}
+
+void AudioTrackFrame::deleteToken(int trackIndex, int tokenIndex) {
+    if (trackIndex < 0 || trackIndex >= model->rowCount()) return;
+
+    AudioTrack *track = model->tracks[trackIndex];
+    if (tokenIndex < 0 || tokenIndex >= track->tokens.size()) return;
+
+    track->tokens.removeAt(tokenIndex);
+
+    update(); // Перерисовать интерфейс
+}
+
+void AudioTrackFrame::openEditTokenWindow(int trackIndex, int tokenIndex) {
+    QDialog *editDialog = new QDialog(this);
+    editDialog->setWindowTitle("Edit Token");
+    editDialog->resize(800, 600);
+    editDialog->setModal(true);
+
+    QVBoxLayout *layout = new QVBoxLayout(editDialog);
+
+    // Верхнее меню
+    QMenuBar *menuBar = new QMenuBar(editDialog);
+    QMenu *fileMenu = menuBar->addMenu("File");
+    QAction *saveAction = fileMenu->addAction("Save");
+    connect(saveAction, &QAction::triggered, this, [=]() {
+        // Логика сохранения
+    });
+    QMenu *helpMenu = menuBar->addMenu("Help");
+    layout->setMenuBar(menuBar);
+
+    // Центральная область с аудиодорожкой
+    QScrollArea *scrollArea = new QScrollArea(editDialog);
+    QWidget *trackView = new QWidget(scrollArea);
+    trackView->setMinimumHeight(200); // Высота дорожки
+    trackView->setMinimumWidth(2000); // Для прокрутки
+    scrollArea->setWidget(trackView);
+    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    layout->addWidget(scrollArea);
+
+    // Нижние кнопки
+    QHBoxLayout *buttonLayout = new QHBoxLayout();
+    QPushButton *playButton = new QPushButton("Play", editDialog);
+    QPushButton *pauseButton = new QPushButton("Pause", editDialog);
+    QPushButton *stopButton = new QPushButton("Stop", editDialog);
+    QPushButton *sliceButton = new QPushButton("Slice", editDialog);
+    QPushButton *confirmButton = new QPushButton("Confirm", editDialog);
+
+    buttonLayout->addWidget(playButton);
+    buttonLayout->addWidget(pauseButton);
+    buttonLayout->addWidget(stopButton);
+    buttonLayout->addWidget(sliceButton);
+    buttonLayout->addWidget(confirmButton);
+
+    layout->addLayout(buttonLayout);
+
+    editDialog->exec();
+}
+
 
 void AudioTrackFrame::mouseMoveEvent(QMouseEvent *event) {
     QPoint mousePos = event->pos();
@@ -392,13 +516,6 @@ void AudioTrackFrame::onTrackAdded() {
 }
 
 void AudioTrackFrame::onPlayClicked() {
-    // for (AudioTrack *track: model->tracks) {
-    //     track->playTrack(currTime);
-    // }
-
-    // /////////////////////////opaaaaaa
-
-    //AudioTrack *totalTrack = new AudioTrack();
     AudioTrack *currTrack;
     QByteArray res;
 
@@ -418,15 +535,11 @@ void AudioTrackFrame::onPlayClicked() {
     totalTrack->playTrack(currTime);
 
     connect(totalTrack, &AudioTrack::audioFileFinished, this, &AudioTrackFrame::onAudioFileFinished);
-
-    //currTime = totalTrack->player->position();
-    //currViewTime = currTime / MS_TO_PX;
     update();
 
     startTime = QDateTime::currentMSecsSinceEpoch(); // запоминаем время начала
     startViewTime = currViewTime;
     timer->start(1); // срабатывает каждые 1 мс
-    // /////////////////////////popaaa
 }
 
 void AudioTrackFrame::onPauseClicked() {
