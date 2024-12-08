@@ -31,9 +31,13 @@ public:
     void playTrack(qint64 startTime);
     void pauseTrack();
     void setTrackChangeFlag();
+    void clearData();
 
 private slots:
     void onMediaStatusChanged(QMediaPlayer::MediaStatus status);
+
+signals:
+    void audioFileFinished();
 
 };
 

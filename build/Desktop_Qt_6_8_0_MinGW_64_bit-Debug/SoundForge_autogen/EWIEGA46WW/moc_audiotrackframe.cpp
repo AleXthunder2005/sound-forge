@@ -46,7 +46,8 @@ constexpr auto qt_meta_stringdata_CLASSAudioTrackFrameENDCLASS = QtMocHelpers::s
     "onPauseClicked",
     "onVerticalScrollBarChanged",
     "onCurrTimeChanged",
-    "onTrackChanged"
+    "onTrackChanged",
+    "onAudioFileFinished"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -59,7 +60,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSAudioTrackFrameENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       9,   14, // methods
+      10,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -67,17 +68,18 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSAudioTrackFrameENDCLASS[] = {
        3,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   68,    2, 0x06,    1 /* Public */,
-       3,    0,   69,    2, 0x06,    2 /* Public */,
-       4,    1,   70,    2, 0x06,    3 /* Public */,
+       1,    0,   74,    2, 0x06,    1 /* Public */,
+       3,    0,   75,    2, 0x06,    2 /* Public */,
+       4,    1,   76,    2, 0x06,    3 /* Public */,
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       6,    0,   73,    2, 0x0a,    5 /* Public */,
-       7,    0,   74,    2, 0x0a,    6 /* Public */,
-       8,    0,   75,    2, 0x0a,    7 /* Public */,
-       9,    0,   76,    2, 0x0a,    8 /* Public */,
-      10,    0,   77,    2, 0x0a,    9 /* Public */,
-      11,    1,   78,    2, 0x0a,   10 /* Public */,
+       6,    0,   79,    2, 0x0a,    5 /* Public */,
+       7,    0,   80,    2, 0x0a,    6 /* Public */,
+       8,    0,   81,    2, 0x0a,    7 /* Public */,
+       9,    0,   82,    2, 0x0a,    8 /* Public */,
+      10,    0,   83,    2, 0x0a,    9 /* Public */,
+      11,    1,   84,    2, 0x0a,   10 /* Public */,
+      12,    0,   87,    2, 0x0a,   12 /* Public */,
 
  // signals: parameters
     QMetaType::Void,
@@ -91,6 +93,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSAudioTrackFrameENDCLASS[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int,    5,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -123,7 +126,9 @@ Q_CONSTINIT const QMetaObject AudioTrackFrame::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'onTrackChanged'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<int, std::false_type>
+        QtPrivate::TypeAndForceComplete<int, std::false_type>,
+        // method 'onAudioFileFinished'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
 } };
@@ -143,6 +148,7 @@ void AudioTrackFrame::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
         case 6: _t->onVerticalScrollBarChanged(); break;
         case 7: _t->onCurrTimeChanged(); break;
         case 8: _t->onTrackChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 9: _t->onAudioFileFinished(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -190,13 +196,13 @@ int AudioTrackFrame::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 9)
+        if (_id < 10)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 9;
+        _id -= 10;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 9)
+        if (_id < 10)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 9;
+        _id -= 10;
     }
     return _id;
 }

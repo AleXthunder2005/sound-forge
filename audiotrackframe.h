@@ -56,6 +56,7 @@ public slots:
     void onVerticalScrollBarChanged();
     void onCurrTimeChanged();
     void onTrackChanged(int index);
+    void onAudioFileFinished();
 
 signals:
     void currTimeChanged();
@@ -72,7 +73,10 @@ private:
     int currViewTime;
     int startViewTime;
 
+    AudioTrack *totalTrack;
+
     void updateCurrTime(); // метод для обновления currTime
+    QByteArray mixWavFiles(QByteArray *wav1, QByteArray *wav2);
 };
 
 #endif // AUDIOTRACKFRAME_H

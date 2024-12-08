@@ -37,7 +37,7 @@ AudioTrackFrame::AudioTrackFrame(QWidget *parent, QScrollArea* scrollArea, Audio
     setMouseTracking(true);
 
     timer = new QTimer(this);
-
+    totalTrack = new AudioTrack();
 
     connect(scrollArea->verticalScrollBar(), &QScrollBar::valueChanged, this, &AudioTrackFrame::onVerticalScrollBarChanged);
     connect(this, &AudioTrackFrame::currTimeChanged, this, &AudioTrackFrame::onCurrTimeChanged);
@@ -392,13 +392,41 @@ void AudioTrackFrame::onTrackAdded() {
 }
 
 void AudioTrackFrame::onPlayClicked() {
+    // for (AudioTrack *track: model->tracks) {
+    //     track->playTrack(currTime);
+    // }
+
+    // /////////////////////////opaaaaaa
+
+    //AudioTrack *totalTrack = new AudioTrack();
+    AudioTrack *currTrack;
+    QByteArray res;
+
+    totalTrack = model->tracks[0];
+    totalTrack->processAudioTrack();
+    for (int i = 1; i < model->tracks.size(); i++) {
+        currTrack = model->tracks[i];
+        if (currTrack->tokens.isEmpty()) continue;
+
+        if (currTrack->isTrackChanged)
+            currTrack->processAudioTrack();
+
+        res = mixWavFiles(totalTrack->trackData, currTrack->trackData);
+        totalTrack->trackData = &res;
+    }
+    currTime = currViewTime * MS_TO_PX;
+    totalTrack->playTrack(currTime);
+
+    connect(totalTrack, &AudioTrack::audioFileFinished, this, &AudioTrackFrame::onAudioFileFinished);
+
+    //currTime = totalTrack->player->position();
+    //currViewTime = currTime / MS_TO_PX;
+    update();
+
     startTime = QDateTime::currentMSecsSinceEpoch(); // запоминаем время начала
     startViewTime = currViewTime;
     timer->start(1); // срабатывает каждые 1 мс
-
-    for (AudioTrack *track: model->tracks) {
-        track->playTrack(currTime);
-    }
+    // /////////////////////////popaaa
 }
 
 void AudioTrackFrame::onPauseClicked() {
@@ -409,6 +437,7 @@ void AudioTrackFrame::onPauseClicked() {
         for (AudioTrack *track: model->tracks) {
             track->pauseTrack();
         }
+        totalTrack->pauseTrack();
     }
     update();
 }
@@ -432,4 +461,96 @@ void AudioTrackFrame::onCurrTimeChanged() {
 
 void AudioTrackFrame::onTrackChanged(int index){
     model->tracks[index]->setTrackChangeFlag();
+}
+
+QByteArray AudioTrackFrame::mixWavFiles(QByteArray *wav1, QByteArray *wav2) {
+    // Проверяем, что оба файла имеют минимум заголовок
+    if (wav1->size() < 44 || wav2->size() < 44) {
+        qWarning() << "Invalid WAV files: too small!";
+        return QByteArray();
+    }
+
+    // Извлекаем заголовки
+    QByteArray header1 = wav1->left(44);
+    QByteArray header2 = wav2->left(44);
+
+    // Проверяем, что параметры WAV-файлов совпадают
+    if (header1.mid(22, 2) != header2.mid(22, 2) ||  // Количество каналов
+        header1.mid(24, 4) != header2.mid(24, 4) ||  // Частота дискретизации
+        header1.mid(34, 2) != header2.mid(34, 2)) {  // Битность
+        qWarning() << "WAV files have different formats!";
+        return QByteArray();
+    }
+
+    // Извлекаем параметры WAV
+    int16_t numChannels = qFromLittleEndian<int16_t>(reinterpret_cast<const uchar *>(header1.data() + 22));
+    int32_t sampleRate = qFromLittleEndian<int32_t>(reinterpret_cast<const uchar *>(header1.data() + 24));
+    int16_t bitsPerSample = qFromLittleEndian<int16_t>(reinterpret_cast<const uchar *>(header1.data() + 34));
+    int16_t bytesPerSample = bitsPerSample / 8;
+
+    if (bitsPerSample != 16) {
+        qWarning() << "Only 16-bit WAV files are supported!";
+        return QByteArray();
+    }
+
+    // Извлекаем аудиоданные
+    QByteArray data1 = wav1->mid(44);
+    QByteArray data2 = wav2->mid(44);
+
+    // Определяем длину аудиоданных
+    int maxLength = qMax(data1.size(), data2.size());
+
+    // Дополняем меньший файл нулями до длины большего
+    if (data1.size() < maxLength) {
+        data1.append(QByteArray(maxLength - data1.size(), 0));
+    }
+    if (data2.size() < maxLength) {
+        data2.append(QByteArray(maxLength - data2.size(), 0));
+    }
+
+    // Смешиваем аудиоданные
+    QByteArray mixedData;
+    mixedData.resize(maxLength);
+
+    for (int i = 0; i < maxLength; i += bytesPerSample) {
+        // Берем сэмплы как 16-битные значения
+        int16_t sample1 = qFromLittleEndian<int16_t>(reinterpret_cast<const uchar *>(data1.data() + i));
+        int16_t sample2 = qFromLittleEndian<int16_t>(reinterpret_cast<const uchar *>(data2.data() + i));
+
+        // Смешиваем сэмплы
+        int32_t mixedSample = sample1 + sample2;
+
+        // Ограничиваем диапазон значения
+        if (mixedSample > INT16_MAX) mixedSample = INT16_MAX;
+        if (mixedSample < INT16_MIN) mixedSample = INT16_MIN;
+
+        // Добавляем смешанный сэмпл в результирующий массив
+        qToLittleEndian<int16_t>(static_cast<int16_t>(mixedSample), reinterpret_cast<uchar *>(mixedData.data() + i));
+    }
+
+    // Создаем новый заголовок WAV
+    QByteArray newHeader = header1;
+    int32_t newDataSize = mixedData.size();
+    int32_t newFileSize = 36 + newDataSize;
+
+    // Обновляем размер файла в заголовке
+    qToLittleEndian<int32_t>(newFileSize, reinterpret_cast<uchar *>(newHeader.data() + 4));
+    // Обновляем размер аудиоданных в заголовке
+    qToLittleEndian<int32_t>(newDataSize, reinterpret_cast<uchar *>(newHeader.data() + 40));
+
+    // Соединяем заголовок и данные
+    QByteArray result = newHeader + mixedData;
+    return result;
+}
+
+void AudioTrackFrame::onAudioFileFinished() {
+    if (!totalTrack->tokens.isEmpty()) {
+        timer->stop();
+        currTime = 0;
+        currViewTime = 0;
+        startTime = QDateTime::currentMSecsSinceEpoch(); // запоминаем время начала
+        startViewTime = currViewTime;
+        timer->start(1); // срабатывает каждые 1 мс
+        update();
+    }
 }
