@@ -21,10 +21,9 @@ public:
     int draggedTokenIndex;
     double draggedTokenDeltaX; //расстояние от startPosition до точки захвата
     double draggedTokenDeltaY; //расстояние от startPosition до точки захвата
-
+    WorkspaceModel *model;
     int trackTactCount;
     double tactDuration;
-
 
     explicit AudioTrackFrame(QWidget *parent = nullptr, QScrollArea *scrollArea = nullptr, AudioFileLinker *linker = nullptr);
     void setModel(WorkspaceModel *model);
@@ -43,10 +42,6 @@ public:
     void openEditTokenWindow(int trackIndex, int tokenIndex);
 
 
-
-
-
-    static WorkspaceModel *model;
 
     void dragEnterEvent(QDragEnterEvent *event);
     void dragMoveEvent(QDragMoveEvent *event);

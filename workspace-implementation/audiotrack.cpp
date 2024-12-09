@@ -15,7 +15,7 @@ AudioTrack::AudioTrack(QObject *parent) : QObject(parent)
     player = new QMediaPlayer;
     audioOutput = new QAudioOutput;
     buffer = new QBuffer;
-
+    isSelected = false;
     connect(player, &QMediaPlayer::mediaStatusChanged, this, &AudioTrack::onMediaStatusChanged);
 }
 

@@ -62,10 +62,10 @@ const QColor LIGHT_DRAGGED_TOKEN_COLOR = QColor::fromRgb(0xf3, 0x7e, 0x63, 70);
 const QColor DARK_ORANGE_TOKEN_COLOR = QColor::fromRgb(0xd8, 0x9b, 0x2b, 200);
 const QColor LIGHT_ORANGE_TOKEN_COLOR = QColor::fromRgb(0xe8, 0xc2, 0x6f, 130);
 
-//const QColor DARK_TEAL_TOKEN_COLOR = QColor::fromRgb(0x30, 0x6c, 0x6f, 200);
-//const QColor LIGHT_TEAL_TOKEN_COLOR = QColor::fromRgb(0x7b, 0xbb, 0xab, 130);
+const QColor DARK_TEAL_TOKEN_COLOR = QColor::fromRgb(0x30, 0x6c, 0x6f, 200);
+const QColor LIGHT_TEAL_TOKEN_COLOR = QColor::fromRgb(0x7b, 0xbb, 0xab, 130);
 
-const QColor SELECTED_TRACK_COLOR = QColor::fromRgb(0xf3, 0x7e, 0x63, 70);
+const QColor SELECTED_TRACK_COLOR = QColor::fromRgb(0x7b, 0xbb, 0xab, 130);
 
 class ProjectConfiguration
 {
@@ -91,6 +91,8 @@ public:
     static QColor clAudioTrackBoldMark;
     static QColor clDefaultTokenHeader;
     static QColor clDefaultTokenMainContent;
+    static QColor clSelectedAudioTokenHeader;
+    static QColor clSelectedAudioTokenMain;
     static QColor clTokenText;
 };
 

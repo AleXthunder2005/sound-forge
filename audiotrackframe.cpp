@@ -3,6 +3,7 @@
 #include "workspace-implementation/workspacemodel.h"
 #include "audiofilelinker.h"
 #include "controlpanel.h"
+#include "audiotrackdialog.h"
 #include <QPainter>
 #include <QMouseEvent>
 #include <cmath>
@@ -16,8 +17,6 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <QDialog>
-
-WorkspaceModel* AudioTrackFrame::model = nullptr;
 
 AudioTrackFrame::AudioTrackFrame(QWidget *parent, QScrollArea* scrollArea, AudioFileLinker *linker)
     : QFrame(parent),
@@ -34,7 +33,8 @@ AudioTrackFrame::AudioTrackFrame(QWidget *parent, QScrollArea* scrollArea, Audio
     tactDuration(DEFAULT_TACT_DURATION),
     parentScrollArea(scrollArea),
     fileLinker(linker),
-    scaleFactor(1.0)
+    scaleFactor(1.0),
+    model(nullptr)
 {
     setAcceptDrops(true);
     setMouseTracking(true);
@@ -71,7 +71,7 @@ void AudioTrackFrame::paintEvent(QPaintEvent *event) {
         AudioTrack *track = model->tracks[i];
 
         // Фон дорожки
-        painter.setBrush((track->isSelected) ? ProjectConfiguration::clAudioTrack : ProjectConfiguration::clSelectedAudioTrack);
+        painter.setBrush((track->isSelected) ? ProjectConfiguration::clSelectedAudioTrack : ProjectConfiguration::clAudioTrack);
         painter.drawRect(0, TIME_BAR_HEIGHT + i * TRACK_HEIGHT, trackWidth, TRACK_HEIGHT);
     }
 
@@ -86,12 +86,12 @@ void AudioTrackFrame::paintEvent(QPaintEvent *event) {
             for (int j = 0; j < track->tokens.size(); j++) {
                 if (draggedTokenIndex != j) {
                     AudioToken token = track->tokens.at(j);
-                    token.drawToken(&painter, scaleFactor); // Передаем масштаб
+                    token.drawToken(&painter, scaleFactor, TRACK_HEIGHT); // Передаем масштаб
                 }
             }
         } else {
             for (AudioToken token : track->tokens) {
-                token.drawToken(&painter, scaleFactor); // Передаем масштаб
+                token.drawToken(&painter, scaleFactor, TRACK_HEIGHT); // Передаем масштаб
             }
         }
 
@@ -236,104 +236,6 @@ void AudioTrackFrame::mousePressEvent(QMouseEvent *event) {
     }
 }
 
-void AudioTrackFrame::showTrackContextMenu(const QPoint &pos, int trackIndex) {
-    QMenu contextMenu(this);
-
-    QAction *deleteAction = contextMenu.addAction("Delete audiotrack");
-    connect(deleteAction, &QAction::triggered, this, [=]() {
-        deleteTrack(trackIndex);
-    });
-
-    // Устанавливаем флаг выбранной дорожки
-    AudioTrack *currTrack = model->tracks[trackIndex];
-    currTrack->isSelected = true;
-
-    contextMenu.exec(mapToGlobal(pos));
-}
-
-void AudioTrackFrame::showTokenContextMenu(const QPoint &pos, int trackIndex, int tokenIndex) {
-    QMenu contextMenu(this);
-
-    QAction *deleteAction = contextMenu.addAction("Delete token");
-    connect(deleteAction, &QAction::triggered, this, [=]() {
-        deleteToken(trackIndex, tokenIndex);
-    });
-
-    QAction *editAction = contextMenu.addAction("Edit token");
-    connect(editAction, &QAction::triggered, this, [=]() {
-        openEditTokenWindow(trackIndex, tokenIndex);
-    });
-
-    contextMenu.exec(mapToGlobal(pos));
-}
-
-void AudioTrackFrame::deleteTrack(int trackIndex) {
-    if (trackIndex < 0 || trackIndex >= model->rowCount()) return;
-
-    delete model->tracks[trackIndex];
-    model->tracks.removeAt(trackIndex);
-
-    update(); // Перерисовать интерфейс
-}
-
-void AudioTrackFrame::deleteToken(int trackIndex, int tokenIndex) {
-    if (trackIndex < 0 || trackIndex >= model->rowCount()) return;
-
-    AudioTrack *track = model->tracks[trackIndex];
-    if (tokenIndex < 0 || tokenIndex >= track->tokens.size()) return;
-
-    track->tokens.removeAt(tokenIndex);
-
-    update(); // Перерисовать интерфейс
-}
-
-void AudioTrackFrame::openEditTokenWindow(int trackIndex, int tokenIndex) {
-    QDialog *editDialog = new QDialog(this);
-    editDialog->setWindowTitle("Edit Token");
-    editDialog->resize(800, 600);
-    editDialog->setModal(true);
-
-    QVBoxLayout *layout = new QVBoxLayout(editDialog);
-
-    // Верхнее меню
-    QMenuBar *menuBar = new QMenuBar(editDialog);
-    QMenu *fileMenu = menuBar->addMenu("File");
-    QAction *saveAction = fileMenu->addAction("Save");
-    connect(saveAction, &QAction::triggered, this, [=]() {
-        // Логика сохранения
-    });
-    QMenu *helpMenu = menuBar->addMenu("Help");
-    layout->setMenuBar(menuBar);
-
-    // Центральная область с аудиодорожкой
-    QScrollArea *scrollArea = new QScrollArea(editDialog);
-    QWidget *trackView = new QWidget(scrollArea);
-    trackView->setMinimumHeight(200); // Высота дорожки
-    trackView->setMinimumWidth(2000); // Для прокрутки
-    scrollArea->setWidget(trackView);
-    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    layout->addWidget(scrollArea);
-
-    // Нижние кнопки
-    QHBoxLayout *buttonLayout = new QHBoxLayout();
-    QPushButton *playButton = new QPushButton("Play", editDialog);
-    QPushButton *pauseButton = new QPushButton("Pause", editDialog);
-    QPushButton *stopButton = new QPushButton("Stop", editDialog);
-    QPushButton *sliceButton = new QPushButton("Slice", editDialog);
-    QPushButton *confirmButton = new QPushButton("Confirm", editDialog);
-
-    buttonLayout->addWidget(playButton);
-    buttonLayout->addWidget(pauseButton);
-    buttonLayout->addWidget(stopButton);
-    buttonLayout->addWidget(sliceButton);
-    buttonLayout->addWidget(confirmButton);
-
-    layout->addLayout(buttonLayout);
-
-    editDialog->exec();
-}
-
-
 void AudioTrackFrame::mouseMoveEvent(QMouseEvent *event) {
     QPoint mousePos = event->pos();
 
@@ -396,6 +298,71 @@ void AudioTrackFrame::mouseReleaseEvent(QMouseEvent *event) {
 
         update();
     }
+}
+
+void AudioTrackFrame::showTrackContextMenu(const QPoint &pos, int trackIndex) {
+    QMenu contextMenu(this);
+
+    QAction *deleteAction = contextMenu.addAction("Delete audiotrack");
+    connect(deleteAction, &QAction::triggered, this, [=]() {
+        deleteTrack(trackIndex);
+    });
+
+    // Устанавливаем флаг выбранной дорожки
+    AudioTrack *currTrack = model->tracks[trackIndex];
+    currTrack->isSelected = true;
+
+    // Сбрасываем флаг, когда меню закрывается
+    connect(&contextMenu, &QMenu::aboutToHide, this, [=]() {
+        currTrack->isSelected = false;
+    });
+
+    contextMenu.exec(mapToGlobal(pos));
+}
+
+void AudioTrackFrame::showTokenContextMenu(const QPoint &pos, int trackIndex, int tokenIndex) {
+    QMenu contextMenu(this);
+
+    AudioToken *currToken = &model->tracks[trackIndex]->tokens[tokenIndex];
+    currToken->setSelectedFlag();
+
+    // Сбрасываем флаг, когда меню закрывается
+    connect(&contextMenu, &QMenu::aboutToHide, this, [currToken]() {
+        currToken->resetSelectedFlag();
+    });
+
+    QAction *deleteAction = contextMenu.addAction("Delete token");
+    connect(deleteAction, &QAction::triggered, this, [=]() {
+        deleteToken(trackIndex, tokenIndex);
+    });
+
+    QAction *editAction = contextMenu.addAction("Edit token");
+    connect(editAction, &QAction::triggered, this, [=]() {
+        openEditTokenWindow(trackIndex, tokenIndex);
+    });
+
+    contextMenu.exec(mapToGlobal(pos));
+}
+
+void AudioTrackFrame::deleteTrack(int trackIndex) {
+    if (trackIndex < 0 || trackIndex >= model->rowCount()) return;
+
+    delete model->tracks[trackIndex];
+    model->tracks.removeAt(trackIndex);
+
+    update(); // Перерисовать интерфейс
+}
+
+void AudioTrackFrame::deleteToken(int trackIndex, int tokenIndex) {
+    if (trackIndex < 0 || trackIndex >= model->rowCount()) return;
+
+    AudioTrack *track = model->tracks[trackIndex];
+    if (tokenIndex < 0 || tokenIndex >= track->tokens.size()) return;
+
+    track->tokens.removeAt(tokenIndex);
+    track->isTrackChanged = true;
+
+    update(); // Перерисовать интерфейс
 }
 
 void AudioTrackFrame::resizeToFitContent() {
@@ -664,6 +631,16 @@ void AudioTrackFrame::onAudioFileFinished() {
         startTime = QDateTime::currentMSecsSinceEpoch(); // запоминаем время начала
         startViewTime = currViewTime;
         timer->start(1); // срабатывает каждые 1 мс
+        update();
+    }
+}
+
+void AudioTrackFrame::openEditTokenWindow(int trackIndex, int tokenIndex) {
+    AudioTrackDialog dialog(trackIndex, tokenIndex, fileLinker, this);
+    if (dialog.exec() == QDialog::Accepted) {
+        //QList<AudioToken> updatedTokens = dialog.getTokens();
+        // Обновляем модель с новыми токенами
+        //model->tracks[trackIndex]->tokens = updatedTokens;
         update();
     }
 }

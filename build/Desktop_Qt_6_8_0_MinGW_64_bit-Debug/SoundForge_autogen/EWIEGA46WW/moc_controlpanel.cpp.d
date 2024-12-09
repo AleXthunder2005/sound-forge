@@ -1,10 +1,28 @@
 F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_autogen/EWIEGA46WW/moc_controlpanel.cpp: F:/Projects/SoundForge/controlpanel.h \
   F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_autogen/moc_predefs.h \
+  F:/Projects/SoundForge/audiofilelinker.h \
+  F:/Projects/SoundForge/audiofileobject.h \
+  F:/Projects/SoundForge/audiotrackframe.h \
+  F:/Projects/SoundForge/projectconfiguration.h \
+  F:/Projects/SoundForge/workspace-implementation/audiotoken.h \
+  F:/Projects/SoundForge/workspace-implementation/audiotrack.h \
+  F:/Projects/SoundForge/workspace-implementation/workspacemodel.h \
+  F:/QT/6.8.0/mingw_64/include/QtCore/QAbstractListModel \
+  F:/QT/6.8.0/mingw_64/include/QtCore/QBuffer \
+  F:/QT/6.8.0/mingw_64/include/QtCore/QByteArray \
+  F:/QT/6.8.0/mingw_64/include/QtCore/QDebug \
+  F:/QT/6.8.0/mingw_64/include/QtCore/QFile \
+  F:/QT/6.8.0/mingw_64/include/QtCore/QList \
+  F:/QT/6.8.0/mingw_64/include/QtCore/QObject \
+  F:/QT/6.8.0/mingw_64/include/QtCore/QString \
+  F:/QT/6.8.0/mingw_64/include/QtCore/QUrl \
+  F:/QT/6.8.0/mingw_64/include/QtCore/QVariant \
   F:/QT/6.8.0/mingw_64/include/QtCore/q20functional.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/q20iterator.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/q20memory.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/q20type_traits.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/q23utility.h \
+  F:/QT/6.8.0/mingw_64/include/QtCore/qabstractitemmodel.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qalgorithms.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qanystringview.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qarraydata.h \
@@ -15,6 +33,7 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtCore/qatomic_cxx11.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qbasicatomic.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qbindingstorage.h \
+  F:/QT/6.8.0/mingw_64/include/QtCore/qbuffer.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qbytearray.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qbytearrayalgorithms.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qbytearraylist.h \
@@ -35,6 +54,8 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtCore/qdebug.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qendian.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qexceptionhandling.h \
+  F:/QT/6.8.0/mingw_64/include/QtCore/qfile.h \
+  F:/QT/6.8.0/mingw_64/include/QtCore/qfiledevice.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qflags.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qfloat16.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qforeach.h \
@@ -45,6 +66,7 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtCore/qglobalstatic.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qhash.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qhashfunctions.h \
+  F:/QT/6.8.0/mingw_64/include/QtCore/qiodevice.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qiodevicebase.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qiterable.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qiterator.h \
@@ -114,12 +136,15 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtCore/qtversionchecks.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qtypeinfo.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qtypes.h \
+  F:/QT/6.8.0/mingw_64/include/QtCore/qurl.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qutf8stringview.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qvariant.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qvarlengtharray.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qversiontagging.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qxptype_traits.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qyieldcpu.h \
+  F:/QT/6.8.0/mingw_64/include/QtGui/QColor \
+  F:/QT/6.8.0/mingw_64/include/QtGui/QPainter \
   F:/QT/6.8.0/mingw_64/include/QtGui/qaction.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qbitmap.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qbrush.h \
@@ -132,29 +157,48 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtGui/qimage.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qkeysequence.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qpaintdevice.h \
+  F:/QT/6.8.0/mingw_64/include/QtGui/qpainter.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qpalette.h \
+  F:/QT/6.8.0/mingw_64/include/QtGui/qpen.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qpixelformat.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qpixmap.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qpolygon.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qregion.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qrgb.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qrgba64.h \
+  F:/QT/6.8.0/mingw_64/include/QtGui/qtextoption.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qtgui-config.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qtguiexports.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qtguiglobal.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qtransform.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qwindowdefs.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qwindowdefs_win.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/QAudioFormat \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/QAudioOutput \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/QMediaMetaData \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/QMediaPlayer \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qaudio.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qaudioformat.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qaudiooutput.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qmediametadata.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qmediaplayer.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtaudio.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+  F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/QFrame \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/QHBoxLayout \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/QPushButton \
+  F:/QT/6.8.0/mingw_64/include/QtWidgets/QScrollArea \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qabstractbutton.h \
+  F:/QT/6.8.0/mingw_64/include/QtWidgets/qabstractscrollarea.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qboxlayout.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qframe.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qgridlayout.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qlayout.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qlayoutitem.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qpushbutton.h \
+  F:/QT/6.8.0/mingw_64/include/QtWidgets/qscrollarea.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qsizepolicy.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qtwidgets-config.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qtwidgetsexports.h \
@@ -173,11 +217,14 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/allocator.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/atomic_base.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/atomic_lockfree_defines.h \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/basic_ios.h \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/basic_ios.tcc \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/basic_string.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/basic_string.tcc \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/char_traits.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/charconv.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/chrono.h \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/codecvt.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/concept_check.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/cpp_type_traits.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/cxxabi_forced.h \
@@ -187,6 +234,10 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/exception.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/exception_defines.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/exception_ptr.h \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/fs_dir.h \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/fs_fwd.h \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/fs_ops.h \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/fs_path.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/functexcept.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/functional_hash.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/hash_bytes.h \
@@ -194,9 +245,15 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/hashtable_policy.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/invoke.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/ios_base.h \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/istream.tcc \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/list.tcc \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/locale_classes.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/locale_classes.tcc \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/locale_conv.h \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/locale_facets.h \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/locale_facets.tcc \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/locale_facets_nonio.h \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/locale_facets_nonio.tcc \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/localefwd.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/memory_resource.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/memoryfwd.h \
@@ -204,11 +261,13 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/nested_exception.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/new_allocator.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/node_handle.h \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/ostream.tcc \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/ostream_insert.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/parse_numbers.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/postypes.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/predefined_ops.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/ptr_traits.h \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/quoted_string.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/range_access.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/refwrap.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/requires_hosted.h \
@@ -216,6 +275,7 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/shared_ptr_atomic.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/shared_ptr_base.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/specfun.h \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/sstream.tcc \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_abs.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_function.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_algo.h \
@@ -257,6 +317,7 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/climits \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/clocale \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cmath \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/codecvt \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/compare \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cstddef \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cstdint \
@@ -265,6 +326,7 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cstring \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ctime \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cwchar \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cwctype \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/debug/assertions.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/debug/debug.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/exception \
@@ -275,22 +337,29 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ext/numeric_traits.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ext/string_conversions.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ext/type_traits.h \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/filesystem \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/functional \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/initializer_list \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/iomanip \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ios \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/iosfwd \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/istream \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/iterator \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/limits \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/list \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/locale \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/map \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/memory \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/new \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/numeric \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/optional \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ostream \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/pstl/execution_defs.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/pstl/glue_algorithm_defs.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/pstl/glue_memory_defs.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/pstl/glue_numeric_defs.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ratio \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/sstream \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/stdexcept \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/stdlib.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/streambuf \
@@ -321,10 +390,14 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/c++config.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/c++locale.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/cpu_defines.h \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/ctype_base.h \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/ctype_inline.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/error_constants.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/gthr-default.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/gthr.h \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/messages_members.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/os_defines.h \
+  F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/time_members.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/limits.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/stdarg.h \
   F:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/stdbool.h \
@@ -365,4 +438,5 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/sys/types.h \
   F:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h \
   F:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h \
-  F:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h
+  F:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h \
+  F:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/wctype.h

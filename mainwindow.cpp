@@ -66,7 +66,7 @@ void MainWindow::setupUI() {
 
 
     // Панель управления внизу
-    ControlPanel *controlPanel = new ControlPanel(this);
+    ControlPanel *controlPanel = new ControlPanel(trackFrame, this);
     controlPanel->setFixedHeight(this->height() * DEFAULT_CONTROL_PANEL_RELATIVE_HEIGHT);
     workspaceLayout->addWidget(controlPanel);
 

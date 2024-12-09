@@ -6,6 +6,8 @@ SoundForge_autogen/timestamp: \
 	F:/Projects/SoundForge/audiofilelist.h \
 	F:/Projects/SoundForge/audiofileobject.cpp \
 	F:/Projects/SoundForge/audiofileobject.h \
+	F:/Projects/SoundForge/audiotrackdialog.cpp \
+	F:/Projects/SoundForge/audiotrackdialog.h \
 	F:/Projects/SoundForge/audiotrackframe.cpp \
 	F:/Projects/SoundForge/audiotrackframe.h \
 	F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/.qtc/package-manager/auto-setup.cmake \
@@ -41,6 +43,7 @@ SoundForge_autogen/timestamp: \
 	F:/QT/6.8.0/mingw_64/include/QtCore/QString \
 	F:/QT/6.8.0/mingw_64/include/QtCore/QUrl \
 	F:/QT/6.8.0/mingw_64/include/QtCore/QVariant \
+	F:/QT/6.8.0/mingw_64/include/QtCore/QVector \
 	F:/QT/6.8.0/mingw_64/include/QtCore/q20functional.h \
 	F:/QT/6.8.0/mingw_64/include/QtCore/q20iterator.h \
 	F:/QT/6.8.0/mingw_64/include/QtCore/q20memory.h \
@@ -181,12 +184,14 @@ SoundForge_autogen/timestamp: \
 	F:/QT/6.8.0/mingw_64/include/QtCore/qutf8stringview.h \
 	F:/QT/6.8.0/mingw_64/include/QtCore/qvariant.h \
 	F:/QT/6.8.0/mingw_64/include/QtCore/qvarlengtharray.h \
+	F:/QT/6.8.0/mingw_64/include/QtCore/qvector.h \
 	F:/QT/6.8.0/mingw_64/include/QtCore/qversiontagging.h \
 	F:/QT/6.8.0/mingw_64/include/QtCore/qxptype_traits.h \
 	F:/QT/6.8.0/mingw_64/include/QtCore/qyieldcpu.h \
 	F:/QT/6.8.0/mingw_64/include/QtGui/QColor \
 	F:/QT/6.8.0/mingw_64/include/QtGui/QDragEnterEvent \
 	F:/QT/6.8.0/mingw_64/include/QtGui/QDropEvent \
+	F:/QT/6.8.0/mingw_64/include/QtGui/QMouseEvent \
 	F:/QT/6.8.0/mingw_64/include/QtGui/QPainter \
 	F:/QT/6.8.0/mingw_64/include/QtGui/QStandardItemModel \
 	F:/QT/6.8.0/mingw_64/include/QtGui/QTransform \
@@ -246,6 +251,7 @@ SoundForge_autogen/timestamp: \
 	F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
 	F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
 	F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
+	F:/QT/6.8.0/mingw_64/include/QtWidgets/QDialog \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QFrame \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QHBoxLayout \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QLabel \
@@ -255,6 +261,9 @@ SoundForge_autogen/timestamp: \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QMenuBar \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QPushButton \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QScrollArea \
+	F:/QT/6.8.0/mingw_64/include/QtWidgets/QScrollBar \
+	F:/QT/6.8.0/mingw_64/include/QtWidgets/QVBoxLayout \
+	F:/QT/6.8.0/mingw_64/include/QtWidgets/QWidget \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qabstractbutton.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qabstractitemview.h \
@@ -262,6 +271,7 @@ SoundForge_autogen/timestamp: \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qabstractslider.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qabstractspinbox.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qboxlayout.h \
+	F:/QT/6.8.0/mingw_64/include/QtWidgets/qdialog.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qframe.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qgridlayout.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qlabel.h \
@@ -274,6 +284,7 @@ SoundForge_autogen/timestamp: \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qpushbutton.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qrubberband.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qscrollarea.h \
+	F:/QT/6.8.0/mingw_64/include/QtWidgets/qscrollbar.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qsizepolicy.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qslider.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qstyle.h \

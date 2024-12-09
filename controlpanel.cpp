@@ -3,10 +3,11 @@
 #include "audiotrackframe.h"
 #include "workspace-implementation/workspacemodel.h"
 
-ControlPanel::ControlPanel(QWidget *parent): QFrame(parent) {
+ControlPanel::ControlPanel(AudioTrackFrame *trackframe, QWidget *parent): QFrame(parent) {
     playButton = new QPushButton("Play", this);
     pauseButton = new QPushButton("Pause", this);
     addTrackButton = new QPushButton("Add track", this);
+    this->trackFrame = trackframe;
 
     addTrackButton->setFixedWidth(ADD_TRACK_BUTTON_WIDTH);
 
@@ -29,7 +30,7 @@ ControlPanel::ControlPanel(QWidget *parent): QFrame(parent) {
 void ControlPanel::onAddTrackButtonClicked() {
     // Create a new track and add it to the model
     AudioTrack *newTrack = new AudioTrack();
-    AudioTrackFrame::model->addTrack(newTrack);
+    trackFrame->model->addTrack(newTrack);
 
     emit trackAdded();
 }

@@ -4,17 +4,19 @@
 #include <QFrame>
 #include <QPushButton>
 #include <QHBoxLayout>
+#include "audiotrackframe.h"
 
 class ControlPanel : public QFrame {
     Q_OBJECT
 
 public:
-    ControlPanel(QWidget *parent = nullptr);
+    ControlPanel(AudioTrackFrame *trackframe, QWidget *parent = nullptr);
 
 private:
     QPushButton *playButton;
     QPushButton *pauseButton;
     QPushButton *addTrackButton;
+    AudioTrackFrame* trackFrame;
 
 private slots:
     void onAddTrackButtonClicked(); // Slot for button click
