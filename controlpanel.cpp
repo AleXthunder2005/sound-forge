@@ -11,8 +11,6 @@ ControlPanel::ControlPanel(AudioTrackFrame *trackframe, QWidget *parent): QFrame
     addTrackButton = new QPushButton("Add track", this);
     this->trackFrame = trackframe;
 
-    addTrackButton->setFixedWidth(ADD_TRACK_BUTTON_WIDTH);
-
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->addWidget(addTrackButton);
     layout->addWidget(playButton);

@@ -23,7 +23,10 @@ AudioFileList::AudioFileList(QWidget *parent, AudioFileLinker *linker) : QListVi
                   + "QScrollBar:vertical { border: none; background:  " + ProjectConfiguration::clScrollbarBackround.name() + "; width: " + QString::number(DEFAULT_SCROLLBAR_SIZE) + "px; }"
                   + "QScrollBar::handle:vertical { background:  " + ProjectConfiguration::clScrollbar.name() + ";}"
                   + "QScrollBar:horizontal { border: none; background:  " + ProjectConfiguration::clScrollbarBackround.name() + "; height: " + QString::number(DEFAULT_SCROLLBAR_SIZE) + "px; }"
-                  + "QScrollBar::handle:horizontal { background:  " + ProjectConfiguration::clScrollbar.name() + ";}");
+                  + "QScrollBar::handle:horizontal { background:  " + ProjectConfiguration::clScrollbar.name() + ";}"
+                  + "QMenu { background-color: " + ProjectConfiguration::clSidePanel.name() + "; color: " + ProjectConfiguration::clSidePanelText.name() + "; }"
+                  + "QMenu::item:selected { background-color: " + ProjectConfiguration::clMenuBarItemSelected.name() + "; }"
+                  );
 
     audioFileLinker = linker;
     loadAudioFiles(AUDIO_RESOURCES_PATH);

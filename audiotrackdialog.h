@@ -35,6 +35,7 @@ private:
     // void handleMouseMove(QMouseEvent *event);
     // void handleMouseRelease(QMouseEvent *event);
     void confirmChanges();
+    void cancelChanges();
 
 private:
     AudioTrack *dialogTrack;

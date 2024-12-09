@@ -35,14 +35,15 @@ void MainWindow::setupUI() {
 
     // Оборачиваем trackFrame в QScrollArea
     QScrollArea *scrollArea = new QScrollArea(this);
-    scrollArea-> setStyleSheet("QFrame { background-color: " + ProjectConfiguration::clSidePanel.name() + "; color:  " + ProjectConfiguration::clSidePanelText.name() + "; }"
-                             + "QScrollBar:vertical { border: none; background:  " + ProjectConfiguration::clScrollbarBackround.name() + "; width: " + QString::number(DEFAULT_SCROLLBAR_SIZE) + "px; }"
-                             + "QScrollBar::handle:vertical { background:  " + ProjectConfiguration::clScrollbar.name() + ";}"
-                             + "QScrollBar:horizontal { border: none; background:  " + ProjectConfiguration::clScrollbarBackround.name() + "; height: " + QString::number(DEFAULT_SCROLLBAR_SIZE) + "px; }"
-                             + "QScrollBar::handle:horizontal { background:  " + ProjectConfiguration::clScrollbar.name() + ";}"
-                             + "QMenu { background-color: " + ProjectConfiguration::clSidePanel.name() + "; color: " + ProjectConfiguration::clSidePanelText.name() + "; }"
-                             + "QMenu::item:selected { background-color: " + ProjectConfiguration::clMenuBarItemSelected.name() + "; }"
-                              );
+    scrollArea-> setStyleSheet(
+        "QFrame { background-color: " + ProjectConfiguration::clSidePanel.name() + "; color:  " + ProjectConfiguration::clSidePanelText.name() + "; }"
+      + "QScrollBar:vertical { border: none; background:  " + ProjectConfiguration::clScrollbarBackround.name() + "; width: " + QString::number(DEFAULT_SCROLLBAR_SIZE) + "px; }"
+      + "QScrollBar::handle:vertical { background:  " + ProjectConfiguration::clScrollbar.name() + ";}"
+      + "QScrollBar:horizontal { border: none; background:  " + ProjectConfiguration::clScrollbarBackround.name() + "; height: " + QString::number(DEFAULT_SCROLLBAR_SIZE) + "px; }"
+      + "QScrollBar::handle:horizontal { background:  " + ProjectConfiguration::clScrollbar.name() + ";}"
+      + "QMenu { background-color: " + ProjectConfiguration::clSidePanel.name() + "; color: " + ProjectConfiguration::clSidePanelText.name() + "; }"
+      + "QMenu::item:selected { background-color: " + ProjectConfiguration::clMenuBarItemSelected.name() + "; }"
+    );
 
     // Фрейм для отображения аудиодорожек
     AudioTrackFrame *trackFrame = new AudioTrackFrame(TRACK_HEIGHT, this, scrollArea, linker);
