@@ -26,6 +26,9 @@ public:
     double tactDuration;
     int trackHeight;
 
+    bool isSlicing;
+    int slicingX;
+
     explicit AudioTrackFrame(int trackHeight = TRACK_HEIGHT, QWidget *parent = nullptr, QScrollArea *scrollArea = nullptr, AudioFileLinker *linker = nullptr);
     void setModel(WorkspaceModel *model);
     WorkspaceModel* getModel();
@@ -81,6 +84,7 @@ private:
     qint64 currTime;
     int currViewTime;
     int startViewTime;
+
 
     AudioTrack *totalTrack;
 

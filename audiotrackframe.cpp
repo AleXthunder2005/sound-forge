@@ -36,7 +36,9 @@ AudioTrackFrame::AudioTrackFrame(int trackHeight, QWidget *parent, QScrollArea* 
     fileLinker(linker),
     scaleFactor(1.0),
     model(nullptr),
-    trackHeight(trackHeight)
+    trackHeight(trackHeight),
+    isSlicing(false),
+    slicingX(0)
 {
     setAcceptDrops(true);
     setMouseTracking(true);
@@ -103,8 +105,8 @@ void AudioTrackFrame::paintEvent(QPaintEvent *event) {
             int x = draggedTokenStartX;
             int targetTrack = (draggedTokenStartY) / trackHeight;
             if (targetTrack >= 0 && targetTrack < model->rowCount() && x >= 0) {
-                int headerHeight = trackHeight * TOKEN_HEADER_RELATIVE_HEIGHT;
-                int mainContentHeight = trackHeight * (1 - TOKEN_HEADER_RELATIVE_HEIGHT);
+                int headerHeight = TRACK_HEIGHT * TOKEN_HEADER_RELATIVE_HEIGHT;
+                int mainContentHeight = trackHeight - headerHeight;
 
                 // Верхняя часть токена с текстом
                 painter.setPen(ProjectConfiguration::clTokenText);
@@ -124,6 +126,12 @@ void AudioTrackFrame::paintEvent(QPaintEvent *event) {
     // Рисуем текущую позицию проигрывания
     painter.setPen(Qt::red);
     painter.drawLine(currViewTime * scaleFactor, 0, currViewTime * scaleFactor, height()); // Учет масштаба
+
+    if (isSlicing) {
+        painter.setPen(Qt::green);
+        painter.drawLine(slicingX * scaleFactor, 0, slicingX * scaleFactor, height()); // Учет масштаба
+        update();
+    }
 }
 
 void AudioTrackFrame::drawTimeBar(QPainter &painter, int width) {
@@ -175,41 +183,43 @@ void AudioTrackFrame::drawTrackGrid(QPainter &painter, int trackCount) {
 
 void AudioTrackFrame::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
-        QPoint mousePos = event->pos();
+        if (!isSlicing) {
+            QPoint mousePos = event->pos();
 
-        // Клик по таймбару
-        int scrollOffset = parentScrollArea->verticalScrollBar()->value();
-        if (mousePos.y() > scrollOffset && mousePos.y() < scrollOffset + TIME_BAR_HEIGHT) {
-            currViewTime = mousePos.x() / scaleFactor;      // currTime при 1.0
-            emit currTimeChanged();
-            emit timeBarClicked();
-            isCurrTimeChanging = true;
-            update();
-            return;
-        }
+            // Клик по таймбару
+            int scrollOffset = parentScrollArea->verticalScrollBar()->value();
+            if (mousePos.y() > scrollOffset && mousePos.y() < scrollOffset + TIME_BAR_HEIGHT) {
+                currViewTime = mousePos.x() / scaleFactor;      // currTime при 1.0
+                emit currTimeChanged();
+                emit timeBarClicked();
+                isCurrTimeChanging = true;
+                update();
+                return;
+            }
 
-        int xClick = mousePos.x();
-        int yClick = mousePos.y() - TIME_BAR_HEIGHT;
+            int xClick = mousePos.x();
+            int yClick = mousePos.y() - TIME_BAR_HEIGHT;
 
-        int trackIndex = yClick / trackHeight;
-        if (trackIndex < 0 || trackIndex >= model->rowCount()) return;
+            int trackIndex = yClick / trackHeight;
+            if (trackIndex < 0 || trackIndex >= model->rowCount()) return;
 
-        AudioTrack *track = model->tracks[trackIndex];
-        for (int tokenIndex = 0; tokenIndex < track->tokens.size(); ++tokenIndex) {
-            AudioToken token = track->tokens[tokenIndex];
-            double x = token.startPositionView * scaleFactor;
-            double w = token.relativeDurationView * scaleFactor;
+            AudioTrack *track = model->tracks[trackIndex];
+            for (int tokenIndex = 0; tokenIndex < track->tokens.size(); ++tokenIndex) {
+                AudioToken token = track->tokens[tokenIndex];
+                double x = token.startPositionView * scaleFactor;
+                double w = token.relativeDurationView * scaleFactor;
 
-            if (xClick > x && xClick < (x + w)) {
-                isTokenDragging = true;
-                draggedToken = new AudioToken(token);
-                draggedTokenDeltaX = xClick - token.startPositionView * scaleFactor;   // startPosition при 1.0
-                draggedTokenDeltaY = yClick - token.audioTrack * trackHeight;
+                if (xClick > x && xClick < (x + w)) {
+                    isTokenDragging = true;
+                    draggedToken = new AudioToken(token);
+                    draggedTokenDeltaX = xClick - token.startPositionView * scaleFactor;   // startPosition при 1.0
+                    draggedTokenDeltaY = yClick - token.audioTrack * trackHeight;
 
-                draggedTokenStartX = xClick - draggedTokenDeltaX;    // startX и deltaX в больших координатах
-                draggedTokenStartY = yClick - draggedTokenDeltaY;
-                draggedTokenIndex = tokenIndex;
-                break;
+                    draggedTokenStartX = xClick - draggedTokenDeltaX;    // startX и deltaX в больших координатах
+                    draggedTokenStartY = yClick - draggedTokenDeltaY;
+                    draggedTokenIndex = tokenIndex;
+                    break;
+                }
             }
         }
     } else if (event->button() == Qt::RightButton) {
@@ -272,17 +282,70 @@ void AudioTrackFrame::mouseMoveEvent(QMouseEvent *event) {
 
         update();
     }
+
+    if (isSlicing) {
+        slicingX = mousePos.x();
+    }
 }
 
 void AudioTrackFrame::mouseReleaseEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
+        if (isSlicing) {
+            // Проверяем, был ли клик по токену на аудиодорожке с индексом 0
+            QPoint mousePos = event->pos();
+            int yClick = mousePos.y() - TIME_BAR_HEIGHT;
+            int trackIndex = yClick / trackHeight;
+
+            if (trackIndex == 0) {  // Только для дорожки с индексом 0
+                AudioTrack *track = model->tracks[trackIndex];
+
+                for (int tokenIndex = 0; tokenIndex < track->tokens.size(); ++tokenIndex) {
+                    AudioToken token = track->tokens[tokenIndex];
+                    double x = token.startPositionView * scaleFactor;
+                    double w = token.relativeDurationView * scaleFactor;
+
+                    if (mousePos.x() > x && mousePos.x() < (x + w)) {
+                        // Найден токен, по которому кликнули
+                        double sliceX = slicingX / scaleFactor;  // Приводим slicingX к координатам без масштаба
+
+                        if (sliceX > token.startPositionView && sliceX < (token.startPositionView + token.relativeDurationView)) {
+                            // Разрезаем токен
+                            // Создаем два новых токена
+                            AudioToken firstToken = token;
+                            firstToken.relativeDurationView = sliceX - token.startPositionView;
+
+                            AudioToken secondToken = token;
+                            secondToken.startPositionView = sliceX;
+                            secondToken.relativeStartTimeView = firstToken.relativeDurationView;
+                            secondToken.relativeDurationView = token.relativeDurationView -firstToken.relativeDurationView;
+
+                            // Удаляем исходный токен и добавляем два новых
+                            track->tokens.erase(track->tokens.begin() + tokenIndex);
+                            track->tokens.insert(track->tokens.begin() + tokenIndex, secondToken);
+                            track->tokens.insert(track->tokens.begin() + tokenIndex, firstToken);
+
+                            // Сбрасываем флаг isSlicing
+                            isSlicing = false;
+
+                            // Обновляем отображение
+                            update();
+                            return;
+                        }
+                    }
+                }
+            }
+
+            // Если токен не найден или клик не по дорожке с индексом 0
+            isSlicing = false;
+        }
+
         if (isTokenDragging) {
             isTokenDragging = false;
 
             int dropX = draggedTokenStartX;
             if (!(event->modifiers() & Qt::ShiftModifier)) {
                 double quarterDuration = tactDuration * scaleFactor / 4;
-                dropX = round(draggedTokenStartX / quarterDuration) * quarterDuration;  //dropX в больших координатах
+                dropX = round(draggedTokenStartX / quarterDuration) * quarterDuration;  // dropX в больших координатах
             }
 
             int dropTrackIndex = (draggedTokenStartY) / trackHeight;
@@ -292,11 +355,11 @@ void AudioTrackFrame::mouseReleaseEvent(QMouseEvent *event) {
             emit trackChanged(oldTrackIndex);
             emit trackChanged(dropTrackIndex);
 
-
             delete draggedToken;
             draggedToken = nullptr;
+        } else if (isCurrTimeChanging) {
+            isCurrTimeChanging = false;
         }
-        else if (isCurrTimeChanging) isCurrTimeChanging = false;
 
         update();
     }
@@ -689,11 +752,12 @@ void AudioTrackFrame::onAudioFileFinished() {
 }
 
 void AudioTrackFrame::openEditTokenWindow(int trackIndex, int tokenIndex) {
-    AudioTrackDialog dialog(trackIndex, tokenIndex, fileLinker, this);
+    AudioTrackDialog dialog(model, trackIndex, tokenIndex, fileLinker, this);
     if (dialog.exec() == QDialog::Accepted) {
-        //QList<AudioToken> updatedTokens = dialog.getTokens();
-        // Обновляем модель с новыми токенами
-        //model->tracks[trackIndex]->tokens = updatedTokens;
+        deleteToken(trackIndex, tokenIndex);
+        for (AudioToken token : dialog.dialogTokens) {
+            model->tracks[trackIndex]->addToken(token);
+        }
         update();
     }
 }

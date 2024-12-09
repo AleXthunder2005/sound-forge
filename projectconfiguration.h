@@ -39,7 +39,7 @@ const double MS_TO_BYTES = SAMPLE_RATE * BLOCK_ALIGN / 1000.0; // Перевод
 const int WAV_HEADER_SIZE = 44;
 
 //AudioToken
-const double TOKEN_HEADER_RELATIVE_HEIGHT = 0.35;
+const double TOKEN_HEADER_RELATIVE_HEIGHT = 0.38;
 
 //ControlPanel
 const float DEFAULT_CONTROL_PANEL_RELATIVE_HEIGHT = 0.1;
@@ -96,7 +96,7 @@ public:
     static QColor clDefaultTokenHeader;
     static QColor clDefaultTokenMainContent;
     static QColor clSelectedAudioTokenHeader;
-    static QColor clSelectedAudioTokenMain;
+    static QColor clSelectedAudioTokenMainContent;
     static QColor clTokenText;
 };
 

@@ -20,8 +20,8 @@ public:
     static int idCounter;
 
     void drawToken(QPainter *painter, double scaleFactor, const int trackHeight) const;
-    void updateTokenRelativeStartTime(int newStartTime);
-    void updateTokenDuration(double newDuration);
+    void updateTokenRelativeStartPosition(int newStartTime);
+    void updateTokenRelativeDuration(double newDuration);
     void resetSelectedFlag();
     void setSelectedFlag();
 private:

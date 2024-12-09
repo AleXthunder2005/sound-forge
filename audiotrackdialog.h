@@ -22,34 +22,21 @@ class AudioTrackDialog : public QDialog {
     Q_OBJECT
 
 public:
-    explicit AudioTrackDialog(int trackIndex, int tokenIndex, AudioFileLinker *linker, QWidget *parent = nullptr);
-    //QList<AudioToken> getTokens() const;
-
-protected:
-    //void paintEvent(QPaintEvent *event) override;
-    //bool eventFilter(QObject *object, QEvent *event) override;
+    explicit AudioTrackDialog(WorkspaceModel *baseModel, int trackIndex, int tokenIndex, AudioFileLinker *linker, QWidget *parent = nullptr);
+    QList<AudioToken> dialogTokens;
 
 private:
-    // void drawTimeBar(QPainter &painter);
-    // void handleMousePress(QMouseEvent *event);
-    // void handleMouseMove(QMouseEvent *event);
-    // void handleMouseRelease(QMouseEvent *event);
     void confirmChanges();
     void cancelChanges();
 
 private:
-    AudioTrack *dialogTrack;
-    QList<AudioToken> dialogTokens;
     AudioTrackFrame* dialogTrackFrame;
+    WorkspaceModel* baseModel;
+    AudioToken *editingToken;
+    AudioTrack *dialogTrack;
 
-    double dialogScaleFactor;
-    int dialogTrackHeight;
-
-    bool isDialogTokenDragging;
-    AudioToken *dialogDraggedToken;
-    int dialogDraggedTokenIndex;
-    double dialogDraggedTokenDeltaX;
-    double dialogDdraggedTokenStartX;
+public slots:
+    void onSliceButtonClicked();
 };
 
 #endif // AUDIOTRACKDIALOG_H

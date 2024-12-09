@@ -1,13 +1,17 @@
 #include "AudioTrackDialog.h"
 
 // Реализация методов AudioTrackDialog
-AudioTrackDialog::AudioTrackDialog(int trackIndex, int tokenIndex, AudioFileLinker *linker, QWidget *parent)
+AudioTrackDialog::AudioTrackDialog(WorkspaceModel *baseModel, int trackIndex, int tokenIndex, AudioFileLinker *linker, QWidget *parent)
     : QDialog(parent)
 {
     setWindowTitle("Edit Audio Track");
     resize(800, 600);
+    setWindowFlags(windowFlags() & ~Qt::WindowCloseButtonHint & ~Qt::WindowMinimizeButtonHint);
 
     QVBoxLayout *layout = new QVBoxLayout(this);
+
+    this->baseModel = baseModel;
+    editingToken = &(baseModel->tracks[trackIndex]->tokens[tokenIndex]);
 
     // Верхнее меню
     QMenuBar *menuBar = new QMenuBar(this);
@@ -46,6 +50,12 @@ AudioTrackDialog::AudioTrackDialog(int trackIndex, int tokenIndex, AudioFileLink
     dialogTrackFrame->setModel(dialogModel);
     dialogTrackFrame->show();
 
+    AudioToken editingTokenCopy = baseModel->tracks[trackIndex]->tokens[tokenIndex];
+    editingTokenCopy.startPositionView = 0;
+    editingTokenCopy.audioTrack = 0;
+    dialogTrack->addToken(editingTokenCopy);
+    dialogTrack->isTrackChanged = true;
+
     layout->addWidget(scrollArea);
 
     // Нижние кнопки
@@ -75,12 +85,33 @@ AudioTrackDialog::AudioTrackDialog(int trackIndex, int tokenIndex, AudioFileLink
     // Подключаем сигнал подтверждения
     connect(confirmButton, &QPushButton::clicked, this, &AudioTrackDialog::confirmChanges);
     connect(cancelButton, &QPushButton::clicked, this, &AudioTrackDialog::cancelChanges);
+    connect(sliceButton, &QPushButton::clicked, this, &AudioTrackDialog::onSliceButtonClicked);
+
+    connect(pauseButton, &QPushButton::clicked, dialogTrackFrame, &AudioTrackFrame::onPauseClicked);
+    connect(playButton, &QPushButton::clicked, dialogTrackFrame, &AudioTrackFrame::onPlayClicked);
+    connect(stopButton, &QPushButton::clicked, dialogTrackFrame, &AudioTrackFrame::onStopClicked);
 }
 
 void AudioTrackDialog::confirmChanges() {
+
+    for (AudioToken &token : dialogTrack->tokens) {
+        token.startPositionView += editingToken->startPositionView;
+        token.audioTrack = editingToken->audioTrack;
+    }
+    dialogTokens = dialogTrack->tokens;
+    dialogTrackFrame->isSlicing = false;
+    dialogTrack->pauseTrack();
     accept();
 }
 
 void AudioTrackDialog::cancelChanges() {
+    dialogTrackFrame->isSlicing = false;
+    dialogTrack->pauseTrack();
     reject();
 }
+
+void AudioTrackDialog::onSliceButtonClicked() {
+    dialogTrackFrame->isSlicing = !(dialogTrackFrame->isSlicing);
+    dialogTrackFrame->setFocus();
+}
+

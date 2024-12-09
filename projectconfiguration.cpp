@@ -21,7 +21,7 @@ QColor ProjectConfiguration::clAudioTrackBoldMark = LIGHT_BLUE_BOLD_COLOR;
 QColor ProjectConfiguration::clDefaultTokenHeader = DARK_ORANGE_TOKEN_COLOR;
 QColor ProjectConfiguration::clDefaultTokenMainContent = LIGHT_ORANGE_TOKEN_COLOR;
 QColor ProjectConfiguration::clSelectedAudioTokenHeader = DARK_TEAL_TOKEN_COLOR;
-QColor ProjectConfiguration::clSelectedAudioTokenMain = LIGHT_TEAL_TOKEN_COLOR;
+QColor ProjectConfiguration::clSelectedAudioTokenMainContent = LIGHT_TEAL_TOKEN_COLOR;
 
 QColor ProjectConfiguration::clTokenText = WHITE_COLOR;
 
