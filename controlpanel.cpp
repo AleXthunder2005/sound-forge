@@ -6,6 +6,8 @@
 ControlPanel::ControlPanel(AudioTrackFrame *trackframe, QWidget *parent): QFrame(parent) {
     playButton = new QPushButton("Play", this);
     pauseButton = new QPushButton("Pause", this);
+    stopButton = new QPushButton("Stop", this);
+    exitButton = new QPushButton("Exit", this);
     addTrackButton = new QPushButton("Add track", this);
     this->trackFrame = trackframe;
 
@@ -15,6 +17,8 @@ ControlPanel::ControlPanel(AudioTrackFrame *trackframe, QWidget *parent): QFrame
     layout->addWidget(addTrackButton);
     layout->addWidget(playButton);
     layout->addWidget(pauseButton);
+    layout->addWidget(stopButton);
+    layout->addWidget(exitButton);
 
     // Устанавливаем общий стиль для всех кнопок
     setStyleSheet("QPushButton { background-color: " + ProjectConfiguration::clDarkButton.name() + "; color: " + ProjectConfiguration::clSidePanelText.name() + "; }"
@@ -24,7 +28,8 @@ ControlPanel::ControlPanel(AudioTrackFrame *trackframe, QWidget *parent): QFrame
     connect(addTrackButton, &QPushButton::clicked, this, &ControlPanel::onAddTrackButtonClicked);
     connect(playButton, &QPushButton::clicked, this, &ControlPanel::onPlayButtonClicked);
     connect(pauseButton, &QPushButton::clicked, this, &ControlPanel::onPauseButtonClicked);
-
+    connect(stopButton, &QPushButton::clicked, this, &ControlPanel::onStopButtonClicked);
+    connect(exitButton, &QPushButton::clicked, this, &ControlPanel::onExitButtonClicked);
 }
 
 void ControlPanel::onAddTrackButtonClicked() {
@@ -35,7 +40,6 @@ void ControlPanel::onAddTrackButtonClicked() {
     emit trackAdded();
 }
 
-
 void ControlPanel::onPlayButtonClicked() {
 
     emit playClicked();
@@ -44,4 +48,14 @@ void ControlPanel::onPlayButtonClicked() {
 void ControlPanel::onPauseButtonClicked() {
 
     emit pauseClicked();
+}
+
+void ControlPanel::onStopButtonClicked() {
+
+    emit stopClicked();
+}
+
+void ControlPanel::onExitButtonClicked() {
+
+    emit exitClicked();
 }

@@ -24,8 +24,9 @@ public:
     WorkspaceModel *model;
     int trackTactCount;
     double tactDuration;
+    int trackHeight;
 
-    explicit AudioTrackFrame(QWidget *parent = nullptr, QScrollArea *scrollArea = nullptr, AudioFileLinker *linker = nullptr);
+    explicit AudioTrackFrame(int trackHeight = TRACK_HEIGHT, QWidget *parent = nullptr, QScrollArea *scrollArea = nullptr, AudioFileLinker *linker = nullptr);
     void setModel(WorkspaceModel *model);
     WorkspaceModel* getModel();
     void mousePressEvent(QMouseEvent *event) override;
@@ -47,6 +48,7 @@ public:
     void dragMoveEvent(QDragMoveEvent *event);
     void dropEvent(QDropEvent *event);
 
+    bool hasSomeChanges();
     void playAudioTokens(); // Метод для запуска воспроизведения
 
 
@@ -58,6 +60,8 @@ public slots:
     void onTrackAdded(); // Slot to handle track addition
     void onPlayClicked();
     void onPauseClicked();
+    void onStopClicked();
+    void onExitClicked();
     void onVerticalScrollBarChanged();
     void onCurrTimeChanged();
     void onTrackChanged(int index);

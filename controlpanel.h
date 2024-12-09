@@ -15,6 +15,8 @@ public:
 private:
     QPushButton *playButton;
     QPushButton *pauseButton;
+    QPushButton *stopButton;
+    QPushButton *exitButton;
     QPushButton *addTrackButton;
     AudioTrackFrame* trackFrame;
 
@@ -22,11 +24,14 @@ private slots:
     void onAddTrackButtonClicked(); // Slot for button click
     void onPlayButtonClicked();
     void onPauseButtonClicked();
-
+    void onStopButtonClicked();
+    void onExitButtonClicked();
 signals:
     void trackAdded();
     void playClicked();
     void pauseClicked();
+    void stopClicked();
+    void exitClicked();
 };
 
 #endif // CONTROLPANEL_H

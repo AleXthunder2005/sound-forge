@@ -45,6 +45,10 @@ const double TOKEN_HEADER_RELATIVE_HEIGHT = 0.35;
 const float DEFAULT_CONTROL_PANEL_RELATIVE_HEIGHT = 0.1;
 const int ADD_TRACK_BUTTON_WIDTH = 100;
 
+//Dialog
+const int DIALOG_TRACK_HEIGHT = 500;
+
+
 //Colors
 const QColor DARK_COLOR = QColor::fromRgb(0x1e, 0x1e, 0x1e);
 const QColor DARK_GRAY_COLOR = QColor::fromRgb(0x2b, 0x2b, 0x2b);

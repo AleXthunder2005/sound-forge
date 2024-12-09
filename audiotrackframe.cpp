@@ -17,8 +17,9 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <QDialog>
+#include <QMessageBox>
 
-AudioTrackFrame::AudioTrackFrame(QWidget *parent, QScrollArea* scrollArea, AudioFileLinker *linker)
+AudioTrackFrame::AudioTrackFrame(int trackHeight, QWidget *parent, QScrollArea* scrollArea, AudioFileLinker *linker)
     : QFrame(parent),
     draggedToken(nullptr),
     isTokenDragging(false),
@@ -34,7 +35,8 @@ AudioTrackFrame::AudioTrackFrame(QWidget *parent, QScrollArea* scrollArea, Audio
     parentScrollArea(scrollArea),
     fileLinker(linker),
     scaleFactor(1.0),
-    model(nullptr)
+    model(nullptr),
+    trackHeight(trackHeight)
 {
     setAcceptDrops(true);
     setMouseTracking(true);
@@ -72,7 +74,7 @@ void AudioTrackFrame::paintEvent(QPaintEvent *event) {
 
         // Фон дорожки
         painter.setBrush((track->isSelected) ? ProjectConfiguration::clSelectedAudioTrack : ProjectConfiguration::clAudioTrack);
-        painter.drawRect(0, TIME_BAR_HEIGHT + i * TRACK_HEIGHT, trackWidth, TRACK_HEIGHT);
+        painter.drawRect(0, TIME_BAR_HEIGHT + i * trackHeight, trackWidth, trackHeight);
     }
 
     // Рисуем сетку для дорожек (каждые 1/4 такта)
@@ -86,12 +88,12 @@ void AudioTrackFrame::paintEvent(QPaintEvent *event) {
             for (int j = 0; j < track->tokens.size(); j++) {
                 if (draggedTokenIndex != j) {
                     AudioToken token = track->tokens.at(j);
-                    token.drawToken(&painter, scaleFactor, TRACK_HEIGHT); // Передаем масштаб
+                    token.drawToken(&painter, scaleFactor, trackHeight); // Передаем масштаб
                 }
             }
         } else {
             for (AudioToken token : track->tokens) {
-                token.drawToken(&painter, scaleFactor, TRACK_HEIGHT); // Передаем масштаб
+                token.drawToken(&painter, scaleFactor, trackHeight); // Передаем масштаб
             }
         }
 
@@ -99,19 +101,19 @@ void AudioTrackFrame::paintEvent(QPaintEvent *event) {
         if (isTokenDragging) {
             painter.setBrush(Qt::red);
             int x = draggedTokenStartX;
-            int targetTrack = (draggedTokenStartY) / TRACK_HEIGHT;
+            int targetTrack = (draggedTokenStartY) / trackHeight;
             if (targetTrack >= 0 && targetTrack < model->rowCount() && x >= 0) {
-                int headerHeight = TRACK_HEIGHT * TOKEN_HEADER_RELATIVE_HEIGHT;
-                int mainContentHeight = TRACK_HEIGHT * (1 - TOKEN_HEADER_RELATIVE_HEIGHT);
+                int headerHeight = trackHeight * TOKEN_HEADER_RELATIVE_HEIGHT;
+                int mainContentHeight = trackHeight * (1 - TOKEN_HEADER_RELATIVE_HEIGHT);
 
                 // Верхняя часть токена с текстом
                 painter.setPen(ProjectConfiguration::clTokenText);
                 painter.setBrush(DARK_DRAGGED_TOKEN_COLOR);
-                painter.drawRect(x, TIME_BAR_HEIGHT + targetTrack * TRACK_HEIGHT, draggedToken->relativeDurationView * scaleFactor, headerHeight);
+                painter.drawRect(x, TIME_BAR_HEIGHT + targetTrack * trackHeight, draggedToken->relativeDurationView * scaleFactor, headerHeight);
 
                 // Нижняя часть для будущего отображения аудиосигнала
                 painter.setBrush(LIGHT_DRAGGED_TOKEN_COLOR);
-                painter.drawRect(x, TIME_BAR_HEIGHT + targetTrack * TRACK_HEIGHT + headerHeight, draggedToken->relativeDurationView * scaleFactor, mainContentHeight);
+                painter.drawRect(x, TIME_BAR_HEIGHT + targetTrack * trackHeight + headerHeight, draggedToken->relativeDurationView * scaleFactor, mainContentHeight);
             }
         }
     }
@@ -152,20 +154,20 @@ void AudioTrackFrame::drawTimeBar(QPainter &painter, int width) {
 
 void AudioTrackFrame::drawTrackGrid(QPainter &painter, int trackCount) {
     for (int i = 0; i < trackCount; i++) {
-        int y = TIME_BAR_HEIGHT + i * TRACK_HEIGHT;
+        int y = TIME_BAR_HEIGHT + i * trackHeight;
 
         for (int j = 0; j < trackTactCount; j++) {
             int x = j * tactDuration * scaleFactor; // Масштабируем такты
 
             // Линии такта
             painter.setPen(ProjectConfiguration::clAudioTrackBoldMark);
-            painter.drawLine(x, y, x, y + TRACK_HEIGHT);
+            painter.drawLine(x, y, x, y + trackHeight);
 
             // Линии четвертей такта
             for (int k = 1; k < 4; k++) {
                 int quarterX = x + k * (tactDuration / 4) * scaleFactor;
                 painter.setPen(ProjectConfiguration::clAudioTrackMark);
-                painter.drawLine(quarterX, y, quarterX, y + TRACK_HEIGHT);
+                painter.drawLine(quarterX, y, quarterX, y + trackHeight);
             }
         }
     }
@@ -189,7 +191,7 @@ void AudioTrackFrame::mousePressEvent(QMouseEvent *event) {
         int xClick = mousePos.x();
         int yClick = mousePos.y() - TIME_BAR_HEIGHT;
 
-        int trackIndex = yClick / TRACK_HEIGHT;
+        int trackIndex = yClick / trackHeight;
         if (trackIndex < 0 || trackIndex >= model->rowCount()) return;
 
         AudioTrack *track = model->tracks[trackIndex];
@@ -202,7 +204,7 @@ void AudioTrackFrame::mousePressEvent(QMouseEvent *event) {
                 isTokenDragging = true;
                 draggedToken = new AudioToken(token);
                 draggedTokenDeltaX = xClick - token.startPositionView * scaleFactor;   // startPosition при 1.0
-                draggedTokenDeltaY = yClick - token.audioTrack * TRACK_HEIGHT;
+                draggedTokenDeltaY = yClick - token.audioTrack * trackHeight;
 
                 draggedTokenStartX = xClick - draggedTokenDeltaX;    // startX и deltaX в больших координатах
                 draggedTokenStartY = yClick - draggedTokenDeltaY;
@@ -213,7 +215,7 @@ void AudioTrackFrame::mousePressEvent(QMouseEvent *event) {
     } else if (event->button() == Qt::RightButton) {
         QPoint mousePos = event->pos();
         int yClick = mousePos.y() - TIME_BAR_HEIGHT;
-        int trackIndex = yClick / TRACK_HEIGHT;
+        int trackIndex = yClick / trackHeight;
 
         if (trackIndex < 0 || trackIndex >= model->rowCount()) return;
 
@@ -258,7 +260,7 @@ void AudioTrackFrame::mouseMoveEvent(QMouseEvent *event) {
         if (draggedTokenStartX > maxStartX)
             draggedTokenStartX = maxStartX;
 
-        int maxStartY = (model->rowCount() - 1) * TRACK_HEIGHT;
+        int maxStartY = (model->rowCount() - 1) * trackHeight;
         if (draggedTokenStartY > maxStartY)
             draggedTokenStartY = maxStartY;
 
@@ -283,7 +285,7 @@ void AudioTrackFrame::mouseReleaseEvent(QMouseEvent *event) {
                 dropX = round(draggedTokenStartX / quarterDuration) * quarterDuration;  //dropX в больших координатах
             }
 
-            int dropTrackIndex = (draggedTokenStartY) / TRACK_HEIGHT;
+            int dropTrackIndex = (draggedTokenStartY) / trackHeight;
             int oldTrackIndex = draggedToken->audioTrack;
 
             model->moveToken(oldTrackIndex, dropTrackIndex, draggedTokenIndex, dropX / scaleFactor);
@@ -370,7 +372,7 @@ void AudioTrackFrame::resizeToFitContent() {
 
     // Рассчитываем ширину и высоту на основе количества тактов и дорожек
     int width = trackTactCount * tactDuration * scaleFactor;
-    int height = model->rowCount() * TRACK_HEIGHT;
+    int height = model->rowCount() * trackHeight;
 
     // Устанавливаем минимальные размеры для trackFrame
     setMinimumWidth(width);
@@ -403,14 +405,14 @@ void AudioTrackFrame::dragEnterEvent(QDragEnterEvent *event) {
         int xClick = mousePos.x();
         int yClick = mousePos.y() - TIME_BAR_HEIGHT;
 
-        int dropTrack = yClick / TRACK_HEIGHT;
+        int dropTrack = yClick / trackHeight;
 
         int uniqueAudiofileID = QString::fromUtf8(event->mimeData()->data("application/x-audiofile")).toInt();
 
         draggedToken = new AudioToken(uniqueAudiofileID, xClick / scaleFactor, AudioFileLinker::calculateDuration(uniqueAudiofileID), dropTrack);
 
         draggedTokenDeltaX = 0;   //startPosition при 1.0
-        draggedTokenDeltaY = TRACK_HEIGHT / 2;
+        draggedTokenDeltaY = trackHeight / 2;
 
         draggedTokenStartX = xClick - draggedTokenDeltaX;    //startX и deltaX в больших координатах
         draggedTokenStartY = yClick - draggedTokenDeltaY;
@@ -432,7 +434,7 @@ void AudioTrackFrame::dragMoveEvent(QDragMoveEvent *event) {
         if (draggedTokenStartX > maxStartX)
             draggedTokenStartX = maxStartX;
 
-        int maxStartY = (model->rowCount() - 1) * TRACK_HEIGHT;
+        int maxStartY = (model->rowCount() - 1) * trackHeight;
         if (draggedTokenStartY > maxStartY)
             draggedTokenStartY = maxStartY;
 
@@ -453,7 +455,7 @@ void AudioTrackFrame::dropEvent(QDropEvent *event) {
             double quarterDuration = tactDuration * scaleFactor / 4;
             dropX = round(draggedTokenStartX / quarterDuration) * quarterDuration;  //dropX в больших координатах
         }
-        int dropTrack = (draggedTokenStartY) / TRACK_HEIGHT;
+        int dropTrack = (draggedTokenStartY) / trackHeight;
 
         int uniqueAudiofileID = QString::fromUtf8(event->mimeData()->data("application/x-audiofile")).toInt();
 
@@ -482,21 +484,34 @@ void AudioTrackFrame::onTrackAdded() {
     update();             // Перерисовать содержимое
 }
 
+bool AudioTrackFrame::hasSomeChanges() {
+    for (AudioTrack *track: model->tracks) {
+        if (track->isTrackChanged) return true;
+    }
+    return false;
+}
+
 void AudioTrackFrame::onPlayClicked() {
     AudioTrack *currTrack;
-    QByteArray res;
+    if (hasSomeChanges()) {
+        if (totalTrack->trackData) {
+            delete (totalTrack->trackData);
+            totalTrack->trackData = nullptr;  //избегаем утечки памяти
+        }
 
-    totalTrack = model->tracks[0];
-    totalTrack->processAudioTrack();
-    for (int i = 1; i < model->tracks.size(); i++) {
-        currTrack = model->tracks[i];
-        if (currTrack->tokens.isEmpty()) continue;
+        QByteArray *res = new QByteArray();
+        totalTrack = model->tracks[0];
+        totalTrack->processAudioTrack();
+        for (int i = 1; i < model->tracks.size(); i++) {
+            currTrack = model->tracks[i];
+            if (currTrack->tokens.isEmpty()) continue;
 
-        if (currTrack->isTrackChanged)
-            currTrack->processAudioTrack();
+            if (currTrack->isTrackChanged)
+                currTrack->processAudioTrack();
 
-        res = mixWavFiles(totalTrack->trackData, currTrack->trackData);
-        totalTrack->trackData = &res;
+            *res = mixWavFiles(totalTrack->trackData, currTrack->trackData);
+            totalTrack->trackData = res;
+        }
     }
     currTime = currViewTime * MS_TO_PX;
     totalTrack->playTrack(currTime);
@@ -520,6 +535,44 @@ void AudioTrackFrame::onPauseClicked() {
         totalTrack->pauseTrack();
     }
     update();
+}
+
+void AudioTrackFrame::onStopClicked() {
+    if (timer && (timer->isActive())) {
+        timer->stop();
+        startViewTime = currViewTime;
+
+        for (AudioTrack *track: model->tracks) {
+            track->pauseTrack();
+        }
+        totalTrack->pauseTrack();
+    }
+    update();
+    currTime = 0;
+    currViewTime = 0;
+    startViewTime = 0;
+}
+
+void AudioTrackFrame::onExitClicked() {
+    // Создание сообщения с подтверждением выхода
+    QMessageBox msgBox(this);
+    msgBox.setWindowTitle("Exit");
+    msgBox.setIcon(QMessageBox::Question); // Установка иконки с вопросительным знаком
+    msgBox.setText("Are you sure you want to quit?");
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+
+    // Применение стиля к QMessageBox
+    msgBox.setStyleSheet(
+        "QMessageBox { background-color: " + ProjectConfiguration::clSidePanel.name() + "; color: " + ProjectConfiguration::clSidePanelText.name() + "; }"
+        + "QPushButton { background-color: " + ProjectConfiguration::clDarkButton.name() + "; color: " + ProjectConfiguration::clSidePanelText.name() + "; }"
+        + "QPushButton:hover { background-color: " + ProjectConfiguration::clDarkButtonSelected.name() + "; }"
+    );
+
+    // Отображение сообщения и получение ответа
+    QMessageBox::StandardButton reply = static_cast<QMessageBox::StandardButton>(msgBox.exec());
+    if (reply == QMessageBox::Yes) {
+        QCoreApplication::quit();
+    }
 }
 
 void AudioTrackFrame::updateCurrTime() {

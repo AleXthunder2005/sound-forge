@@ -3,6 +3,7 @@
 #include "audiotrackframe.h"
 #include "controlpanel.h"
 #include "projectconfiguration.h"
+#include <QApplication>
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
     setupUI();
@@ -38,10 +39,13 @@ void MainWindow::setupUI() {
                              + "QScrollBar:vertical { border: none; background:  " + ProjectConfiguration::clScrollbarBackround.name() + "; width: " + QString::number(DEFAULT_SCROLLBAR_SIZE) + "px; }"
                              + "QScrollBar::handle:vertical { background:  " + ProjectConfiguration::clScrollbar.name() + ";}"
                              + "QScrollBar:horizontal { border: none; background:  " + ProjectConfiguration::clScrollbarBackround.name() + "; height: " + QString::number(DEFAULT_SCROLLBAR_SIZE) + "px; }"
-                             + "QScrollBar::handle:horizontal { background:  " + ProjectConfiguration::clScrollbar.name() + ";}");
+                             + "QScrollBar::handle:horizontal { background:  " + ProjectConfiguration::clScrollbar.name() + ";}"
+                             + "QMenu { background-color: " + ProjectConfiguration::clSidePanel.name() + "; color: " + ProjectConfiguration::clSidePanelText.name() + "; }"
+                             + "QMenu::item:selected { background-color: " + ProjectConfiguration::clMenuBarItemSelected.name() + "; }"
+                              );
 
     // Фрейм для отображения аудиодорожек
-    AudioTrackFrame *trackFrame = new AudioTrackFrame(this, scrollArea, linker);
+    AudioTrackFrame *trackFrame = new AudioTrackFrame(TRACK_HEIGHT, this, scrollArea, linker);
 
     // Устанавливаем размеры trackFrame вручную, чтобы учитывать длину дорожек
     trackFrame->setMinimumWidth(1000);
@@ -56,8 +60,6 @@ void MainWindow::setupUI() {
 
     // Создаем аудиодорожку и добавляем токены
     AudioTrack *track1 = new AudioTrack();
-    //track1->addToken(AudioToken(1, 0.0, 50.0, 0));
-    //track1->addToken(AudioToken(2, 60.0, 40.0, 0));
 
     defaultModel->addTrack(track1);
     trackFrame->setModel(defaultModel);
@@ -74,16 +76,21 @@ void MainWindow::setupUI() {
     QMenuBar *menuBar = this->menuBar();
 
     QMenu *fileMenu = menuBar->addMenu("File");
-    //fileMenu->addAction("Open", this, &MainWindow::openFile);
-    //fileMenu->addAction("Exit", this, &QApplication::quit);
+    fileMenu->addAction("Open", this, nullptr);
+    fileMenu->addAction("Exit", this, &QApplication::quit);
 
     menuBar->addMenu("Settings");
     menuBar->addMenu("About");
     menuBar->addMenu("Help");
 
-    menuBar->setStyleSheet("QMenuBar { background-color: " + ProjectConfiguration::clSidePanel.name() + "; color: " + ProjectConfiguration::clSidePanelText.name() + "; }" +
-                           "QMenuBar::item:selected { background-color: " + ProjectConfiguration::clMenuBarItemSelected.name() + "; }" +
-                           "QMenuBar::item:pressed { background-color: " + ProjectConfiguration::clMenuBarItemSelected.name() + "; }");
+    menuBar->setStyleSheet(
+        "QMenuBar { background-color: " + ProjectConfiguration::clSidePanel.name() + "; color: " + ProjectConfiguration::clSidePanelText.name() + "; }" +
+        "QMenuBar::item:selected { background-color: " + ProjectConfiguration::clMenuBarItemSelected.name() + "; }" +
+        "QMenuBar::item:pressed { background-color: " + ProjectConfiguration::clMenuBarItemSelected.name() + "; }" +
+        "QMenu { background-color: " + ProjectConfiguration::clSidePanel.name() + "; color: " + ProjectConfiguration::clSidePanelText.name() + "; }" +
+        "QMenu::item:selected { background-color: " + ProjectConfiguration::clMenuBarItemSelected.name() + "; }"
+        );
+
     // Установка размера окна
     this->setWindowState(Qt::WindowMaximized);
 
@@ -91,9 +98,10 @@ void MainWindow::setupUI() {
     trackFrame->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     audioList->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 
-    //connect(controlPanel, &ControlPanel::trackAdded, trackFrame, &AudioTrackFrame::update);
     connect(controlPanel, &ControlPanel::trackAdded, trackFrame, &AudioTrackFrame::onTrackAdded);
     connect(controlPanel, &ControlPanel::playClicked, trackFrame, &AudioTrackFrame::onPlayClicked);
     connect(controlPanel, &ControlPanel::pauseClicked, trackFrame, &AudioTrackFrame::onPauseClicked);
+    connect(controlPanel, &ControlPanel::stopClicked, trackFrame, &AudioTrackFrame::onStopClicked);
+    connect(controlPanel, &ControlPanel::exitClicked, trackFrame, &AudioTrackFrame::onExitClicked);
 
 }

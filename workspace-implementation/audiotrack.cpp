@@ -11,7 +11,7 @@
 AudioTrack::AudioTrack(QObject *parent) : QObject(parent)
 {
     trackData = new QByteArray;
-    isTrackChanged = true;
+    isTrackChanged = false;
     player = new QMediaPlayer;
     audioOutput = new QAudioOutput;
     buffer = new QBuffer;
@@ -119,8 +119,6 @@ void AudioTrack::processAudioTrack() {
 }
 
 void AudioTrack::playTrack(qint64 startTime) {
-    //if (startTime < ((trackData->size() - WAV_HEADER_SIZE) * MS_TO_BYTES)) {
-    //QBuffer* currBuffer = new QBuffer();
     player->setAudioOutput(audioOutput);
     audioOutput->setVolume(80);
     if (buffer->isOpen())
@@ -150,7 +148,6 @@ void AudioTrack::playTrack(qint64 startTime) {
                 }
             });
 
-            //player->setPosition(0);
             emit audioFileFinished();
             player->play();
         }
