@@ -42,6 +42,7 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtCore/qbytearrayalgorithms.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qbytearraylist.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qbytearrayview.h \
+  F:/QT/6.8.0/mingw_64/include/QtCore/qcalendar.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qchar.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qcompare.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qcompare_impl.h \
@@ -58,14 +59,18 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtCore/qcoreevent.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qdarwinhelpers.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qdatastream.h \
+  F:/QT/6.8.0/mingw_64/include/QtCore/qdatetime.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qdeadlinetimer.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qdebug.h \
+  F:/QT/6.8.0/mingw_64/include/QtCore/qdir.h \
+  F:/QT/6.8.0/mingw_64/include/QtCore/qdirlisting.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qelapsedtimer.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qendian.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qeventloop.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qexceptionhandling.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qfile.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qfiledevice.h \
+  F:/QT/6.8.0/mingw_64/include/QtCore/qfileinfo.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qflags.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qfloat16.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qforeach.h \
@@ -138,6 +143,7 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtCore/qtdeprecationmarkers.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qtenvironmentvariables.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qtextstream.h \
+  F:/QT/6.8.0/mingw_64/include/QtCore/qtimezone.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qtmetamacros.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qtnoop.h \
   F:/QT/6.8.0/mingw_64/include/QtCore/qtpreprocessorsupport.h \
@@ -181,6 +187,7 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtGui/qpainter.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qpalette.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qpen.h \
+  F:/QT/6.8.0/mingw_64/include/QtGui/qpicture.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qpixelformat.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qpixmap.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qpointingdevice.h \
@@ -190,6 +197,7 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtGui/qrgba64.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qscreen.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qscreen_platform.h \
+  F:/QT/6.8.0/mingw_64/include/QtGui/qtextdocument.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qtextoption.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qtgui-config.h \
   F:/QT/6.8.0/mingw_64/include/QtGui/qtguiexports.h \
@@ -213,9 +221,12 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
   F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/QDialog \
+  F:/QT/6.8.0/mingw_64/include/QtWidgets/QFileDialog \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/QFrame \
+  F:/QT/6.8.0/mingw_64/include/QtWidgets/QLabel \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/QMenu \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/QMenuBar \
+  F:/QT/6.8.0/mingw_64/include/QtWidgets/QMessageBox \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/QPushButton \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/QScrollArea \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/QScrollBar \
@@ -226,12 +237,16 @@ F:/Projects/SoundForge/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SoundForge_auto
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qabstractslider.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qboxlayout.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qdialog.h \
+  F:/QT/6.8.0/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
+  F:/QT/6.8.0/mingw_64/include/QtWidgets/qfiledialog.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qframe.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qgridlayout.h \
+  F:/QT/6.8.0/mingw_64/include/QtWidgets/qlabel.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qlayout.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qlayoutitem.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qmenu.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qmenubar.h \
+  F:/QT/6.8.0/mingw_64/include/QtWidgets/qmessagebox.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qpushbutton.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qscrollarea.h \
   F:/QT/6.8.0/mingw_64/include/QtWidgets/qscrollbar.h \

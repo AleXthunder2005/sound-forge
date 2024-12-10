@@ -19,7 +19,7 @@ const QString MP3_ICON_PATH = "F:/Projects/SoundForge/icons/mp3-icon.ico";
 const QString AUDIO_RESOURCES_PATH = "F:/Projects/SoundForge/AudioFiles";
 
 //AudioTrackFrame
-const int TRACK_HEIGHT = 50;
+const int TRACK_HEIGHT = 70;
 const int DELTA = 2;
 const int DEFAULT_TACT_DURATION = 50;
 const int DEFAULT_TACT_COUNT = 100;
@@ -39,7 +39,7 @@ const double MS_TO_BYTES = SAMPLE_RATE * BLOCK_ALIGN / 1000.0; // Перевод
 const int WAV_HEADER_SIZE = 44;
 
 //AudioToken
-const double TOKEN_HEADER_RELATIVE_HEIGHT = 0.38;
+const double TOKEN_HEADER_RELATIVE_HEIGHT = 0.30;
 
 //ControlPanel
 const float DEFAULT_CONTROL_PANEL_RELATIVE_HEIGHT = 0.1;

@@ -17,6 +17,10 @@
 #include "workspace-implementation/workspacemodel.h"
 #include "audiotrackframe.h"
 #include "QWidget"
+#include <QFileDialog>
+#include <QFile>
+#include <QMessageBox>
+#include <QLabel>
 
 class AudioTrackDialog : public QDialog {
     Q_OBJECT

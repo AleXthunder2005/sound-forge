@@ -15,12 +15,6 @@ AudioTrackDialog::AudioTrackDialog(WorkspaceModel *baseModel, int trackIndex, in
 
     // Верхнее меню
     QMenuBar *menuBar = new QMenuBar(this);
-    QMenu *fileMenu = menuBar->addMenu("File");
-    QAction *saveAction = fileMenu->addAction("Save");
-    connect(saveAction, &QAction::triggered, this, [this]() {
-        // Логика сохранения
-    });
-
     menuBar->setStyleSheet(
         "QMenuBar { background-color: " + ProjectConfiguration::clSidePanel.name() + "; color: " + ProjectConfiguration::clSidePanelText.name() + "; }" +
         "QMenuBar::item:selected { background-color: " + ProjectConfiguration::clMenuBarItemSelected.name() + "; }" +
@@ -29,9 +23,7 @@ AudioTrackDialog::AudioTrackDialog(WorkspaceModel *baseModel, int trackIndex, in
         "QMenu::item:selected { background-color: " + ProjectConfiguration::clMenuBarItemSelected.name() + "; }"
         );
 
-
     layout->setMenuBar(menuBar);
-
 
     // Центральная область с прокруткой
     QScrollArea *scrollArea = new QScrollArea(this);
@@ -80,7 +72,88 @@ AudioTrackDialog::AudioTrackDialog(WorkspaceModel *baseModel, int trackIndex, in
 
     layout->addLayout(buttonLayout);
 
+    // Ваша существующая часть кода
+    QMenu *fileMenu = menuBar->addMenu("File");
+    QMenu *helpMenu = menuBar->addMenu("Help");
 
+    // Действие для экспорта
+    QAction *exportAction = fileMenu->addAction("Export");
+    connect(exportAction, &QAction::triggered, this, [this]() {
+        // Открываем диалоговое окно для выбора места сохранения
+        QString fileName = QFileDialog::getSaveFileName(this, "Save WAV File", "wavfile.wav", "WAV Files (*.wav)");
+
+        // // Проверяем, выбрано ли имя файла
+        // if (!fileName.isEmpty()) {
+        //     // Создаем файл для записи
+        //     QFile file(fileName);
+        //     if (file.open(QIODevice::WriteOnly)) {
+        //         // Записываем данные из trackData в файл
+        //         dialogTrack->processAudioTrack();
+        //         QByteArray data = *(dialogTrack->trackData); // Предполагается, что trackData - это QByteArray
+        //         file.write(data);
+        //         file.close();
+        //     } else {
+        //         // Обработка ошибки открытия файла
+        //         QMessageBox::warning(this, "Error", "Could not open file for writing.");
+        //     }
+        // }
+
+        if (!fileName.isEmpty()) {
+            qDebug() << "File name:" << fileName;
+
+            QFile file(fileName);
+            if (file.open(QIODevice::WriteOnly)) {
+                dialogTrack->processAudioTrack();
+
+                if (dialogTrack->trackData == nullptr || dialogTrack->trackData->isEmpty()) {
+                    qDebug() << "trackData is null or empty";
+                    QMessageBox::warning(this, "Error", "No data to write.");
+                    return;
+                }
+
+                QByteArray data = *(dialogTrack->trackData);
+                qDebug() << "Data size:" << data.size();
+
+                qint64 bytesWritten = file.write(data);
+                if (bytesWritten == -1) {
+                    qDebug() << "Error writing to file:" << file.errorString();
+                    QMessageBox::warning(this, "Error", "Failed to write data to file.");
+                } else {
+                    qDebug() << "Successfully written" << bytesWritten << "bytes.";
+                }
+                file.close();
+            } else {
+                qDebug() << "Error opening file:" << file.errorString();
+                QMessageBox::warning(this, "Error", "Could not open file for writing.");
+            }
+        }
+    });
+
+    // Действие для Help
+    QAction *helpAction = helpMenu->addAction("Help");
+    connect(helpAction, &QAction::triggered, this, [this]() {
+        // Создаем диалоговое окно
+        QDialog *helpDialog = new QDialog(this);
+        helpDialog->setWindowTitle("Help");
+
+        // Создаем QLabel с текстом
+        QLabel *helpLabel = new QLabel("This is a simple audio editor. Use the 'Export' option to save your audio tracks as WAV files.", helpDialog);
+
+        // Создаем кнопку для закрытия диалога
+        QPushButton *closeButton = new QPushButton("Close", helpDialog);
+        connect(closeButton, &QPushButton::clicked, helpDialog, &QDialog::accept);
+
+        // Устанавливаем вертикальный layout
+        QVBoxLayout *layout = new QVBoxLayout(helpDialog);
+        layout->addWidget(helpLabel);
+        layout->addWidget(closeButton);
+
+        // Устанавливаем layout для диалога
+        helpDialog->setLayout(layout);
+
+        // Показываем диалог
+        helpDialog->exec();
+    });
 
     // Подключаем сигнал подтверждения
     connect(confirmButton, &QPushButton::clicked, this, &AudioTrackDialog::confirmChanges);
@@ -93,7 +166,6 @@ AudioTrackDialog::AudioTrackDialog(WorkspaceModel *baseModel, int trackIndex, in
 }
 
 void AudioTrackDialog::confirmChanges() {
-
     for (AudioToken &token : dialogTrack->tokens) {
         token.startPositionView += editingToken->startPositionView;
         token.audioTrack = editingToken->audioTrack;
@@ -114,4 +186,3 @@ void AudioTrackDialog::onSliceButtonClicked() {
     dialogTrackFrame->isSlicing = !(dialogTrackFrame->isSlicing);
     dialogTrackFrame->setFocus();
 }
-

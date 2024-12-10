@@ -252,6 +252,7 @@ SoundForge_autogen/timestamp: \
 	F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
 	F:/QT/6.8.0/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QDialog \
+	F:/QT/6.8.0/mingw_64/include/QtWidgets/QFileDialog \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QFrame \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QHBoxLayout \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QLabel \
@@ -259,6 +260,7 @@ SoundForge_autogen/timestamp: \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QMainWindow \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QMenu \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QMenuBar \
+	F:/QT/6.8.0/mingw_64/include/QtWidgets/QMessageBox \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QPushButton \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QScrollArea \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/QScrollBar \
@@ -272,6 +274,8 @@ SoundForge_autogen/timestamp: \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qabstractspinbox.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qboxlayout.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qdialog.h \
+	F:/QT/6.8.0/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
+	F:/QT/6.8.0/mingw_64/include/QtWidgets/qfiledialog.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qframe.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qgridlayout.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qlabel.h \
@@ -281,6 +285,7 @@ SoundForge_autogen/timestamp: \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qmainwindow.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qmenu.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qmenubar.h \
+	F:/QT/6.8.0/mingw_64/include/QtWidgets/qmessagebox.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qpushbutton.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qrubberband.h \
 	F:/QT/6.8.0/mingw_64/include/QtWidgets/qscrollarea.h \

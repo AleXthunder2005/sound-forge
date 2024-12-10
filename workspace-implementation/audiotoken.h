@@ -3,10 +3,12 @@
 
 #include <QPainter>
 #include "../projectconfiguration.h"
+#include "../audiofilelinker.h"
 class AudioToken
 {
 public:
     AudioToken(int audiofileID, double startPosition, double duration, int audioTrack,
+               AudioFileLinker *linker,
                QColor headerColor = ProjectConfiguration::clDefaultTokenHeader,
                QColor mainContentColor = ProjectConfiguration::clDefaultTokenMainContent);
     int tokenID;
@@ -18,6 +20,7 @@ public:
     int audioTrack;           //номер аудиодорожки
     bool isSelected;
     static int idCounter;
+    AudioFileLinker *linker;
 
     void drawToken(QPainter *painter, double scaleFactor, const int trackHeight) const;
     void updateTokenRelativeStartPosition(int newStartTime);

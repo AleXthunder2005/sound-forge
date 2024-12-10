@@ -472,7 +472,7 @@ void AudioTrackFrame::dragEnterEvent(QDragEnterEvent *event) {
 
         int uniqueAudiofileID = QString::fromUtf8(event->mimeData()->data("application/x-audiofile")).toInt();
 
-        draggedToken = new AudioToken(uniqueAudiofileID, xClick / scaleFactor, AudioFileLinker::calculateDuration(uniqueAudiofileID), dropTrack);
+        draggedToken = new AudioToken(uniqueAudiofileID, xClick / scaleFactor, AudioFileLinker::calculateDuration(uniqueAudiofileID), dropTrack, fileLinker);
 
         draggedTokenDeltaX = 0;   //startPosition при 1.0
         draggedTokenDeltaY = trackHeight / 2;
@@ -528,7 +528,7 @@ void AudioTrackFrame::dropEvent(QDropEvent *event) {
             dropX = round(dropX / quarterDuration) * quarterDuration;
         }
 
-        AudioToken *newToken = new AudioToken(uniqueAudiofileID, dropX / scaleFactor, AudioFileLinker::calculateDuration(uniqueAudiofileID), dropTrack);
+        AudioToken *newToken = new AudioToken(uniqueAudiofileID, dropX / scaleFactor, AudioFileLinker::calculateDuration(uniqueAudiofileID), dropTrack, fileLinker);
         AudioTrack *track = model->tracks[dropTrack];
         track->addToken(*newToken);
         emit trackChanged(dropTrack);
